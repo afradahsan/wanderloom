@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "784113112870",
+    "project_id": "wanderloom-5ace7",
+    "storage_bucket": "wanderloom-5ace7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:784113112870:android:9b1d751a2710efcf8d13e7",
+        "android_client_info": {
+          "package_name": "com.example.wanderloom"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFg3jkz8BvlSnaNyhOHvu2uT5MKuJ13sQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
