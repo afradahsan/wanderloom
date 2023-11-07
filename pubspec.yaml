@@ -43,9 +43,11 @@ dependencies:
 
   hive: ^2.2.3
   hive_flutter: ^1.1.0
+
   intl: ^0.18.1
   numberpicker: ^2.1.2
   syncfusion_flutter_datepicker: ^23.1.41
+  rich_readmore: ^1.0.6
 
 # dependency_overrides:
 #   firebase_core_platform_interface: ^5.0.0

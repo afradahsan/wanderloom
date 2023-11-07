@@ -57,8 +57,7 @@ class DatabaseService{
 
   Future<String?> getTripIdForUser(String userId) async {
   QuerySnapshot tripDetailsSnapshot =
-      await userCollection.doc(userId).collection('tripdetails').get();
-
+    await userCollection.doc(userId).collection('tripdetails').get();
   if (tripDetailsSnapshot.docs.isNotEmpty) {
     // Assuming you want to get the tripId for the first trip in the list
     final tripId = tripDetailsSnapshot.docs.first.id;
@@ -66,6 +65,23 @@ class DatabaseService{
     return tripId;
   } else {
     return null; // Handle the case where no trip is found
+    }
+  }
+
+Future<String?> getBudget(String userId, String tripId) async {
+  DocumentSnapshot tripDetailsDoc = await userCollection
+      .doc(userId)
+      .collection('tripdetails')
+      .doc(tripId)
+      .get();
+
+  if (tripDetailsDoc.exists) {
+    final tripData = tripDetailsDoc.data() as Map<String, dynamic>;
+    final budget = tripData['tripbudget'] as String;
+    print('get budget called, budget is $budget');
+    return budget;
+  } else {
+    return null; // Handle the case where the trip or budget is not found
   }
 }
 
@@ -104,7 +120,7 @@ class DatabaseService{
     return itineraryList;
   }
 
-  Future saveExpense(String expenseTitle,String expenseCategory,String expense, String? expenseDate, String? userId, String tripId) async{
+  Future saveExpense(String expenseTitle,String expenseCategory,int expense, String? expenseDate, String? userId, String tripId) async{
     userCollection.doc(userId).collection('tripdetails').doc(tripId).collection('expense').doc().set({
       'expense title': expenseTitle,
       'expense category': expenseCategory,
@@ -116,7 +132,16 @@ class DatabaseService{
     print('exp date: $expenseDate');
   }
 
-  Future getExpense() async{
-    
+  Future getExpense(String userId, String tripId) async{
+    QuerySnapshot expenseSnapshot = await userCollection.doc(userId).collection('tripdetails').doc(tripId).collection('expense').get();
+
+    List<Map<String, dynamic>> expenseList = [];
+
+    expenseSnapshot.docs.forEach((doc) {
+      final expensedata = doc.data() as Map<String, dynamic>;
+      expenseList.add(expensedata);
+     });
+
+     return expenseList;
   }
 }

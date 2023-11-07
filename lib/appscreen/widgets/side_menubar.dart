@@ -3,7 +3,9 @@ import 'package:wanderloom/appscreen/screens/budget_page.dart';
 import 'package:wanderloom/appscreen/screens/itinerary_page.dart';
 
 class Sidebar extends StatelessWidget {
-  const Sidebar({super.key});
+  Sidebar({required this.tripId, super.key});
+
+  String tripId;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class Sidebar extends StatelessWidget {
                               visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
                               onTap: (){
                                 Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                                  return const ItineraryPage(tripId: '',);
+                                  return ItineraryPage(tripId: tripId,);
                                 }));
                               },
                             )
@@ -38,7 +40,7 @@ class Sidebar extends StatelessWidget {
                             minLeadingWidth: 10,
                             onTap: (){
                                 Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                                  return const BudgetPage();
+                                  return BudgetPage(tripId: tripId,);
                                 }));
                               },
                           ),

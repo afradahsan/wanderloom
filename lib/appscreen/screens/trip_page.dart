@@ -132,9 +132,6 @@ class _TripPageState extends State<TripPage> {
                           const SizedBox(
                             height: 15,
                           ),
-
-                          
-
                           ListView.separated(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),

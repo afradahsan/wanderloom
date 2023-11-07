@@ -159,7 +159,7 @@ class _AddBudgetPageState extends State<AddBudgetPage> {
 
     final expenseTitle = expenseTitleController.text.toString();
     final expenseCategory = _choiceChipsList[_selectedIndex!].label;
-    final expense = expenseController.text.toString();
+    final int expense = int.parse(expenseController.text);
     final expenseDate = selectedDate;
 
     final userId = uid!;

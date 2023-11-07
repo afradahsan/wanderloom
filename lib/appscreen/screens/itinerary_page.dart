@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:wanderloom/appscreen/screens/addscreeens/additinerary.dart';
 import 'package:wanderloom/appscreen/widgets/floatingbutton.dart';
 import 'package:wanderloom/appscreen/widgets/itinerarytime.dart';
@@ -50,7 +53,7 @@ class _ItineraryPageState extends State<ItineraryPage> {
           );
         },
       ),
-      drawer: const Sidebar(),
+      drawer: Sidebar(tripId: widget.tripId,),
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
@@ -127,8 +130,10 @@ class _ItineraryPageState extends State<ItineraryPage> {
   }
 
   Widget itinerDate(itinDate) {
+    DateTime date = DateTime.parse(itinDate);
+String formattedDate = DateFormat('d MMM').format(date);
     return Text(
-      itinDate,
+      formattedDate,
       style: const TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.w600,
