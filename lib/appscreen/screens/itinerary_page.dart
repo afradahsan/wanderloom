@@ -131,7 +131,7 @@ class _ItineraryPageState extends State<ItineraryPage> {
 
   Widget itinerDate(itinDate) {
     DateTime date = DateTime.parse(itinDate);
-String formattedDate = DateFormat('d MMM').format(date);
+String formattedDate = DateFormat('MMM d').format(date);
     return Text(
       formattedDate,
       style: const TextStyle(

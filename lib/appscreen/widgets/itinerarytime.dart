@@ -8,7 +8,7 @@ class Itinerarytime extends StatelessWidget {
   final String itnlocation;
   final String itndescription;
 
-  const Itinerarytime({
+  const Itinerarytime({super.key, 
     required this.itntime,
     required this.itnlocation,
     required this.itndescription,

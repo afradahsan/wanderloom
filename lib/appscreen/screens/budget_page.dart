@@ -2,13 +2,14 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:wanderloom/appscreen/screens/addscreeens/addbudgetpage.dart';
 import 'package:wanderloom/appscreen/widgets/floatingbutton.dart';
 import 'package:wanderloom/appscreen/widgets/side_menubar.dart';
 import 'package:wanderloom/db/functions/database_services.dart';
 
 class BudgetPage extends StatefulWidget {
-   BudgetPage({required this.tripId, super.key});
+  BudgetPage({required this.tripId, super.key});
 
   String tripId;
 
@@ -22,20 +23,14 @@ class _BudgetPageState extends State<BudgetPage> {
   );
   String uid = FirebaseAuth.instance.currentUser!.uid;
   String? tripBudget = '';
+  double totalExpenses = 0.0;
 
-  // Future<void> fetchTripId() async {
-  //   String? tripid = await DatabaseService().getTripIdForUser(uid);
-  //   setState(() {
-  //     tripId = tripid;
-  //     print('tripidsss: $tripid');
-  //   });
-  // }
-  
   Future<void> fetchTripBudget() async {
-  String tripbudget = await DatabaseService().getBudget(uid, widget.tripId) ?? 'N/A';
-  setState(() {
-    tripBudget = tripbudget;
-  });
+    String tripbudget =
+        await DatabaseService().getBudget(uid, widget.tripId) ?? 'N/A';
+    setState(() {
+      tripBudget = tripbudget;
+    });
   }
 
   Future<List<Map<String, dynamic>>> getExpenseFunction() async {
@@ -47,12 +42,11 @@ class _BudgetPageState extends State<BudgetPage> {
     return await DatabaseService().getExpense(uid, widget.tripId);
   }
 
-@override
-void initState() {
-  super.initState();
-  fetchTripBudget();
-}
-
+  @override
+  void initState() {
+    super.initState();
+    fetchTripBudget();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +71,9 @@ void initState() {
             );
           },
         ),
-        drawer: Sidebar(tripId: widget.tripId,),
+        drawer: Sidebar(
+          tripId: widget.tripId,
+        ),
         body: SafeArea(
             child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
@@ -107,7 +103,10 @@ void initState() {
                         final groupedExpense = groupExpenseByDate(expense);
                         String? tripbdg = tripBudget;
                         print("tripbdg: $tripbdg");
-                        return budgetContainer(expense, groupedExpense, tripbdg!);
+                        totalExpenses = calculateTotalExpenses(expense);
+
+                        return budgetContainer(
+                            expense, groupedExpense, tripbdg!);
                       }
                       return const Center(child: CircularProgressIndicator());
                     }))));
@@ -123,20 +122,20 @@ void initState() {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                padding: const EdgeInsets.all(15),
-                width: 370,
-                height: 147,
-                decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: const Color.fromARGB(51, 255, 255, 255),
-                boxShadow: const [
-                BoxShadow(
-                  color: Color.fromARGB(30, 0, 0, 0),
-                  blurRadius: 30,
-                  spreadRadius: 25,
-                  offset: Offset(8, 8))
-                ]),
-                  child:  Column(
+                  padding: const EdgeInsets.all(15),
+                  width: 370,
+                  height: 147,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: const Color.fromARGB(51, 255, 255, 255),
+                      boxShadow: const [
+                        BoxShadow(
+                            color: Color.fromARGB(30, 0, 0, 0),
+                            blurRadius: 30,
+                            spreadRadius: 25,
+                            offset: Offset(8, 8))
+                      ]),
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
@@ -148,8 +147,8 @@ void initState() {
                       const SizedBox(
                         height: 5,
                       ),
-                      const Text('₹2300',
-                          style: TextStyle(
+                      Text('₹${totalExpenses.toStringAsFixed(2)}',
+                          style: const TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 26,
                               color: Color.fromARGB(255, 190, 255, 0))),
@@ -162,43 +161,43 @@ void initState() {
                       const SizedBox(
                         height: 5,
                       ),
-                      const Text(
-                        '27.9% of the Budget Already used.',
-                        style: TextStyle(
+                      Text(
+                        '${(totalExpenses/int.parse(tripbdg))*100}% of the Budget Already used.',
+                        style: const TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 14,
                             color: Color.fromARGB(215, 255, 255, 255)),
                       ),
-                              ],
+                    ],
                   )),
             ],
           ),
         ),
-
         Padding(
           padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
           child: ListView.separated(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: grpexp.keys.length,
-              itemBuilder: (BuildContext context, index) {
-                final date = grpexp.keys.elementAt(index);
-                final itemsForDate = grpexp[date]!;
-        
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-              itinerDate(date),
-              divider,
-              for (var item in itemsForDate)
-                expensetile(item['expense category'],
-                item['expense title'], item['expense']),
-              ],
-            );
-          },
-          separatorBuilder: (context, index) {
-            return divider;
-          },),
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: grpexp.keys.length,
+            itemBuilder: (BuildContext context, index) {
+              final date = grpexp.keys.elementAt(index);
+              final itemsForDate = grpexp[date]!;
+
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  itinerDate(date),
+                  divider,
+                  for (var item in itemsForDate)
+                    expensetile(item['expense category'], item['expense title'],
+                        item['expense']),
+                ],
+              );
+            },
+            separatorBuilder: (context, index) {
+              return divider;
+            },
+          ),
         ),
       ],
     );
@@ -270,8 +269,10 @@ void initState() {
   }
 
   Widget itinerDate(itinDate) {
+    DateTime date = DateTime.parse(itinDate);
+    String formattedDate = DateFormat('MMM d').format(date);
     return Text(
-      itinDate,
+      formattedDate,
       style: const TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.w600,
@@ -281,5 +282,15 @@ void initState() {
         decorationColor: Color.fromARGB(255, 190, 255, 0),
       ),
     );
+  }
+
+  double calculateTotalExpenses(List<Map<String, dynamic>>? expenses) {
+    double total = 0.0;
+    if (expenses != null) {
+      for (var item in expenses) {
+        total += item['expense'] ?? 0.0;
+      }
+    }
+    return total;
   }
 }

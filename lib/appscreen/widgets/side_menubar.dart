@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wanderloom/appscreen/screens/backpack_page.dart';
 import 'package:wanderloom/appscreen/screens/budget_page.dart';
 import 'package:wanderloom/appscreen/screens/itinerary_page.dart';
 
@@ -45,10 +46,13 @@ class Sidebar extends StatelessWidget {
                               },
                           ),
                       
-                          const ListTile(
-                            title: Text('Backpack', style: TextStyle(color: Colors.white),),
-                            leading: Icon(Icons.backpack_rounded, color: Colors.white,),
-                            minLeadingWidth: 10
+                           ListTile(
+                            title: const Text('Backpack', style: TextStyle(color: Colors.white),),
+                            leading: const Icon(Icons.backpack_rounded, color: Colors.white,),
+                            minLeadingWidth: 10,
+                            onTap:(){ Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
+                              return BackpackPage(tripId: tripId);
+                            }));}
                           ),const ListTile(
                             title: Text('Reminder', style: TextStyle(color: Colors.white),),
                             leading: Icon(Icons.circle_notifications_rounded, color: Colors.white,),

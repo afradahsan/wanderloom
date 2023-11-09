@@ -48,7 +48,9 @@ dependencies:
   numberpicker: ^2.1.2
   syncfusion_flutter_datepicker: ^23.1.41
   rich_readmore: ^1.0.6
-
+  iconsax: ^0.0.8
+  font_awesome_flutter: ^10.6.0
+  
 # dependency_overrides:
 #   firebase_core_platform_interface: ^5.0.0
 dev_dependencies:

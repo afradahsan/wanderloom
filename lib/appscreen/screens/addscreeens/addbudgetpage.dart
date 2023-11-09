@@ -2,6 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:wanderloom/appscreen/screens/budget_page.dart';
 import 'package:wanderloom/appscreen/widgets/addscreenwidgets/datepicker.dart';
 import 'package:wanderloom/appscreen/widgets/addscreenwidgets/textfieldtrip.dart';
 import 'package:wanderloom/db/functions/database_services.dart';
@@ -166,5 +167,9 @@ class _AddBudgetPageState extends State<AddBudgetPage> {
     final tripId = widget.tripId;
 
     databaseService.saveExpense(expenseTitle, expenseCategory, expense, expenseDate, userId, tripId!);
+
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
+      return BudgetPage(tripId: tripId);
+    }));
   }
 }
