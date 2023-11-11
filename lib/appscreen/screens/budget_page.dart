@@ -100,7 +100,7 @@ class _BudgetPageState extends State<BudgetPage> {
                         print('snapshot has data');
                         final expense = snapshot.data;
                         print("expense: $expense");
-                        final groupedExpense = groupExpenseByDate(expense);
+                        final groupedExpense =  groupExpenseByDate(expense);
                         String? tripbdg = tripBudget;
                         print("tripbdg: $tripbdg");
                         totalExpenses = calculateTotalExpenses(expense);

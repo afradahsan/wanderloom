@@ -68,7 +68,7 @@ class DatabaseService{
     }
   }
 
-Future<String?> getBudget(String userId, String tripId) async {
+  Future<String?> getBudget(String userId, String tripId) async {
   DocumentSnapshot tripDetailsDoc = await userCollection
       .doc(userId)
       .collection('tripdetails')
@@ -143,5 +143,27 @@ Future<String?> getBudget(String userId, String tripId) async {
      });
 
      return expenseList;
+  }
+
+  Future savetoBackpack(String itemName, String itemCategory, String userId, String tripId) async{
+    userCollection.doc(userId).collection('tripdetails').doc(tripId).collection('backpack').doc().set({
+    'Item title': itemName,
+    'Item Category': itemCategory,
+    },SetOptions(merge: true));
+
+    print('save to backpack called!');
+    print('item name: $itemName');
+  }
+
+  Future getBackpack(String userId, String tripId) async{
+    QuerySnapshot backpacksnapshot = await userCollection.doc(userId).collection('tripdetails').doc(tripId).collection('backpack').get();
+
+    List<Map<String, dynamic>> backpacklist = [];
+
+    backpacksnapshot.docs.forEach((doc) {
+      final backpackdata = doc.data() as Map<String, dynamic>;
+      backpacklist.add(backpackdata);
+    });
+    return backpacklist;
   }
 }
