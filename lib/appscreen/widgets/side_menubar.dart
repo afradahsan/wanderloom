@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wanderloom/appscreen/screens/backpack_page.dart';
 import 'package:wanderloom/appscreen/screens/budget_page.dart';
 import 'package:wanderloom/appscreen/screens/itinerary_page.dart';
+import 'package:wanderloom/appscreen/screens/notes_page.dart';
 
 class Sidebar extends StatelessWidget {
   Sidebar({required this.tripId, super.key});
@@ -58,9 +59,14 @@ class Sidebar extends StatelessWidget {
                             leading: Icon(Icons.circle_notifications_rounded, color: Colors.white,),
                             minLeadingWidth: 10
                           ),
-                          const ListTile(
+                          ListTile(
                             title: Text('Notes', style: TextStyle(color: Colors.white),),
                             leading: Icon(Icons.menu_book_rounded, color: Colors.white,),
+                            onTap: (){
+                              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
+                                return NotesPage(tripId: tripId);
+                              }));
+                            },
                             minLeadingWidth: 10
                           ),
                   

@@ -8,6 +8,7 @@ import 'package:wanderloom/appscreen/widgets/floatingbutton.dart';
 import 'package:wanderloom/appscreen/widgets/side_menubar.dart';
 import 'package:wanderloom/db/functions/database_services.dart';
 
+// ignore: must_be_immutable
 class BudgetPage extends StatefulWidget {
   BudgetPage({required this.tripId, super.key});
 
@@ -34,6 +35,7 @@ class _BudgetPageState extends State<BudgetPage> {
   }
 
   Future<List<Map<String, dynamic>>> getExpenseFunction() async {
+    // ignore: unnecessary_null_comparison
     if (widget.tripId == null) {
       print('tripID IS NULL!'); // Handle the case where tripId is null
       return <Map<String, dynamic>>[];
@@ -57,7 +59,7 @@ class _BudgetPageState extends State<BudgetPage> {
             'Budget',
             style: TextStyle(color: Color.fromARGB(255, 190, 255, 0)),
           ),
-          actions: const [Icon(Icons.arrow_back)],
+          // actions: const [Icon(Icons.arrow_back)],
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
@@ -257,6 +259,9 @@ class _BudgetPageState extends State<BudgetPage> {
     final groupedExpense = <String, List<Map<String, dynamic>>>{};
     if (expenselst != null) {
       for (var item in expenselst) {
+        print('dateprint1: ${item['expense date']}');
+                print('dateprint2: ${item['expense date']}');
+
         final date = item['expense date'] as String;
         if (groupedExpense.containsKey(date)) {
           groupedExpense[date]!.add(item);

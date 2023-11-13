@@ -1,6 +1,8 @@
 // ignore_for_file: avoid_print, avoid_function_literals_in_foreach_calls, non_constant_identifier_names
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:wanderloom/appscreen/adminscreens/adminpage.dart';
 class DatabaseService{
   final String? uid;
   DatabaseService({this.uid});
@@ -145,10 +147,11 @@ class DatabaseService{
      return expenseList;
   }
 
-  Future savetoBackpack(String itemName, String itemCategory, String userId, String tripId) async{
+  Future savetoBackpack(String itemName, String itemCategory, String userId, String tripId, {bool itemcheck=false}) async{
     userCollection.doc(userId).collection('tripdetails').doc(tripId).collection('backpack').doc().set({
     'Item title': itemName,
     'Item Category': itemCategory,
+    'Item Checked': itemcheck,
     },SetOptions(merge: true));
 
     print('save to backpack called!');
@@ -166,4 +169,29 @@ class DatabaseService{
     });
     return backpacklist;
   }
+
+  Future savetoNotes(String notesTitle, String notesDescription, String userId, String tripId) async{
+    userCollection.doc(userId).collection('tripdetails').doc(tripId).collection('notes').doc().set({
+      'Notes title': notesTitle,
+      'Notes description': notesDescription,
+    }, SetOptions(merge: true));
+
+    print('save to notes called!');
+    print('note title: $notesTitle');
+  }
+
+  Future getNotes(String userId, String tripId) async{
+    QuerySnapshot notesSnapshot = await userCollection.doc(userId).collection('tripdetails').doc(tripId).collection('notes').get();
+
+    List<Map<String,dynamic>> noteslist = [];
+
+    notesSnapshot.docs.forEach((doc) {
+      final notesdata = doc.data() as Map<String, dynamic>;
+      noteslist.add(notesdata);
+     });
+     print('NOTESLISTT: $noteslist');
+     return noteslist;
+  }
+
+  
 }

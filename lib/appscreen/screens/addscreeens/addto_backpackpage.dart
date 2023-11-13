@@ -1,11 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:wanderloom/appscreen/screens/backpack_page.dart';
 import 'package:wanderloom/appscreen/widgets/addscreenwidgets/textfieldtrip.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:wanderloom/db/functions/database_services.dart';
 
+// ignore: must_be_immutable
 class AddtoBackpack extends StatefulWidget {
   AddtoBackpack({required this.tripId, super.key});
   String tripId;
@@ -109,10 +108,15 @@ class _AddtoBackpackState extends State<AddtoBackpack> {
       final userId = uid;
 
       await DatabaseService().savetoBackpack(itemName, itemCategory, userId!, widget.tripId);
+
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
+        return BackpackPage(tripId: widget.tripId);
+      }));
     }
     else{
       print('item is empty.');
     }
+
   }
 
   List<Widget> choiceChips() {

@@ -8,6 +8,7 @@ class Textfeildtrip extends StatelessWidget {
     {super.key, 
     this.addtripController,
     this.inputType,
+    this.maxLines,
     required this.textformlabel,
     required this.textformhinttext,
     required this.textformIconPrefix
@@ -18,12 +19,14 @@ class Textfeildtrip extends StatelessWidget {
   final String textformhinttext;
   final IconData textformIconPrefix;
   late TextInputType? inputType;
+  final int? maxLines;
 
   final addtripController;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      maxLines: maxLines,
       controller: addtripController,
       style: const TextStyle(color: Colors.white),
       keyboardType: inputType,

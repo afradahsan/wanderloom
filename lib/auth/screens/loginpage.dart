@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:wanderloom/appscreen/adminscreens/adminpage.dart';
 import 'package:wanderloom/appscreen/screens/trip_page.dart';
 import 'package:wanderloom/db/functions/database_services.dart';
 import 'package:wanderloom/auth/functions/auth_functions.dart';
@@ -36,11 +37,24 @@ final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
         loading = true;
       });
       await authService.login(emailcontroller.text.trim(), passwordController.text.trim()).then((value) async{
+        if(value == 2){
+        setState(() {
+          loading=false;
+        });
+        debugPrint('admin');
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
+         return const AdminPage();
+        }));
+        }
+        
         if(value==true){
         setState(() {
           loading=false;
         });
-        QuerySnapshot snapshot = await DatabaseService(uid: FirebaseAuth.instance.currentUser!.uid).getUserData(emailcontroller.text);
+        QuerySnapshot snapshot = await DatabaseService(uid: FirebaseAuth.instance.currentUser!.uid).getUserData(emailcontroller.text);       
+
+        debugPrint('Not Admin');
+
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
          return const TripPage();
         }));
@@ -54,6 +68,16 @@ final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
       });
     }
   }
+
+  // Future getAdmin(String adminController, String adminPassword) async{
+  //   await FirebaseFirestore.instance.collection('admin').doc('adminLogin').snapshots().forEach((doc) {
+  //     if(doc.data()?['adminEmail'] == adminController && doc.data()?['adminPassword'] == adminPassword){
+  //       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context){
+  //         return AdminPage();
+  //       }), (route) => false);
+  //       }
+  //   });
+  // }
 
   // login(BuildContext context) {
   //   setState(() {
@@ -171,27 +195,27 @@ final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
             ),
             RichText(
               text: TextSpan(
-                  style: const TextStyle(
-                    fontFamily: 'Poppins',
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w300,
-                  ),
-                  children: [
-                    const TextSpan(text: 'New User? '),
-                    TextSpan(
-                        text: 'Sign Up',
-                        style: const TextStyle(
-                            decoration: TextDecoration.underline,
-                            color: Colors.blue),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            Navigator.of(context)
-                                .push(MaterialPageRoute(builder: (context) {
-                              return const SignupPage();
-                            }));
-                          })
-                  ]),
+              style: const TextStyle(
+                fontFamily: 'Poppins',
+                color: Colors.white,
+                fontSize: 14,
+                fontWeight: FontWeight.w300,
+              ),
+              children: [
+                const TextSpan(text: 'New User? '),
+                TextSpan(
+                    text: 'Sign Up',
+                    style: const TextStyle(
+                        decoration: TextDecoration.underline,
+                        color: Colors.blue),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) {
+                        return const SignupPage();
+                        }));
+                      })
+              ]),
             ),
           ],
         ),
