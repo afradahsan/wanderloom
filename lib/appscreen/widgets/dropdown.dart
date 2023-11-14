@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class DropDownWidget extends StatefulWidget {
-  const DropDownWidget({super.key});
+  DropDownWidget({required this.onValueChanged, super.key});
+
+  final ValueChanged<String?> onValueChanged;
 
   @override
   State<DropDownWidget> createState() => _DropDownState();
@@ -9,8 +11,8 @@ class DropDownWidget extends StatefulWidget {
 
 class _DropDownState extends State<DropDownWidget> {
 
-  String? chosenValue;
-  
+    String? chosenValue;
+
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
@@ -22,7 +24,7 @@ class _DropDownState extends State<DropDownWidget> {
         padding: const EdgeInsets.fromLTRB(14, 4, 14, 4),
         child: DropdownButton<String>(
           focusColor: Colors.white,
-          value: chosenValue,
+          value:chosenValue,
           style: TextStyle(color: Colors.white),
           items: <String>[
             'Trekking/Adventure',
@@ -50,6 +52,7 @@ class _DropDownState extends State<DropDownWidget> {
           setState(() {
             chosenValue = value!;
           });
+          widget.onValueChanged(value);
           },
           dropdownColor: const Color.fromRGBO(21, 24, 43, 1),
           ),

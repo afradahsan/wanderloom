@@ -76,7 +76,6 @@ class DatabaseService{
       .collection('tripdetails')
       .doc(tripId)
       .get();
-
   if (tripDetailsDoc.exists) {
     final tripData = tripDetailsDoc.data() as Map<String, dynamic>;
     final budget = tripData['tripbudget'] as String;

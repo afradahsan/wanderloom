@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class DropDownPlaceWidget extends StatefulWidget {
-  const DropDownPlaceWidget({super.key});
+  DropDownPlaceWidget({required this.onValChanged, super.key});
+
+  final ValueChanged<String?> onValChanged;
 
   @override
   State<DropDownPlaceWidget> createState() => _DropDownPlaceWidgetState();
@@ -37,10 +39,10 @@ class _DropDownPlaceWidgetState extends State<DropDownPlaceWidget> {
               child: Text(value),
             );
           }).toList(),
-          hint: Text(
+          hint: const Text(
             "Select Region",
             style: TextStyle(
-              color: const Color.fromARGB(255, 255, 255, 255),
+              color:  Color.fromARGB(255, 255, 255, 255),
               fontSize: 12,
               fontFamily: 'Poppins',
               fontWeight: FontWeight.w600),
@@ -49,6 +51,7 @@ class _DropDownPlaceWidgetState extends State<DropDownPlaceWidget> {
           setState(() {
             chosenValue = value!;
           });
+          widget.onValChanged(value);
           },
           dropdownColor: const Color.fromRGBO(21, 24, 43, 1),
           ),

@@ -12,17 +12,18 @@ class SplashServices{
       final auth = FirebaseAuth.instance;
       final user = auth.currentUser;
       print("user $user");
+    if(user!=null){
       if(user!.uid == "BarF8kEyiuQ7ps3pupuFqpBJ0dZ2"){
         Timer(const Duration(seconds: 3),()=>
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
       return const AdminPage();
     })));
-    }
-    else if(user!=null){
+    }else{
     Timer(const Duration(seconds: 3),()=>
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
       return const TripPage();
     })));
+    }
     }
     else{
       Timer(const Duration(seconds: 3),()=>
