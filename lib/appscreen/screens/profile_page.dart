@@ -20,20 +20,26 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return  Scaffold(
       backgroundColor: const Color.fromRGBO(21, 24, 43, 1),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-        IconButton(icon: const Icon(Icons.logout_outlined), color: Colors.white, onPressed: (){
-          authService.signOut(context);
-          // _auth.signOut().then((value){
-          //   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context){
-          //     return LoginPage();
-          //   }), (route) => false);
-          // }).onError((error, stackTrace){
-          //   UtilsToast().toastMessage(error.toString());
-          // });
-        },)
-      ],),
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text('Your Profile', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 
+            20),),
+            // CircleAvatar(backgroundColor: Colors.amber,)
+          // IconButton(icon: const Icon(Icons.logout_outlined), color: Colors.white, onPressed: (){
+          //   authService.signOut(context);
+          //   // _auth.signOut().then((value){
+          //   //   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context){
+          //   //     return LoginPage();
+          //   //   }), (route) => false);
+          //   // }).onError((error, stackTrace){
+          //   //   UtilsToast().toastMessage(error.toString());
+          //   // });
+          // },)
+        ],),
+      ),
       bottomNavigationBar: BottomNav(selectedIndex: 2,),
     );
   }

@@ -2,9 +2,8 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:wanderloom/appscreen/adminscreens/imageupload.dart';
+import 'package:wanderloom/appscreen/adminscreens/adminpage.dart';
 import 'package:wanderloom/appscreen/widgets/addscreenwidgets/textfieldtrip.dart';
 import 'package:wanderloom/appscreen/widgets/dropdown.dart';
 import 'package:wanderloom/appscreen/widgets/dropdown_place.dart';
@@ -23,6 +22,13 @@ class _AdminAddPageState extends State<AdminAddPage> {
   TextEditingController placeController = TextEditingController();
   TextEditingController locationController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  TextEditingController weatherController = TextEditingController();
+  TextEditingController btvController = TextEditingController();
+  TextEditingController btvDescController = TextEditingController();
+  TextEditingController rateindController = TextEditingController();
+  TextEditingController ratefornController = TextEditingController();
+  TextEditingController hwtoreachController = TextEditingController();
+  TextEditingController navLinkController = TextEditingController();
 
   XFile? image;
   final imagePicker = ImagePicker();
@@ -61,6 +67,7 @@ class _AdminAddPageState extends State<AdminAddPage> {
                         ElevatedButton(
                           onPressed: () {
                             onSave();
+                            print('onsave');
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor:
@@ -119,6 +126,65 @@ class _AdminAddPageState extends State<AdminAddPage> {
                       textformhinttext: 'Agra Auto Contact No: ',
                       textformIconPrefix: Icons.description,
                     ),
+                    divider,
+                    divider,
+                    Textfeildtrip(
+                      addtripController: weatherController,
+                      textformlabel: "Weather Range?",
+                      textformhinttext: '15-26 C',
+                      textformIconPrefix: Icons.sunny,
+                    ),
+                    divider,
+                    divider,
+                    Textfeildtrip(
+                      addtripController: btvController,
+                      textformlabel: "Best time?",
+                      textformhinttext: 'October-March',
+                      textformIconPrefix: Icons.calendar_month_rounded,
+                    ),
+                    divider,
+                    divider,
+                    Textfeildtrip(
+                      addtripController: btvDescController,
+                      textformlabel: "Best Time Description",
+                      textformhinttext: 'Describe',
+                      textformIconPrefix: Icons.description,
+                    ),
+                    divider,
+                    divider,
+                    Textfeildtrip(
+                      addtripController: rateindController,
+                      textformlabel: "Indian Rate",
+                      textformhinttext: '50',
+                      inputType: TextInputType.number,
+                      textformIconPrefix: Icons.currency_rupee_rounded,
+                    ),
+                    divider,
+                    divider,
+                    Textfeildtrip(
+                      addtripController: ratefornController,
+                      textformlabel: "Foriegner Rate",
+                      textformhinttext: '50',
+                      inputType: TextInputType.number,
+                      textformIconPrefix: Icons.currency_rupee_rounded,
+                    ),
+                    divider,
+                    divider,
+                    Textfeildtrip(
+                      addtripController: hwtoreachController,
+                      textformlabel: "How to Reach?",
+                      textformhinttext: 'October-March',
+                      textformIconPrefix: Icons.train,
+                    ),
+                    divider,
+                    divider,
+                    Textfeildtrip(
+                      addtripController: navLinkController,
+                      textformlabel: "Directions",
+                      textformhinttext: 'Link',
+                      textformIconPrefix: Icons.link_rounded,
+                    ),
+                    divider
           ])
           ))
           ));
@@ -156,16 +222,16 @@ class _AdminAddPageState extends State<AdminAddPage> {
     String fileName = DateTime.now().millisecondsSinceEpoch.toString();
 
     //Creating a reference to the file.
-    Reference ref = FirebaseStorage.instance.ref().child(fileName);
+    Reference ref = FirebaseStorage.instance.ref().child('places').child(fileName);
 
     try{    
     //Adding the file to the storage.
     await ref.putFile(File(imagefile!.path));
     imageURL = await ref.getDownloadURL();
-    print(imageURL);
+    print("imageURL: $imageURL");
     }
     catch(error){
-      print(error);
+      print("imageURL errro: $error");
     }
     
     //using await for the put to complete.
@@ -173,8 +239,17 @@ class _AdminAddPageState extends State<AdminAddPage> {
   }
 
   Future onSave() async{
+    if(region !=null && category!= null && placeController.text.toString().isNotEmpty && locationController.text.toString().isNotEmpty && descriptionController.text.toString().isNotEmpty)
+    {
+      print('passs');
     await ImagePickerMethod();
+    await AdminDatabase().addPlaces(imageURL, category, region, placeController.text.toString(), locationController.text.toString(), descriptionController.text.toString(), weatherController.text.toString(), btvController.text.toString(), btvDescController.text
+    .toString(), rateindController.text.toString(),ratefornController.text.toString(),hwtoreachController.text.toString(), navLinkController.text.toString());
 
-    await AdminDatabase().addPlaces(imageURL, category, region, placeController.text.toString(), locationController.text.toString(), descriptionController.text.toString());
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
+      return AdminPage();
+    }));
+    }
+    else{print('errrorrr');}
   }
 }

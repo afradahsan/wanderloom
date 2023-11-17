@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:wanderloom/appscreen/adminscreens/addadmin.dart';
+import 'package:wanderloom/appscreen/adminscreens/addcategorypage.dart';
+import 'package:wanderloom/appscreen/screens/explore_page.dart';
 import 'package:wanderloom/appscreen/widgets/floatingbutton.dart';
 import 'package:wanderloom/auth/screens/loginpage.dart';
 
@@ -28,7 +30,7 @@ class _AdminPageState extends State<AdminPage> {
       ),
       backgroundColor:const Color.fromRGBO(21, 24, 43, 1),
       appBar: PreferredSize(
-        preferredSize: Size(30,40),
+        preferredSize: const Size(30,40),
         child: BackdropFilter(
           filter: ImageFilter.blur(),
           child: AppBar(          
@@ -37,16 +39,33 @@ class _AdminPageState extends State<AdminPage> {
             actions: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: IconButton(icon: Icon(Icons.logout), onPressed: (){Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context){return LoginPage();}), (route) => false);},),
+              child: IconButton(icon: const Icon(Icons.logout), onPressed: (){Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context){return const LoginPage();}), (route) => false);},),
               
             )
           ],),
         ),
       ),
-      body: const Column(
+      body: Column(
         children: [
           Center(
-            child: Text('Welcome, Admin!', style: TextStyle(color: Color.fromARGB(255, 190, 255, 0)),),
+            child: Column(
+              children: [
+                const Text('Welcome, Admin!', style: TextStyle(color: Color.fromARGB(255, 190, 255, 0)),),
+                const SizedBox(height: 10,),
+                ElevatedButton(onPressed: (){
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                    return const ExplorePage();
+                  }));
+                }, child: const Text('Explore')),
+                const SizedBox(height: 230,),
+                ElevatedButton(onPressed: (){
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                    return const AddCategoryPage();
+                  }));
+                }, child: const Text('Add Category'))
+              ],
+            ),
+            
           ),
         ],
       ),
