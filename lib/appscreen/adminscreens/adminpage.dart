@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:wanderloom/appscreen/adminscreens/addadmin.dart';
 import 'package:wanderloom/appscreen/adminscreens/addcategorypage.dart';
+import 'package:wanderloom/appscreen/adminscreens/addregion.dart';
 import 'package:wanderloom/appscreen/screens/explore_page.dart';
 import 'package:wanderloom/appscreen/widgets/floatingbutton.dart';
 import 'package:wanderloom/auth/screens/loginpage.dart';
@@ -62,7 +63,12 @@ class _AdminPageState extends State<AdminPage> {
                   Navigator.of(context).push(MaterialPageRoute(builder: (context){
                     return const AddCategoryPage();
                   }));
-                }, child: const Text('Add Category'))
+                }, child: const Text('Add Category')),
+                ElevatedButton(onPressed: (){
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                    return const AddRegion();
+                  }));
+                }, child: const Text('Add Region'))
               ],
             ),
             

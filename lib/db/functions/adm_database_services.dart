@@ -7,6 +7,8 @@ class AdminDatabase{
 
   final CollectionReference categoryCollection = FirebaseFirestore.instance.collection('category');
 
+  final CollectionReference regionCollection = FirebaseFirestore.instance.collection('region');
+
 
   Future addPlaces(String? imageURL, String? placeCategory, String? region, String placeName,String location, String placeDescription, String weatherRange, String bestTime, String bestTimeDesc, String indianRate, String foriegnRate, String howtoReach, String navLink) async{
     placeCollection.doc().set({
@@ -42,5 +44,24 @@ class AdminDatabase{
 
   Stream<QuerySnapshot> get categories{
     return categoryCollection.snapshots();
+  }
+
+  Future addRegion(String? regionImage, String? regionName) async{
+    regionCollection.doc().set({
+      'Region Image': regionImage,
+      'Region Name': regionName
+    }, SetOptions(merge: true));
+    print('addregion called!');
+  }
+
+  Stream<QuerySnapshot> get region{
+    return regionCollection.snapshots();
+  }
+
+  Future updateData(String placeId, String placeName) async{
+    placeCollection.doc(placeId).update({
+      'Place Name': placeName
+    });
+    print('updatedata called');
   }
 }

@@ -27,17 +27,17 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             Text('Your Profile', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 
             20),),
-            // CircleAvatar(backgroundColor: Colors.amber,)
-          // IconButton(icon: const Icon(Icons.logout_outlined), color: Colors.white, onPressed: (){
-          //   authService.signOut(context);
-          //   // _auth.signOut().then((value){
-          //   //   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context){
-          //   //     return LoginPage();
-          //   //   }), (route) => false);
-          //   // }).onError((error, stackTrace){
-          //   //   UtilsToast().toastMessage(error.toString());
-          //   // });
-          // },)
+            CircleAvatar(backgroundColor: Colors.amber,),
+          IconButton(icon: const Icon(Icons.logout_outlined), color: Colors.white, onPressed: (){
+            authService.signOut(context);
+            // _auth.signOut().then((value){
+            //   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context){
+            //     return LoginPage();
+            //   }), (route) => false);
+            // }).onError((error, stackTrace){
+            //   UtilsToast().toastMessage(error.toString());
+            // });
+          },)
         ],),
       ),
       bottomNavigationBar: BottomNav(selectedIndex: 2,),

@@ -9,7 +9,6 @@ Future<void> main() async{
   // await Hive.initFlutter();
   // Hive.registerAdapter(TripDetailsModelAdapter());
   // Hive.registerAdapter(UserModelAdapter());
-
   // await Hive.openBox<UserModel>('signup_db');
   runApp(const MyApp());
 }

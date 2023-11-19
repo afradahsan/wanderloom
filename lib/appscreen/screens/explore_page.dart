@@ -2,10 +2,11 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:wanderloom/appscreen/screens/categorypage.dart';
 import 'package:wanderloom/appscreen/screens/placedetails.dart';
+import 'package:wanderloom/appscreen/screens/regionpage.dart';
 import 'package:wanderloom/appscreen/widgets/bottom_navbar.dart';
 import 'package:wanderloom/db/functions/adm_database_services.dart';
-import 'package:wanderloom/db/functions/database_services.dart';
 
 class ExplorePage extends StatefulWidget {
   const ExplorePage({super.key});
@@ -22,13 +23,15 @@ class _ExplorePageState extends State<ExplorePage> {
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       backgroundColor: const Color.fromRGBO(21, 24, 43, 1),
       body: SafeArea(
         child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child:
-          Padding(padding: const EdgeInsets.fromLTRB(24, 5, 12, 12),
+          Padding(padding: const EdgeInsets.fromLTRB(18, 5, 18, 12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start, children: [
               divider,
@@ -88,6 +91,8 @@ class _ExplorePageState extends State<ExplorePage> {
                       var doc = snapshot.data!.docs[0];
                       var placeid = doc.id;
                       var imageURL = doc['Image URL'];
+
+                      
                       print('imageURL: $imageURL');
                       // var placeCategory = doc['Place Category'];
                       // var region = doc['Region'];
@@ -125,6 +130,7 @@ class _ExplorePageState extends State<ExplorePage> {
                   }
                 ),
               ),
+
               divider,
               const Text('Explore by Category',style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.w600),),
               divider,
@@ -139,12 +145,13 @@ class _ExplorePageState extends State<ExplorePage> {
                   if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                     return const Text('No data available');
                   }
+
                   return Container(
                     height: 130,
                     child: GridView.builder(
                     // reverse: true,
                     shrinkWrap: true,
-                    physics: const ScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 400),
                     itemCount: snapshot.data!.docs.length,
@@ -152,9 +159,14 @@ class _ExplorePageState extends State<ExplorePage> {
                       var doc = snapshot.data!.docs[index];
                       var categoryImage = doc['Category Image'];
                       var categoryName =  doc['Category Name'];
+
+                      // late var categorytypee;
+                      // if(doc[''])
                     
                       return GestureDetector(
                         onTap: () {
+                          print('tapped');
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context){return CategoryPage(categoryName: categoryName, categoryImage: categoryImage, );}));
                         },
                         child: Stack(
                           fit: StackFit.loose,
@@ -174,6 +186,65 @@ class _ExplorePageState extends State<ExplorePage> {
                                     child: Container(height: 30,width: 120,decoration: const BoxDecoration(color: Color.fromARGB(180, 0, 0, 0),borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10))),
                                     child: Padding(padding: const EdgeInsets.fromLTRB(8, 5, 0, 0),
                                     child: Column(crossAxisAlignment: CrossAxisAlignment.start,children: [Text(categoryName,style: const TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w400),),],),),), 
+                                  )
+                                ]),
+                              ),
+                            ]),
+                          );
+                        }),
+                      );
+                    }),
+              divider,
+              const Text('Explore by Region',style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.w600),),
+              divider,
+
+              StreamBuilder(stream: AdminDatabase().region, builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  }
+                  if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  }
+                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                    return const Text('No data available');
+                  }
+                  return Container(
+                    height: 130,
+                    child: GridView.builder(
+                    // reverse: true,
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 400),
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) {
+                      var doc = snapshot.data!.docs[index];
+                      var regionImage = doc['Region Image'];
+                      var regionName = doc['Region Name'];
+                    
+                      return GestureDetector(
+                        onTap: () {
+                          print('region tapped');
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context){return RegionPage(regionName: regionName, regionImage: regionImage);}));
+                        },
+                        child: Stack(
+                          fit: StackFit.loose,
+                          children: [
+                            Container(
+                              height: 120,
+                              width: 120,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Stack(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Image.network(regionImage,height: double.infinity,width: double.infinity, fit: BoxFit.cover,)),
+                                    Positioned(bottom: 0,
+                                    child: Container(height: 30,width: 120,decoration: const BoxDecoration(color: Color.fromARGB(180, 0, 0, 0),borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10))),
+                                    child: Padding(padding: const EdgeInsets.fromLTRB(8, 5, 0, 0),
+                                    child: Column(crossAxisAlignment: CrossAxisAlignment.start,children: [Text(regionName,style: const TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w400),),],),),), 
                                     )
                                 ],
                               ),

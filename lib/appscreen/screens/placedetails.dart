@@ -1,7 +1,11 @@
+// ignore_for_file: avoid_print
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:wanderloom/appscreen/adminscreens/editplacedetails.dart';
 
 class PlaceDetailsPage extends StatefulWidget {
 
@@ -25,12 +29,14 @@ class _PlaceDetailsPageState extends State<PlaceDetailsPage> {
     final divider = SizedBox(height: screenHeight/80,);
     double ten = screenHeight/80;
     double twenty = screenHeight/40;
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+
     print(screenHeight);
     print("width: $screenWidth");
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(onPressed: () async{
-      const url = 'https://www.google.com/maps/place/Bada+Bagh/@26.9551143,70.8877216,15z/data=!4m6!3m5!1s0x3947be19bfbede2b:0x46e746e381489828!8m2!3d26.9551143!4d70.8877216!16s%2Fm%2F02q8w_1?entry=ttu';
+      final url = '${widget.doc['Nav Link']}';
       launchUrl(Uri.parse(url)).onError(
         (error, stackTrace) {
           print("Url is not valid!");
@@ -40,11 +46,11 @@ class _PlaceDetailsPageState extends State<PlaceDetailsPage> {
       );
       },
       // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      backgroundColor: Color.fromARGB(255, 190, 255, 0),
+      backgroundColor: const Color.fromARGB(255, 190, 255, 0),
       child: Image.asset('assets/images/navigation_3d.png', height: 25,),),
       backgroundColor: const Color.fromRGBO(21, 24, 43, 1),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: SafeArea(
           child: Padding(
             padding: EdgeInsets.fromLTRB(twenty-2,twenty,twenty-2,0),
@@ -68,6 +74,21 @@ class _PlaceDetailsPageState extends State<PlaceDetailsPage> {
                         onPressed: (){
                           Navigator.of(context).pop();
                         }, color: Colors.white,)),
+                      if (uid == 'BarF8kEyiuQ7ps3pupuFqpBJ0dZ2') 
+                        Positioned(
+                        right: ten/4,
+                        top: ten/2,
+                        child: Row(
+                          children: [
+                            IconButton(icon: const Icon(Icons.edit, color: Color.fromARGB(255, 255, 255, 255),size: 20,),
+                            onPressed: (){
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context){return EditPlaceDetailsPage(doc: widget.doc, placeID: widget.placeID, placeName: widget.doc['Place Name'], location: widget.doc['Location'], description: widget.doc['Place Description'], weather: widget.doc['Weather'], bestTime: widget.doc['Best Time'], bestTimeDesc: widget.doc['Best Time Desc'], rateInd: widget.doc['Indian Rate'], rateFor: widget.doc['Foriegner Rate'], howtoReach: widget.doc['How to Reach'], navLink: widget.doc['Nav Link']);}));
+                            }),
+                            IconButton(icon: const Icon(Icons.delete, color: Colors.red,size: 20,),
+                            onPressed: (){
+                            }),
+                          ],
+                        )),
                     ],
                   ),
                   ),
@@ -111,7 +132,7 @@ class _PlaceDetailsPageState extends State<PlaceDetailsPage> {
                           ],
                         ),
                         Text('8 ratings',
-                        style: TextStyle(decoration: TextDecoration.underline, color: Color.fromARGB(180, 255, 255, 255), fontSize: ten+2,))
+                        style: TextStyle(decoration: TextDecoration.underline, color: const Color.fromARGB(180, 255, 255, 255), fontSize: ten+2,))
                       ],
                     ),
                     SizedBox(width: ten*7,),
@@ -126,7 +147,7 @@ class _PlaceDetailsPageState extends State<PlaceDetailsPage> {
                       ]),
                       child: Image.asset('assets/images/star_3d.png')),
                       SizedBox(width: ten/2,),
-                      Text('15-26°C', style: TextStyle(color: Colors.white, fontSize: ten+8, fontWeight: FontWeight.w500),)
+                      Text('${widget.doc['Weather']}', style: TextStyle(color: Colors.white, fontSize: ten+8, fontWeight: FontWeight.w500),)
                   ],
                 ),
                 
@@ -147,27 +168,27 @@ class _PlaceDetailsPageState extends State<PlaceDetailsPage> {
                     children: [
                       Icon(Icons.calendar_month_rounded, color: Colors.white,size: twenty-2),
                       SizedBox(width: ten/2,),
-                      Text('October - March', style: TextStyle(color: const Color.fromARGB(255, 250, 215, 27), fontWeight: FontWeight.w600, fontSize: ten+4, )),
+                      Text('${widget.doc['Best Time']}', style: TextStyle(color: const Color.fromARGB(255, 250, 215, 27), fontWeight: FontWeight.w600, fontSize: ten+4, )),
                     ],
                   ),
                   ),
                 divider,
-                Text('The best time to visit Bada Bagh, is during winter, from October to March. This period offers the most pleasant weather for exploring the historical site comfortably.' , style: TextStyle(color: Color.fromARGB(190, 255, 255, 255), fontWeight: FontWeight.w500, fontSize: ten+2)),
+                Text('${widget.doc['Best Time Desc']}' , style: TextStyle(color: const Color.fromARGB(190, 255, 255, 255), fontWeight: FontWeight.w500, fontSize: ten+2)),
                 divider,
                 Text('Entry Fee:', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: twenty-3)),
                 SizedBox(height: ten/2,),
-                Row(children: [Icon(Icons.circle, size: 7, color: Colors.white,),
+                Row(children: [const Icon(Icons.circle, size: 7, color: Colors.white,),
                 SizedBox(width: ten/2,),
-                Text('Indian - ₹50', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: ten+3)),
+                Text('Indian - ₹${widget.doc['Indian Rate']}', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: ten+3)),
                 ],),
-                Row(children: [Icon(Icons.circle, size: 7, color: Colors.white,),
+                Row(children: [const Icon(Icons.circle, size: 7, color: Colors.white,),
                 SizedBox(width: ten/2,),
-                Text('Foreigner - ₹100', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: ten+3)),
+                Text('Foreigner - ₹${widget.doc['Foriegner Rate']}', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: ten+3)),
                 ],),
                 divider,
                 Text('How to reach?', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: twenty-3)),
                 SizedBox(height: ten/2,),
-                Text('Bada Bagh is located at 6KM from the railway station of Jaisalmer as well as the city center. There are regular bus services to transfer you between Ramgarh bus station and Bada Bagh, Jaisalmer.' , style: TextStyle(color: Color.fromARGB(190, 255, 255, 255), fontWeight: FontWeight.w500, fontSize: ten+2)),
+                Text('${widget.doc['How to Reach']}' , style: TextStyle(color: const Color.fromARGB(190, 255, 255, 255), fontWeight: FontWeight.w500, fontSize: ten+2)),
               ],
             ),
           )

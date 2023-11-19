@@ -46,7 +46,6 @@ class TripInfo extends StatelessWidget {
         children: [
       Container(
       height: 25,
-      
       width: catContWidth,
       decoration: const BoxDecoration(
         color: Color.fromARGB(255, 190,255, 0),
