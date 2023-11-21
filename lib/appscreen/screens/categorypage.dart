@@ -76,7 +76,7 @@ class _CategoryPageState extends State<CategoryPage> {
                         color: Color.fromARGB(70, 76, 76, 76),
                       ),
                       alignment: Alignment.center,
-                      child: Text(widget.categoryName, style: const TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.w600),
+                      child: Text(widget.categoryName, style: TextStyle(color: Colors.white, fontSize: ten*2.8, fontWeight: FontWeight.w600),
                       ),
                     ),
                   ),
@@ -130,10 +130,10 @@ class _CategoryPageState extends State<CategoryPage> {
                               height: ten*8,
                               width: ten*8,
                               child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(ten),
                                 child: Image.network(doc['Image URL'], fit: BoxFit.cover,))),
                             Padding(
-                              padding: const EdgeInsets.only(left: 8),
+                              padding: EdgeInsets.only(left: ten*0.8),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -141,12 +141,12 @@ class _CategoryPageState extends State<CategoryPage> {
                                   Container(
                                     width: ten*16,
                                     child: Text(doc['Place Name'],
-                                    overflow: TextOverflow.ellipsis, style: TextStyle(color: Color.fromARGB(255, 190, 255, 0),fontSize: 18, fontWeight: FontWeight.w500),),
+                                    overflow: TextOverflow.ellipsis, style: TextStyle(color: Color.fromARGB(255, 190, 255, 0),fontSize: ten*1.8, fontWeight: FontWeight.w500),),
                                   ),
                                   Row(
                                     children: [
                                       Icon(Icons.location_on, size: 12,color: Color.fromARGB(255, 255, 255, 255)),
-                                      Text(doc['Location'], style: TextStyle(color: Color.fromARGB(255, 255, 255, 255),fontSize: 12, fontWeight: FontWeight.w400)),
+                                      Text(doc['Location'], style: TextStyle(color: Color.fromARGB(255, 255, 255, 255),fontSize: ten*1.2, fontWeight: FontWeight.w400)),
                                     ],
                                   )
                                 ],
@@ -154,14 +154,7 @@ class _CategoryPageState extends State<CategoryPage> {
                             ),
                           ],
                         ),
-                        uid == 'BarF8kEyiuQ7ps3pupuFqpBJ0dZ2' ? Row(
-                          children: [
-                            Container(height: twenty,width: twenty, decoration: BoxDecoration(color: Color.fromARGB(30, 255, 255, 255), borderRadius: BorderRadius.circular(5)),child: Icon(Icons.edit, color: Color.fromARGB(255, 255, 255, 255),size: 12,),), 
-                            SizedBox(width: 5,),
-                            Container(height: twenty,width: twenty, decoration: BoxDecoration(color: Color.fromARGB(30, 255, 255, 255), borderRadius: BorderRadius.circular(5)),child: Icon(Icons.delete, color: const Color.fromARGB(255, 255, 0, 0),size: 12,),),
-                          ],
-                        ) :
-                        Container(height: twenty,width: twenty, decoration: BoxDecoration(color: Color.fromARGB(30, 255, 255, 255), borderRadius: BorderRadius.circular(5)),child: Icon(Icons.arrow_forward_ios_rounded, color: Colors.white,size: 12,),)
+                      Container(height: twenty,width: twenty, decoration: BoxDecoration(color: Color.fromARGB(30, 255, 255, 255), borderRadius: BorderRadius.circular(ten/2)),child: Icon(Icons.arrow_forward_ios_rounded, color: Colors.white,size: ten*1.2,),)
                       ],
                     ),
                   ),

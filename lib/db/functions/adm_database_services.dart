@@ -58,10 +58,27 @@ class AdminDatabase{
     return regionCollection.snapshots();
   }
 
-  Future updateData(String placeId, String placeName) async{
+  Future updateData(String placeId,String? imageURL,String? placeCategory, String? region, String placeName,String location, String description, String weather, String bestTime, String bestTimeDesc, String rateInd, String rateFor, String howtoReach, String navLink)async{
     placeCollection.doc(placeId).update({
-      'Place Name': placeName
+      'Image URL': imageURL,
+      'Place Category': placeCategory,
+      'Region': region,
+      'Place Name': placeName,
+      'Location': location,
+      'Place Description': description,
+      'Weather': weather,
+      'Best Time': bestTime,
+      'Best Time Desc': bestTimeDesc,
+      'Indian Rate': rateInd,
+      'Foriegner Rate': rateFor,
+      'How to Reach': howtoReach,
+      'Nav Link': navLink,
     });
     print('updatedata called');
+  }
+
+  Future deletePlace(String? placeId) async{
+    placeCollection.doc(placeId).delete();
+    print('place deleted');
   }
 }

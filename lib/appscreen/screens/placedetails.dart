@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wanderloom/appscreen/adminscreens/editplacedetails.dart';
+import 'package:wanderloom/db/functions/adm_database_services.dart';
 
 class PlaceDetailsPage extends StatefulWidget {
 
@@ -47,13 +48,13 @@ class _PlaceDetailsPageState extends State<PlaceDetailsPage> {
       },
       // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       backgroundColor: const Color.fromARGB(255, 190, 255, 0),
-      child: Image.asset('assets/images/navigation_3d.png', height: 25,),),
+      child: Image.asset('assets/images/navigation_3d.png', height: ten*2.5,),),
       backgroundColor: const Color.fromRGBO(21, 24, 43, 1),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: SafeArea(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(twenty-2,twenty,twenty-2,0),
+            padding: EdgeInsets.fromLTRB(ten*1.8,twenty,ten*1.8,0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -65,7 +66,7 @@ class _PlaceDetailsPageState extends State<PlaceDetailsPage> {
                   ),
                   child: Stack(
                     children: [
-                      ClipRRect(borderRadius: BorderRadius.circular(10),
+                      ClipRRect(borderRadius: BorderRadius.circular(ten),
                       child: Image.network(widget.doc['Image URL'],height: double.infinity, width: double.infinity, fit: BoxFit.cover),),
                       Positioned(
                         left: ten/2,
@@ -80,12 +81,30 @@ class _PlaceDetailsPageState extends State<PlaceDetailsPage> {
                         top: ten/2,
                         child: Row(
                           children: [
-                            IconButton(icon: const Icon(Icons.edit, color: Color.fromARGB(255, 255, 255, 255),size: 20,),
+                            IconButton(icon: Icon(Icons.edit, color: Color.fromARGB(255, 255, 255, 255),size: twenty,),
                             onPressed: (){
                               Navigator.of(context).push(MaterialPageRoute(builder: (context){return EditPlaceDetailsPage(doc: widget.doc, placeID: widget.placeID, placeName: widget.doc['Place Name'], location: widget.doc['Location'], description: widget.doc['Place Description'], weather: widget.doc['Weather'], bestTime: widget.doc['Best Time'], bestTimeDesc: widget.doc['Best Time Desc'], rateInd: widget.doc['Indian Rate'], rateFor: widget.doc['Foriegner Rate'], howtoReach: widget.doc['How to Reach'], navLink: widget.doc['Nav Link']);}));
                             }),
-                            IconButton(icon: const Icon(Icons.delete, color: Colors.red,size: 20,),
+                            IconButton(icon: Icon(Icons.delete, color: Colors.red,size: twenty,),
                             onPressed: (){
+                              showDialog(context: context, builder: (BuildContext context){
+                                return AlertDialog(
+                                  title: Text('Are you sure you want to delete?', style: TextStyle(color: Colors.white, fontSize: 18),),
+                                  actions: [
+                                    TextButton(onPressed: (){
+                                      AdminDatabase().deletePlace(widget.placeID).then((value){
+                                        SnackBar(content: (Text('Place Deleted Successfully!')));
+                                      });
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).pop();
+                                    }, child: Text('Yes', style: TextStyle(color: Color.fromARGB(255, 190, 255, 0)),)),
+                                    TextButton(onPressed: (){
+                                      Navigator.of(context).pop();
+                                    }, child: Text('No',style: TextStyle(color: Color.fromARGB(255, 190, 255, 0)),))
+                                  ],
+                                  backgroundColor: const Color.fromRGBO(21, 24, 43, 1),
+                                );
+                              });
                             }),
                           ],
                         )),
@@ -96,7 +115,7 @@ class _PlaceDetailsPageState extends State<PlaceDetailsPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(widget.doc['Place Name'], style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: twenty+6),),
+                    Text(widget.doc['Place Name'], style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: ten*2.6),),
                     const Icon(Icons.bookmark_border_rounded, color: Colors.white,)
                   ],
                 ),
@@ -105,7 +124,7 @@ class _PlaceDetailsPageState extends State<PlaceDetailsPage> {
                 ReadMoreText(
                 ' ${widget.doc['Place Description']}',
                 trimLines: 5,
-                style: TextStyle(color: const Color.fromARGB(180, 255, 255, 255), fontSize: ten+4,)
+                style: TextStyle(color: const Color.fromARGB(180, 255, 255, 255), fontSize: ten*1.4,)
                 ),
                 divider,
                 divider,
@@ -127,19 +146,19 @@ class _PlaceDetailsPageState extends State<PlaceDetailsPage> {
                       children: [
                         Row(
                           children: [
-                            Text('4.4',style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: ten+4),),
-                            Icon(Icons.star, color: Colors.white,size: ten+5,),
+                            Text('4.4',style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: ten*1.4),),
+                            Icon(Icons.star, color: Colors.white,size: ten*1.5,),
                           ],
                         ),
                         Text('8 ratings',
-                        style: TextStyle(decoration: TextDecoration.underline, color: const Color.fromARGB(180, 255, 255, 255), fontSize: ten+2,))
+                        style: TextStyle(decoration: TextDecoration.underline, color: const Color.fromARGB(180, 255, 255, 255), fontSize: ten*1.2,))
                       ],
                     ),
                     SizedBox(width: ten*7,),
                     Container(
                       height: ten*4,
                       width: ten*4,
-                      decoration: BoxDecoration(color: const Color.fromARGB(128, 255, 255, 255), borderRadius: BorderRadius.circular(5),
+                      decoration: BoxDecoration(color: const Color.fromARGB(128, 255, 255, 255), borderRadius: BorderRadius.circular(ten/2),
                       boxShadow: [
                         BoxShadow(
                           color: const Color.fromARGB(255, 15, 15, 15).withOpacity(0.5),spreadRadius: 2,blurRadius: 7,offset: const Offset(3, 3),
@@ -147,17 +166,17 @@ class _PlaceDetailsPageState extends State<PlaceDetailsPage> {
                       ]),
                       child: Image.asset('assets/images/star_3d.png')),
                       SizedBox(width: ten/2,),
-                      Text('${widget.doc['Weather']}', style: TextStyle(color: Colors.white, fontSize: ten+8, fontWeight: FontWeight.w500),)
+                      Text('${widget.doc['Weather']}', style: TextStyle(color: Colors.white, fontSize: ten*1.8, fontWeight: FontWeight.w500),)
                   ],
                 ),
                 
                 divider,divider,
-                Text('Best time to visit:', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: twenty-3)),
+                Text('Best time to visit:', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: ten*1.7)),
                 divider,
                 Container(
                   height: ten*3.5,
                   width: ten*16,
-                  decoration: BoxDecoration(color: const Color.fromARGB(105, 207, 207, 207), borderRadius: BorderRadius.circular(5),
+                  decoration: BoxDecoration(color: const Color.fromARGB(105, 207, 207, 207), borderRadius: BorderRadius.circular(ten/2),
                   boxShadow: [
                     BoxShadow(
                       color: const Color.fromARGB(255, 15, 15, 15).withOpacity(0.5),spreadRadius: 2,blurRadius: 7,offset: const Offset(3, 3),
@@ -166,7 +185,7 @@ class _PlaceDetailsPageState extends State<PlaceDetailsPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.calendar_month_rounded, color: Colors.white,size: twenty-2),
+                      Icon(Icons.calendar_month_rounded, color: Colors.white,size: ten*1.8),
                       SizedBox(width: ten/2,),
                       Text('${widget.doc['Best Time']}', style: TextStyle(color: const Color.fromARGB(255, 250, 215, 27), fontWeight: FontWeight.w600, fontSize: ten+4, )),
                     ],

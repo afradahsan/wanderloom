@@ -33,16 +33,16 @@ class EditPlaceDetailsPage extends StatefulWidget {
 class _EditPlaceDetailsPageState extends State<EditPlaceDetailsPage> {
 
   final divider = SizedBox(height: 10,);
-   late TextEditingController placeController;
-   late TextEditingController locationController;
-   late TextEditingController descriptionController;
-   late TextEditingController weatherController ;
-   late TextEditingController btvController ;
-   late TextEditingController btvDescController ;
-   late TextEditingController rateindController; 
-   late TextEditingController ratefornController; 
-   late TextEditingController hwtoreachController;  
-   late TextEditingController navLinkController ;
+  late TextEditingController placeController;
+  late TextEditingController locationController;
+  late TextEditingController descriptionController;
+  late TextEditingController weatherController ;
+  late TextEditingController btvController ;
+  late TextEditingController btvDescController ;
+  late TextEditingController rateindController; 
+  late TextEditingController ratefornController; 
+  late TextEditingController hwtoreachController;  
+  late TextEditingController navLinkController ;
 
   XFile? image;
   final imagePicker = ImagePicker();
@@ -54,15 +54,15 @@ class _EditPlaceDetailsPageState extends State<EditPlaceDetailsPage> {
   void initState() {
     super.initState();
     placeController = TextEditingController(text: widget.placeName);
-   locationController = TextEditingController(text: widget.location);
-   descriptionController = TextEditingController(text: widget.description);
-   weatherController = TextEditingController(text: widget.weather);
-   btvController = TextEditingController(text: widget.bestTime);
-   btvDescController = TextEditingController(text: widget.bestTimeDesc);
-   rateindController = TextEditingController(text: widget.rateInd);
-   ratefornController = TextEditingController(text: widget.rateFor);
-   hwtoreachController = TextEditingController(text: widget.howtoReach);
-   navLinkController = TextEditingController(text: widget.navLink);
+    locationController = TextEditingController(text: widget.location);
+    descriptionController = TextEditingController(text: widget.description);
+    weatherController = TextEditingController(text: widget.weather);
+    btvController = TextEditingController(text: widget.bestTime);
+    btvDescController = TextEditingController(text: widget.bestTimeDesc);
+    rateindController = TextEditingController(text: widget.rateInd);
+    ratefornController = TextEditingController(text: widget.rateFor);
+    hwtoreachController = TextEditingController(text: widget.howtoReach);
+    navLinkController = TextEditingController(text: widget.navLink);
   }
   
   @override
@@ -185,7 +185,6 @@ class _EditPlaceDetailsPageState extends State<EditPlaceDetailsPage> {
                       addtripController: rateindController,
                       textformlabel: "Indian Rate",
                       textformhinttext: '50',
-                      inputType: TextInputType.number,
                       textformIconPrefix: Icons.currency_rupee_rounded,
                     ),
                     divider,
@@ -194,7 +193,6 @@ class _EditPlaceDetailsPageState extends State<EditPlaceDetailsPage> {
                       addtripController: ratefornController,
                       textformlabel: "Foriegner Rate",
                       textformhinttext: '50',
-                      inputType: TextInputType.number,
                       textformIconPrefix: Icons.currency_rupee_rounded,
                     ),
                     divider,
@@ -273,7 +271,7 @@ class _EditPlaceDetailsPageState extends State<EditPlaceDetailsPage> {
       print('passs');
     await ImagePickerMethod();
 
-    await AdminDatabase().updateData(widget.placeID!, placeController.text.toString());
+    await AdminDatabase().updateData(widget.placeID!,imageURL, category, region, placeController.text.toString(), locationController.text.toString(),descriptionController.text.toString(), weatherController.text.toString(),btvController.text.toString(), btvDescController.text.toString(), rateindController.text.toString(), ratefornController.text.toString(),hwtoreachController.text.toString(), navLinkController.text.toString());
 
     Navigator.of(context).push(MaterialPageRoute(builder: ((context) {
       return PlaceDetailsPage(doc: widget.doc, placeID: widget.placeID);

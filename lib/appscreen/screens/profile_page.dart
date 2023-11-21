@@ -18,27 +18,34 @@ class _ProfilePageState extends State<ProfilePage> {
   int selectedIndex = 2;
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: const Color.fromRGBO(21, 24, 43, 1),
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text('Your Profile', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 
-            20),),
-            CircleAvatar(backgroundColor: Colors.amber,),
-          IconButton(icon: const Icon(Icons.logout_outlined), color: Colors.white, onPressed: (){
-            authService.signOut(context);
-            // _auth.signOut().then((value){
-            //   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context){
-            //     return LoginPage();
-            //   }), (route) => false);
-            // }).onError((error, stackTrace){
-            //   UtilsToast().toastMessage(error.toString());
-            // });
-          },)
-        ],),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(0,25,0,0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+            SizedBox(width: double.infinity,),
+            
+            CircleAvatar(backgroundColor: Colors.amber,radius: 50, child: Image.asset('assets/images/money-with-wings_emoji_1f4b8.png', height: 60,),),SizedBox(height: 10,),
+            Text('Afrad Ahsan', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 30),),
+
+            ListView.separated(
+              shrinkWrap: true,
+              itemBuilder: (context, index){
+                return ListTile(
+                  title: Text('data'),
+                );
+            }, separatorBuilder: (context, index){
+              return Divider();
+            }, itemCount: 5),
+            
+            IconButton(icon: const Icon(Icons.logout_outlined), color: Colors.white, onPressed: (){
+              authService.signOut(context);
+            },)
+          ]),
+        ),
       ),
       bottomNavigationBar: BottomNav(selectedIndex: 2,),
     );

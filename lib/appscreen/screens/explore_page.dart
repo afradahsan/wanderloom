@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:wanderloom/appscreen/screens/categorypage.dart';
 import 'package:wanderloom/appscreen/screens/placedetails.dart';
 import 'package:wanderloom/appscreen/screens/regionpage.dart';
+import 'package:wanderloom/appscreen/screens/searchscreen.dart';
 import 'package:wanderloom/appscreen/widgets/bottom_navbar.dart';
 import 'package:wanderloom/db/functions/adm_database_services.dart';
 
@@ -44,23 +45,26 @@ class _ExplorePageState extends State<ExplorePage> {
                   fontWeight: FontWeight.w600),
               )),
               divider,
-              const SizedBox(
-                  height: 44,
-                  child: SearchBar(
-                    padding: MaterialStatePropertyAll(EdgeInsets.only(left: 12)),
-                    backgroundColor: MaterialStatePropertyAll(
-                        Color.fromARGB(50, 217, 217, 217)),
-                    elevation: MaterialStatePropertyAll(0),
-                    leading: Icon(
-                      Icons.search,
+              SizedBox(
+                height: 44,
+                child: SearchBar(
+                  padding: MaterialStatePropertyAll(EdgeInsets.only(left: 12)),
+                  backgroundColor: MaterialStatePropertyAll(
+                      Color.fromARGB(50, 217, 217, 217)),
+                  elevation: MaterialStatePropertyAll(0),
+                  leading: Icon(
+                    Icons.search,
+                    color: Color.fromARGB(195, 255, 255, 255),
+                  ),
+                  hintText: 'Search here',
+                  hintStyle: MaterialStatePropertyAll(TextStyle(
                       color: Color.fromARGB(195, 255, 255, 255),
-                    ),
-                    hintText: 'Search here',
-                    hintStyle: MaterialStatePropertyAll(TextStyle(
-                        color: Color.fromARGB(195, 255, 255, 255),
-                        fontSize: 16)),
-                    // leading: Icon(Icons.search, color: Colors.white,),
-                  )),
+                      fontSize: 16)),
+                  onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context){return SearchScreen();}));
+                  },
+                  // leading: Icon(Icons.search, color: Colors.white,),
+                )),
             divider,
             const Text(
                 'Featured Destinations',
@@ -70,8 +74,6 @@ class _ExplorePageState extends State<ExplorePage> {
                     fontWeight: FontWeight.w500),
               ),
               divider,
-
-
               StreamBuilder(
                 stream: AdminDatabase().places,
                 builder: ((context, AsyncSnapshot<QuerySnapshot> snapshot) {
