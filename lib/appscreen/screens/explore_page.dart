@@ -263,9 +263,7 @@ class _ExplorePageState extends State<ExplorePage> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNav(
-        selectedIndex: 1,
-      ),
+      // bottomNavigationBar: BottomNav()
     );
   }
 }

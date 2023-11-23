@@ -16,11 +16,11 @@ class TripInfo extends StatelessWidget {
 
   TripInfo({super.key, 
    required this.categoryIcon,
-   required  this.categoryName,
-   required  this.tripTitle,
-   required  this.tripDate,
-   required  this.tripBudget,
-   required  this.tripPeople,
+   required this.categoryName,
+   required this.tripTitle,
+   required this.tripDate,
+   required this.tripBudget,
+   required this.tripPeople,
    required this.catContWidth,
    required this.returnParameter
   });
@@ -29,7 +29,7 @@ class TripInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () { Navigator.of(context).push(MaterialPageRoute(builder: (context){
-        return ItineraryPage(tripId: returnParameter!);
+        return ItineraryPage(tripId: returnParameter!, triptitle: tripTitle,);
       }));
       print('return Parameter $returnParameter');
       },

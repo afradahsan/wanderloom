@@ -164,7 +164,7 @@ class _PlaceDetailsPageState extends State<PlaceDetailsPage> {
                           color: const Color.fromARGB(255, 15, 15, 15).withOpacity(0.5),spreadRadius: 2,blurRadius: 7,offset: const Offset(3, 3),
                         ),
                       ]),
-                      child: Image.asset('assets/images/star_3d.png')),
+                      child: Image.asset('assets/images/weather_3d.png')),
                       SizedBox(width: ten/2,),
                       Text('${widget.doc['Weather']}', style: TextStyle(color: Colors.white, fontSize: ten*1.8, fontWeight: FontWeight.w500),)
                   ],

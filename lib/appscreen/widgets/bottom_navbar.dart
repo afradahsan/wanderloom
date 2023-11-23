@@ -1,24 +1,39 @@
-// ignore_for_file: must_be_immutable, use_super_parameters
-
 import 'package:flutter/material.dart';
 import 'package:wanderloom/appscreen/screens/explore_page.dart';
 import 'package:wanderloom/appscreen/screens/profile_page.dart';
 import 'package:wanderloom/appscreen/screens/trip_page.dart';
 
 class BottomNav extends StatefulWidget {
-  int selectedIndex;
-  BottomNav({Key? key, required this.selectedIndex}) : super(key: key);
+  const BottomNav({super.key});
 
   @override
   State<BottomNav> createState() => _BottomNavState();
 }
 
 class _BottomNavState extends State<BottomNav> {
+
+  List pages = [];
+  int selectedIndex = 0;
+
+  @override
+  void initState() {
+    pages = [
+      const TripPage(),
+      const ExplorePage(), 
+      const ProfilePage()
+      ];
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(20, 10, 20, 12),
-      height: 65,
+    return Scaffold(
+      body: pages[selectedIndex],
+      extendBody: true,
+
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+      height: 73,
       width: 350,
       decoration: const BoxDecoration(
         shape: BoxShape.rectangle,
@@ -36,91 +51,68 @@ class _BottomNavState extends State<BottomNav> {
           ),
         ],
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: List.generate(
-          3,(index) => buildNavItem(index),
-        ),
-      ),
-    );
-  }
-
-  Widget buildNavItem(int index) {
-    return widget.selectedIndex == index
-        ? GestureDetector(
-            onTap: () {
-            },
-            child: Container(
-              height: 30,
-              width: 93,
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 190, 255, 0),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Center(
-                child: Row(
+        child: BottomNavigationBar(
+          enableFeedback: true,
+          currentIndex: selectedIndex,
+        onTap: (int index) {
+          setState(() {
+            selectedIndex = index;
+          });
+        },
+          backgroundColor: Colors.transparent,
+          items: [
+            BottomNavigationBarItem(
+              icon: selectedIndex == 0 ? Container(
+                height: 30,
+                width: 90,
+                decoration: BoxDecoration(color: const Color.fromARGB(255, 190, 255, 0), borderRadius: BorderRadius.circular(20)),
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(getIconForIndex(index)),
-                    const SizedBox(width: 5),
-                    Text(
-                      getLabelForIndex(index),
-                      style: const TextStyle(fontWeight: FontWeight.w600),
-                    ),
+                    Icon(Icons.airplane_ticket_rounded, size: 30, color: Color.fromARGB(255, 0, 0, 0),),
+                    SizedBox(width: 5,),
+                    Text('Trips', style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 14, fontWeight: FontWeight.w600),)
                   ],
                 ),
-              ),
+              ) : Icon(Icons.airplane_ticket_rounded, color: Color.fromARGB(255, 255, 255, 255),),
+              label: '',
             ),
-          )
-        : IconButton(
-            onPressed: () {
-              setState(() {
-                widget.selectedIndex = index;
-              });
-              switch (index) {
-                case 0:
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const TripPage()));
-                  break;
-                case 1:
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const ExplorePage()));
-                  break;
-                case 2:
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage()));
-                  break;
-              }
-            },
-            icon: Icon(
-              getIconForIndex(index),
-              color: const Color.fromARGB(255, 255, 255, 255),
-              size: 28,
+            BottomNavigationBarItem(
+              icon: selectedIndex==1 ? Container(
+                height: 30,
+                width: 90,
+                decoration: BoxDecoration(color: const Color.fromARGB(255, 190, 255, 0), borderRadius: BorderRadius.circular(20)),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.explore, size: 30, color: Color.fromARGB(255, 0, 0, 0),),
+                    SizedBox(width: 5,),
+
+                    Text('Explore', style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontWeight: FontWeight.w600),),
+                  ],
+                ),
+              ): Icon(Icons.explore, color: Color.fromARGB(255, 255, 255, 255),),
+              label: '',
             ),
-          );
-  }
+            BottomNavigationBarItem(
+              icon: selectedIndex == 2 ? Container(
+                height: 30,
+                width: 90,
+                decoration: BoxDecoration(color: const Color.fromARGB(255, 190, 255, 0), borderRadius: BorderRadius.circular(20)),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.person, size: 25, color: Color.fromARGB(255, 0, 0, 0),),
+                    SizedBox(width: 5,),
 
-  IconData getIconForIndex(int index) {
-    switch (index) {
-      case 0:
-        return Icons.airplane_ticket_rounded;
-      case 1:
-        return Icons.explore;
-      case 2:
-        return Icons.person;
-      default:
-        return Icons.airplane_ticket_rounded;
-    }
-  }
-
-  String getLabelForIndex(int index) {
-    switch (index) {
-      case 0:
-        return 'Trips';
-      case 1:
-        return 'Explore';
-      case 2:
-        return 'Profile';
-      default:
-        return 'Trips';
-    }
+                    Text('Profile', style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontWeight: FontWeight.w600),)
+                  ],
+                ),
+              ): Icon(Icons.person, color: Color.fromARGB(255, 255, 255, 255),),
+              label: '',
+            ),
+        ]),
+      ),
+    );
   }
 }

@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:readmore/readmore.dart';
 import 'package:rich_readmore/rich_readmore.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 class Itinerarytime extends StatelessWidget {
   final String itntime;
   final String itnlocation;
   final String itndescription;
+  final String? itnLink;
 
-  const Itinerarytime({super.key, 
+  Itinerarytime({super.key, 
     required this.itntime,
     required this.itnlocation,
     required this.itndescription,
+    this.itnLink,
   });
 
   @override
@@ -41,28 +45,32 @@ class Itinerarytime extends StatelessWidget {
                   ],
                 ),
                 SizedBox(
-                  height: 45,
-                  width: 200,
-                  child: RichReadMoreText.fromString(text: itndescription,textStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Color.fromARGB(142, 255, 255, 255)), settings: LineModeSettings(
+                  width: 255,
+                  child: ReadMoreText(
+                    itndescription,
                     trimLines: 1,
-                    trimCollapsedText: '...Show more',
-                    trimExpandedText: ' Show less',
-                    // lessStyle: actionTextStyle,
-                    // moreStyle: actionTextStyle,
-                    onPressReadMore: () {
-                      /// specific method to be called on press to show more
-                    },
-                    onPressReadLess: () {
-                      /// specific method to be called on press to show less
-                    },
+                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Color.fromARGB(142, 255, 255, 255))
                   ),
                 ),
-
-                  // child: Text(itndescription, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Color.fromARGB(142, 255, 255, 255)),
-                  // ),
+                Container(
+                  width: 255,
+                  child: GestureDetector(
+                    onTap: () {
+                      final url = itnLink;
+                      launchUrl(Uri.parse(url ?? '')).onError(
+                        (error, stackTrace) {
+                          print("Url is not valid!");
+                          return false;
+                        },
+                      );
+                    },
+                    child: Text(itnLink ?? '', style:
+                     TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Color.fromARGB(255, 64, 144, 255), overflow: TextOverflow.ellipsis,),
+                     
+                    ),
+                  ),
                 ),
-                const Text("www.instagram.com/techxplained_", style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Color.fromARGB(142, 255, 255, 255)),
-                ),
+                SizedBox(height: 5,)
               ],
             ),
           ],

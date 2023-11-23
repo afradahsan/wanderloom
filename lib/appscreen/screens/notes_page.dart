@@ -34,15 +34,15 @@ class _NotesPageState extends State<NotesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromRGBO(21, 24, 43, 1),
-      appBar: AppBar(
-        title: const Text(
-          'Notes',
-          style: TextStyle(color: Color.fromARGB(255, 190, 255, 0)),
-        ),
-        // actions: const [Icon(Icons.arrow_back)],
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
+      // appBar: AppBar(
+      //   title: const Text(
+      //     'Notes',
+      //     style: TextStyle(color: Color.fromARGB(255, 190, 255, 0)),
+      //   ),
+      //   // actions: const [Icon(Icons.arrow_back)],
+      //   backgroundColor: Colors.transparent,
+      //   elevation: 0,
+      // ),
       floatingActionButton: FloatingButton(
         onPressed: () {
           Navigator.of(context).push(
@@ -54,9 +54,9 @@ class _NotesPageState extends State<NotesPage> {
           );
         },
       ),
-      drawer: Sidebar(
-        tripId: widget.tripId,
-      ),
+      // drawer: Sidebar(
+      //   tripId: widget.tripId,
+      // ),
       body: SafeArea(
         child: SingleChildScrollView(
             child: FutureBuilder(
@@ -81,16 +81,17 @@ class _NotesPageState extends State<NotesPage> {
                     print('snapshot has data');
                     final notes = snapshot.data;
                     print('NOTESSS: $notes');
-                    return ListView.separated(
+                    return ListView.builder(
                         shrinkWrap: true,
                         itemCount: notes.length,
-                        separatorBuilder: (context, index) {
-                          return const SizedBox(height: 10,);
-                        },
+                        // separatorBuilder: (context, index) {
+                        //   return const SizedBox(height: 10,);
+                        // },
                         itemBuilder: (context, index) {
                           final notesmap = notes[index];
                           print("notesmap: $notesmap");
                           return Column(children: [
+                            SizedBox(height: 10,),
                             Padding(
                                 padding: const EdgeInsets.only(
                                     left: 20, right: 20),

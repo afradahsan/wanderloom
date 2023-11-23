@@ -76,21 +76,21 @@ class _BackpackPageState extends State<BackpackPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromRGBO(21, 24, 43, 1),
-      appBar: AppBar(
-        title: const Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-          Text(
-              "Your Backpack",
-              style: TextStyle(
-                  fontSize: 22, color: Color.fromARGB(255, 190, 255, 0)),
-            ),
-          Text("You won't forget it again!", style: TextStyle(letterSpacing: 0.4,fontSize: 10, fontWeight: FontWeight.w500,color: Color.fromARGB(255, 255, 255, 255))),
-          ],),
-          // actions: const [Icon(Icons.arrow_back)],
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          ),
+      // appBar: AppBar(
+      //   title: const Column(
+      //     crossAxisAlignment: CrossAxisAlignment.start,
+      //     children: [
+      //     Text(
+      //         "Your Backpack",
+      //         style: TextStyle(
+      //             fontSize: 22, color: Color.fromARGB(255, 190, 255, 0)),
+      //       ),
+      //     Text("You won't forget it again!", style: TextStyle(letterSpacing: 0.4,fontSize: 10, fontWeight: FontWeight.w500,color: Color.fromARGB(255, 255, 255, 255))),
+      //     ],),
+      //     // actions: const [Icon(Icons.arrow_back)],
+      //     backgroundColor: Colors.transparent,
+      //     elevation: 0,
+      //     ),
       floatingActionButton: FloatingButton(
         onPressed: () {
           print('tripiddd: $widget.tripId');
@@ -102,9 +102,9 @@ class _BackpackPageState extends State<BackpackPage> {
             );
           },
         ),
-        drawer: Sidebar(
-          tripId: widget.tripId,
-        ),
+        // drawer: Sidebar(
+        //   tripId: widget.tripId,
+        // ),
         body: SafeArea(
           child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),

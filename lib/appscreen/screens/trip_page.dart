@@ -235,7 +235,7 @@ class _TripPageState extends State<TripPage> {
         // ]),
         // )
       ])),
-      bottomNavigationBar: BottomNav(selectedIndex: 0,),
+      // bottomNavigationBar: BottomNav(),
     );
   }
 }

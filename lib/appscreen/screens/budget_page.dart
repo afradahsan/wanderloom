@@ -54,15 +54,15 @@ class _BudgetPageState extends State<BudgetPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color.fromRGBO(21, 24, 43, 1),
-        appBar: AppBar(
-          title: const Text(
-            'Budget',
-            style: TextStyle(color: Color.fromARGB(255, 190, 255, 0)),
-          ),
-          // actions: const [Icon(Icons.arrow_back)],
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
+        // appBar: AppBar(
+        //   title: const Text(
+        //     'Budget',
+        //     style: TextStyle(color: Color.fromARGB(255, 190, 255, 0)),
+        //   ),
+        //   // actions: const [Icon(Icons.arrow_back)],
+        //   backgroundColor: Colors.transparent,
+        //   elevation: 0,
+        // ),
         floatingActionButton: FloatingButton(
           onPressed: () {
             print('tripiddd: $widget.tripId');
@@ -73,9 +73,9 @@ class _BudgetPageState extends State<BudgetPage> {
             );
           },
         ),
-        drawer: Sidebar(
-          tripId: widget.tripId,
-        ),
+        // drawer: Sidebar(
+        //   tripId: widget.tripId,
+        // ),
         body: SafeArea(
             child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
@@ -108,7 +108,7 @@ class _BudgetPageState extends State<BudgetPage> {
                         totalExpenses = calculateTotalExpenses(expense);
 
                         return budgetContainer(
-                            expense, groupedExpense, tripbdg!);
+                        expense, groupedExpense, tripbdg!);
                       }
                       return const Center(child: CircularProgressIndicator());
                     }))));
@@ -164,7 +164,7 @@ class _BudgetPageState extends State<BudgetPage> {
                         height: 5,
                       ),
                       Text(
-                        '${(totalExpenses/int.parse(tripbdg))*100}% of the Budget Already used.',
+                        '${((totalExpenses/int.parse(tripbdg))*100).toStringAsFixed(2)}% of the Budget Already used.',
                         style: const TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 14,
