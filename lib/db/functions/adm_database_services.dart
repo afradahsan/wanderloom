@@ -58,7 +58,7 @@ class AdminDatabase{
     return regionCollection.snapshots();
   }
 
-  Future updateData(String placeId,String? imageURL,String? placeCategory, String? region, String placeName,String location, String description, String weather, String bestTime, String bestTimeDesc, String rateInd, String rateFor, String howtoReach, String navLink)async{
+  Future updateData(String placeId,String? imageURL,String? placeCategory, String? region, String placeName,String location, String description, String weather, String bestTime, String bestTimeDesc, String rateInd, String rateFor, String howtoReach, String navLink) async{
     placeCollection.doc(placeId).update({
       'Image URL': imageURL,
       'Place Category': placeCategory,

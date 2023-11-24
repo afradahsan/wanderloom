@@ -115,10 +115,27 @@ class DatabaseService{
 
     itineraryDetailsSnapshot.docs.forEach((doc) {
       final itinerarydata = doc.data() as Map<String, dynamic>;
+      itinerarydata['id'] = doc.id; // This line adds the 'id' to the map
       itineraryList.add(itinerarydata);
     });
 
     return itineraryList;
+  }
+
+  Future updateItinerary(String itineraryId, String ItnLocation, String ItnDate, String ItnTime, String ItnDescription, String ItnLinks, String? userId, String tripId) async{
+    userCollection.doc(userId).collection('tripdetails').doc(tripId).collection('itinerary').doc(itineraryId).update({
+      'location': ItnLocation,
+      'date': ItnDate,
+      'time': ItnTime,
+      'description': ItnDescription,
+      'links': ItnLinks
+    });
+    print('update itineraryy');
+  }
+
+  Future deleteItinerary(String userId, String tripId, String itineraryId) async{
+    userCollection.doc(userId).collection('tripdetails').doc(tripId).collection('itinerary').doc(itineraryId).delete();
+    print('deleted itinerary!');
   }
 
   Future saveExpense(String expenseTitle,String expenseCategory,int expense, String? expenseDate, String? userId, String tripId) async{

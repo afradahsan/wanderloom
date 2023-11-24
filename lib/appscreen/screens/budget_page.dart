@@ -102,6 +102,7 @@ class _BudgetPageState extends State<BudgetPage> {
                         print('snapshot has data');
                         final expense = snapshot.data;
                         print("expense: $expense");
+
                         final groupedExpense =  groupExpenseByDate(expense);
                         String? tripbdg = tripBudget;
                         print("tripbdg: $tripbdg");
@@ -192,7 +193,7 @@ class _BudgetPageState extends State<BudgetPage> {
                   divider,
                   for (var item in itemsForDate)
                     expensetile(item['expense category'], item['expense title'],
-                        item['expense']),
+                    item['expense']),
                 ],
               );
             },
@@ -253,8 +254,7 @@ class _BudgetPageState extends State<BudgetPage> {
     );
   }
 
-  Map<String, List<Map<String, dynamic>>> groupExpenseByDate(
-      List<Map<String, dynamic>>? expenselst) {
+  Map<String, List<Map<String, dynamic>>> groupExpenseByDate(List<Map<String, dynamic>>? expenselst) {
     print("expenselst: $expenselst");
     final groupedExpense = <String, List<Map<String, dynamic>>>{};
     if (expenselst != null) {

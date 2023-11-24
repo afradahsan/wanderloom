@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:wanderloom/appscreen/screens/addscreeens/additinerary.dart';
+import 'package:wanderloom/appscreen/screens/addscreeens/edit_itinerary.dart';
 import 'package:wanderloom/appscreen/screens/backpack_page.dart';
 import 'package:wanderloom/appscreen/screens/budget_page.dart';
 import 'package:wanderloom/appscreen/screens/notes_page.dart';
@@ -53,7 +54,6 @@ class _ItineraryPageState extends State<ItineraryPage> {
               Tab(icon: Row(children: [Icon(Icons.notifications_none_rounded),SizedBox(width: 5,), Text('Reminder')],),),
               Tab(icon: Row(children: [Icon(Icons.notes),SizedBox(width: 5,), Text('Notes')],),)
           ],
-          
           ),
           title: Text(
             widget.triptitle!,
@@ -114,16 +114,25 @@ class _ItineraryPageState extends State<ItineraryPage> {
                             itemBuilder: (context, index) {
                               final date = groupedItinerary.keys.elementAt(index);
                               final itemsForDate = groupedItinerary[date]!;
+                              
                               return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   itinerDate(date),
                                   for (var item in itemsForDate)
-                                    Itinerarytime(
-                                      itntime: item['time'],
-                                      itnlocation: item['location'],
-                                      itndescription: item['description'],
-                                      itnLink: item['links'],
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context).push(MaterialPageRoute(builder: (context){return EditItinerary(tripTitle: widget.triptitle!,
+                                          itnlocationCont: item['location'], itndescriptionCont: item['description'],itnlinkController: item['links'],  tripId: widget.tripId,
+                                          itineraryId: item['id'],);
+                                          }));
+                                      },
+                                      child: Itinerarytime(
+                                        itntime: item['time'],
+                                        itnlocation: item['location'],
+                                        itndescription: item['description'],
+                                        itnLink: item['links'],
+                                      ),
                                     ),
                                 ],
                               );
