@@ -26,8 +26,11 @@ class _DeleteDialogState extends State<DeleteDialog> {
     return AlertDialog(
       title: Text(widget.maintext, style: TextStyle(color: Colors.white, fontSize: 18),),
       actions: [
-      TextButton(onPressed: (){widget.function.then((value){
-      SnackBar(content: (Text(widget.snackbartext)));});
+      TextButton(onPressed: (){
+      widget.function.then((value){
+      SnackBar(content: 
+      (Text(widget.snackbartext)));
+      });
       Navigator.of(context).pop();
       Navigator.of(context).pop();}, 
       child: Text(widget.yestext, style: TextStyle(color: Color.fromARGB(255, 190, 255, 0)),)),

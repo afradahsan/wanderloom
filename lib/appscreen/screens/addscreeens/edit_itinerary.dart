@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wanderloom/appscreen/screens/itinerary_page.dart';
 import 'package:wanderloom/appscreen/widgets/addscreenwidgets/datetimepickerwidget.dart';
+import 'package:wanderloom/appscreen/widgets/addscreenwidgets/delete_editcontainer.dart';
 import 'package:wanderloom/appscreen/widgets/addscreenwidgets/textfieldtrip.dart';
 import 'package:wanderloom/appscreen/widgets/delete_dialog.dart';
 import 'package:wanderloom/db/functions/database_services.dart';
@@ -30,12 +31,17 @@ class _EditItineraryState extends State<EditItinerary> {
   String? uid = FirebaseAuth.instance.currentUser!.uid;
   String? selectedDate;
   String? selectedTime;
+
+  @override
+  void initState() {
+    super.initState();
+      locationController = TextEditingController(text: widget.itnlocationCont);
+    descriptionController = TextEditingController(text: widget.itndescriptionCont);
+    linkController = TextEditingController(text: widget.itnlinkController ?? '');
+  }
   
   @override
   Widget build(BuildContext context) {
-    locationController = TextEditingController(text: widget.itnlocationCont);
-    descriptionController = TextEditingController(text: widget.itndescriptionCont);
-    linkController = TextEditingController(text: widget.itnlinkController ?? '');
 
     print('itineray id: ${widget.itineraryId}');
 
@@ -130,11 +136,7 @@ class _EditItineraryState extends State<EditItinerary> {
 
                   divider,divider,divider,
 
-                  ElevatedButton.icon(onPressed: (){
-                    showDialog(context: context, builder: (context){
-                      return DeleteDialog(maintext: 'Are you sure you want to delete?', snackbartext: 'Deleted Successfully!', function: DatabaseService().deleteItinerary(uid!, widget.tripId, widget.itineraryId), yestext: 'Yes', notext: 'No');
-                    });
-                  }, icon: Icon(Icons.delete, color: Colors.white,),label: Text('Delete'),),
+                  DeleteContainer(callbackFunction: DatabaseService().deleteItinerary(uid!, widget.tripId, widget.itineraryId))
                 ]
               )
             )
@@ -150,7 +152,7 @@ class _EditItineraryState extends State<EditItinerary> {
     final userId = uid;
 
     if(selectedDate == null && selectedTime == null){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Please Update Date & Time')));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please Update Date & Time')));
     }
 
     if (selectedDate != null && selectedTime != null && ItnLocation.isNotEmpty && ItnDescription.isNotEmpty) {
@@ -174,7 +176,7 @@ class _EditItineraryState extends State<EditItinerary> {
       return ItineraryPage(tripId: widget.tripId, triptitle: widget.tripTitle,);
     }));
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error Updating Itinerary')));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Error Updating Itinerary')));
     }
   }
 }

@@ -157,22 +157,45 @@ class DatabaseService{
 
     expenseSnapshot.docs.forEach((doc) {
       final expensedata = doc.data() as Map<String, dynamic>;
+      expensedata['id'] = doc.id;
+
       expenseList.add(expensedata);
      });
 
      return expenseList;
   }
 
-  Future savetoBackpack(String itemName, String itemCategory, String userId, String tripId, {bool itemcheck=false}) async{
-    userCollection.doc(userId).collection('tripdetails').doc(tripId).collection('backpack').doc().set({
+  Future updateExpense(String expenseTitle, String expenseCategory,int expense, String? expenseDate, String? userId, String tripId, String BudgetId) async{
+    userCollection.doc(userId).collection('tripdetails').doc(tripId).collection('expense').doc(BudgetId).update({
+      'expense title': expenseTitle,
+      'expense category': expenseCategory,
+      'expense date': expenseDate,
+      'expense': expense
+    });
+    print('budget update called');
+  }
+
+  Future deleteExpense(String userId, String tripId, String BudgetId) async{
+    userCollection.doc(userId).collection('tripdetails').doc(tripId).collection('expense').doc(BudgetId).delete();
+    print('deleted expense');
+  }
+
+  Future savetoBackpack(String itemName, String itemCategory, String userId, String tripId, {bool itemcheck = false}) async {
+  await userCollection
+      .doc(userId)
+      .collection('tripdetails')
+      .doc(tripId)
+      .collection('backpack')
+      .add({
     'Item title': itemName,
     'Item Category': itemCategory,
     'Item Checked': itemcheck,
-    },SetOptions(merge: true));
+  });
 
-    print('save to backpack called!');
-    print('item name: $itemName');
-  }
+  print('save to backpack called!');
+  print('item name: $itemName');
+}
+
 
   Future getBackpack(String userId, String tripId) async{
     QuerySnapshot backpacksnapshot = await userCollection.doc(userId).collection('tripdetails').doc(tripId).collection('backpack').get();

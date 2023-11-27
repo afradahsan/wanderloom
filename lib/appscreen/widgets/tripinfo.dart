@@ -27,6 +27,17 @@ class TripInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double ten = screenHeight/(0.1*screenHeight);
+    print('ten: $ten');
+    print("screenHeight: $screenHeight");
+    double twenty = screenHeight/(0.05*screenHeight);
+    print('twenty: $twenty');
+    final divider = SizedBox(height: ten);
+
+
     return GestureDetector(
       onTap: () { Navigator.of(context).push(MaterialPageRoute(builder: (context){
         return ItineraryPage(tripId: returnParameter!, triptitle: tripTitle,);
@@ -34,56 +45,56 @@ class TripInfo extends StatelessWidget {
       print('return Parameter $returnParameter');
       },
       child: Container(
-      padding: const EdgeInsets.all(15),
-      height: 200,
-      width: 390,
-      decoration: const BoxDecoration(
-        color: Color.fromARGB(26, 255, 255, 255),
-        borderRadius: BorderRadius.all(Radius.circular(10))
+      padding: EdgeInsets.all(ten*1.5),
+      height: ten*20,
+      width: ten*39,
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(26, 255, 255, 255),
+        borderRadius: BorderRadius.all(Radius.circular(ten))
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
       Container(
-      height: 25,
+      height: ten*2.5,
       width: catContWidth,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: Color.fromARGB(255, 190,255, 0),
-        borderRadius: BorderRadius.all(Radius.circular(20))
+        borderRadius: BorderRadius.all(Radius.circular(twenty))
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image.asset(categoryIcon!, height: 18,),
-          const SizedBox(width: 2,),
+          Image.asset(categoryIcon!, height: ten*1.8,),
+          SizedBox(width: ten*0.2,),
           Text(categoryName!, style: const TextStyle(fontWeight: FontWeight.w600),),
         ],
       ),
       ),
-      const SizedBox(height: 7,),
-      Text(tripTitle!, style: const TextStyle(color: Colors.white, fontSize: 26, fontWeight: FontWeight.w600)),
-      const SizedBox(height: 7,),
-      Text( tripDate!, style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500)),
-      const SizedBox(height: 7,),
+      SizedBox(height: ten*0.7,),
+      Text(tripTitle!, style: TextStyle(color: Colors.white, fontSize: ten*2.6, fontWeight: FontWeight.w600)),
+      SizedBox(height: ten*0.7,),
+      Text( tripDate!, style: TextStyle(color: Colors.white, fontSize: ten*1.6, fontWeight: FontWeight.w500)),
+      SizedBox(height: ten*0.7,),
       Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image.asset('assets/icons/money-with-wings_emoji_1f4b8.png', height: 20,),
-          const SizedBox(width: 8,),
-          Text(tripBudget!,style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500))
+          Image.asset('assets/icons/money-with-wings_emoji_1f4b8.png', height: ten*2,),
+          SizedBox(width: ten*0.8,),
+          Text(tripBudget!,style: TextStyle(color: Colors.white, fontSize: ten*1.6, fontWeight: FontWeight.w500))
         ],
       ),
-      const SizedBox(height: 7,),
+      SizedBox(height: ten*0.7,),
       Row(
         crossAxisAlignment: CrossAxisAlignment.center   ,
         children: [
-          Image.asset('assets/icons/people_team_icon.png', height: 20,),
-          const SizedBox(width: 8,),
-          Text(tripPeople!,style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500))
+          Image.asset('assets/icons/people_team_icon.png', height: ten*2,),
+          SizedBox(width: ten*0.8,),
+          Text(tripPeople!,style: TextStyle(color: Colors.white, fontSize: ten*1.6, fontWeight: FontWeight.w500))
         ],
       ),
-      const SizedBox(height: 10,),
+      SizedBox(height: ten,),
         ],
       ),
       ),

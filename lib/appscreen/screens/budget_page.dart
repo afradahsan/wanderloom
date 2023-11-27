@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:wanderloom/appscreen/screens/addscreeens/addbudgetpage.dart';
+import 'package:wanderloom/appscreen/screens/addscreeens/editbudget.dart';
 import 'package:wanderloom/appscreen/widgets/floatingbutton.dart';
 import 'package:wanderloom/appscreen/widgets/side_menubar.dart';
 import 'package:wanderloom/db/functions/database_services.dart';
@@ -54,15 +55,6 @@ class _BudgetPageState extends State<BudgetPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color.fromRGBO(21, 24, 43, 1),
-        // appBar: AppBar(
-        //   title: const Text(
-        //     'Budget',
-        //     style: TextStyle(color: Color.fromARGB(255, 190, 255, 0)),
-        //   ),
-        //   // actions: const [Icon(Icons.arrow_back)],
-        //   backgroundColor: Colors.transparent,
-        //   elevation: 0,
-        // ),
         floatingActionButton: FloatingButton(
           onPressed: () {
             print('tripiddd: $widget.tripId');
@@ -73,9 +65,6 @@ class _BudgetPageState extends State<BudgetPage> {
             );
           },
         ),
-        // drawer: Sidebar(
-        //   tripId: widget.tripId,
-        // ),
         body: SafeArea(
             child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
@@ -102,6 +91,10 @@ class _BudgetPageState extends State<BudgetPage> {
                         print('snapshot has data');
                         final expense = snapshot.data;
                         print("expense: $expense");
+                        
+                        for (var budget in expense!) {
+                          final BudgetId = budget['id'];  
+                        
 
                         final groupedExpense =  groupExpenseByDate(expense);
                         String? tripbdg = tripBudget;
@@ -109,14 +102,15 @@ class _BudgetPageState extends State<BudgetPage> {
                         totalExpenses = calculateTotalExpenses(expense);
 
                         return budgetContainer(
-                        expense, groupedExpense, tripbdg!);
+                        expense, groupedExpense, tripbdg!, BudgetId);
+                      }
                       }
                       return const Center(child: CircularProgressIndicator());
                     }))));
   }
 
   budgetContainer(List<Map<String, dynamic>>? exp,
-      Map<String, List<Map<String, dynamic>>> grpexp, String tripbdg) {
+      Map<String, List<Map<String, dynamic>>> grpexp, String tripbdg, String budgetId) {
     return Column(
       children: [
         Padding(
@@ -183,20 +177,25 @@ class _BudgetPageState extends State<BudgetPage> {
             physics: const NeverScrollableScrollPhysics(),
             itemCount: grpexp.keys.length,
             itemBuilder: (BuildContext context, index) {
-              final date = grpexp.keys.elementAt(index);
-              final itemsForDate = grpexp[date]!;
+  final date = grpexp.keys.elementAt(index);
+  final itemsForDate = grpexp[date]!;
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      itinerDate(date),
+      divider,
+      ...itemsForDate.map((item) {
+        return expensetile(
+          item['expense category'],
+          item['expense title'],
+          item['expense'],
+          budgetId
+        );
+      }).toList(),
+    ],
+  );
+},
 
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  itinerDate(date),
-                  divider,
-                  for (var item in itemsForDate)
-                    expensetile(item['expense category'], item['expense title'],
-                    item['expense']),
-                ],
-              );
-            },
             separatorBuilder: (context, index) {
               return divider;
             },
@@ -206,51 +205,61 @@ class _BudgetPageState extends State<BudgetPage> {
     );
   }
 
-  expensetile(String expenseCategoryIcon, String expenseTitle, int expense) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-            Container(
-                height: 30,
-                width: 35,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    color: const Color.fromARGB(51, 255, 255, 255),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Color.fromARGB(30, 0, 0, 0),
-                      )
-                    ]),
-                child: const Icon(Icons.local_taxi,
-                    color: Color.fromARGB(255, 190, 255, 0), size: 16)),
-            const SizedBox(
-              width: 10,
-            ),
-            Text(expenseTitle,
-                style: const TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14,
-                    color: Color.fromARGB(255, 255, 255, 255))),
-          ],
-        ),
-        Container(
-            alignment: Alignment.center,
-            height: 25,
-            width: 43,
-            decoration: BoxDecoration(
-                color: Colors.transparent,
-                shape: BoxShape.rectangle,
-                border: Border.all(
-                    color: const Color.fromARGB(255, 190, 255, 0), width: 1),
-                borderRadius: BorderRadius.circular(8)),
-            child: Text('₹${expense.toString()}',
-                style: const TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 12,
-                    color: Color.fromARGB(255, 255, 255, 255)))),
-      ],
+  expensetile(String expenseCategoryIcon, String expenseTitle, int expense, String budgetId) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(builder: (context){return EditBudget(tripId: widget.tripId, budgetId: budgetId, expenseTitle: expenseTitle, expense: expense);}));
+      },
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Container(
+                      height: 30,
+                      width: 35,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4),
+                          color: const Color.fromARGB(51, 255, 255, 255),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color.fromARGB(30, 0, 0, 0),
+                            )
+                          ]),
+                      child: const Icon(Icons.local_taxi,
+                          color: Color.fromARGB(255, 190, 255, 0), size: 16)),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(expenseTitle,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14,
+                          color: Color.fromARGB(255, 255, 255, 255))),
+                ],
+              ),
+              Container(
+                  alignment: Alignment.center,
+                  height: 25,
+                  width: 43,
+                  decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      shape: BoxShape.rectangle,
+                      border: Border.all(
+                          color: const Color.fromARGB(255, 190, 255, 0), width: 1),
+                      borderRadius: BorderRadius.circular(8)),
+                  child: Text('₹${expense.toString()}',
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12,
+                          color: Color.fromARGB(255, 255, 255, 255)))),
+            ],
+          ),
+          SizedBox(height: 10,)
+        ],
+      ),
     );
   }
 

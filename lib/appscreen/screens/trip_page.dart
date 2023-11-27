@@ -15,6 +15,7 @@ class TripPage extends StatefulWidget {
 }
 
 class _TripPageState extends State<TripPage> {
+  
   int selectedIndex = 0;
   List<Map<String, dynamic>> trips = [];
   // List<TripDetailsModel> trip = [];
@@ -63,24 +64,14 @@ class _TripPageState extends State<TripPage> {
   @override
   Widget build(BuildContext context) {
 
-    // String? uid = FirebaseAuth.instance.currentUser!.uid;
-
-  // // Create a reference to the "tripdetails" collection
-  // final tripDetailsCollectionRef = FirebaseFirestore.instance.collection('users').doc(uid).collection('tripdetails');
-  // // Fetch the documents within the collection
-  // tripDetailsCollectionRef.get().then((QuerySnapshot querySnapshot) {
-  //   querySnapshot.docs.forEach((doc) {
-  //     // Get the ID of each document
-  //     String tripId = doc.id;
-  //     print('Trip ID: $tripId');
-  //   });
-  // }).catchError((error) {
-  //   print('Error fetching trip details: $error');
-  // });
-  //   debugPrint('test');
-  
-    // double screenWidth = MediaQuery.of(context).size.width;
-    // double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double ten = screenHeight/(0.1*screenHeight);
+    print('ten: $ten');
+    print("screenHeight: $screenHeight");
+    double twenty = screenHeight/(0.05*screenHeight);
+    print('twenty: $twenty');
+    final divider = SizedBox(height: ten);
 
     return Scaffold(
       floatingActionButton: FloatingButton(
@@ -101,7 +92,7 @@ class _TripPageState extends State<TripPage> {
             children: [
               Container(
                 // height: ,
-                padding: const EdgeInsets.all(15),
+                padding: EdgeInsets.all(ten*1.5),
                 color: const Color.fromRGBO(21, 24, 43, 1),
                 child: Column(
                   children: [
@@ -114,13 +105,13 @@ class _TripPageState extends State<TripPage> {
                             children: [
                               Image.asset(
                                 'assets/images/wanderloom_logo.png',
-                                height: 50,
+                                height: ten*5,
                               ),
-                                const Text(
+                               Text(
                                 "Your Trips!",
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 30,
+                                    fontSize: ten*3,
                                     fontWeight: FontWeight.w600),
                               ),
                               const Icon(
@@ -129,8 +120,8 @@ class _TripPageState extends State<TripPage> {
                               ),
                             ],
                           ),
-                          const SizedBox(
-                            height: 15,
+                          SizedBox(
+                            height: ten*1.5,
                           ),
                           ListView.separated(
                             shrinkWrap: true,
@@ -139,10 +130,10 @@ class _TripPageState extends State<TripPage> {
                             Map<String, dynamic> trip = trips[index];
                             String tripId = trip['tripId'];
                             return TripInfo (categoryIcon: 
-                            'assets/icons/money-with-wings_emoji_1f4b8.png', categoryName: trip['tripcategory'], tripTitle: trip['tripname'], tripDate: trip['tripdate'], tripBudget: trip['tripbudget'], tripPeople: trip['tripparticipants'], catContWidth: 100,
+                            'assets/icons/money-with-wings_emoji_1f4b8.png', categoryName: trip['tripcategory'], tripTitle: trip['tripname'], tripDate: trip['tripdate'], tripBudget: trip['tripbudget'], tripPeople: trip['tripparticipants'], catContWidth: ten*10,
                             returnParameter: tripId);
                           } 
-                          , separatorBuilder: (context, index) => const SizedBox(height: 10), itemCount: trips.length)
+                          , separatorBuilder: (context, index) => SizedBox(height: ten), itemCount: trips.length)
 
                         //   ListView.separated(
                         //   shrinkWrap: true,

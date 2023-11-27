@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print, must_be_immutable
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wanderloom/appscreen/screens/addscreeens/addto_backpackpage.dart';
@@ -39,15 +40,23 @@ class _BackpackPageState extends State<BackpackPage> {
     getData = await DatabaseService().getBackpack(userId, widget.tripId);
     print('Backpack data fetched: $getData');
 
-    isCheckedList = initializeCheckedList(getData);
+    // isCheckedList = initializeCheckedList(getData);
     // print("that is ?$isCheckedList");
     print('isCheckedList initialized: $isCheckedList');
     return getData;
   }
 
-  List<bool> initializeCheckedList(List<Map<String, dynamic>> backpackList) {
-    return List.generate(backpackList.length, (index) => false);
-  }
+  void refreshData() async {
+  final refreshedData = await DatabaseService().getBackpack(userId, widget.tripId);
+  setState(() {
+    getData = refreshedData;
+  });
+}
+
+
+  // List<bool> initializeCheckedList(List<Map<String, dynamic>> backpackList) {
+  //   return List.generate(backpackList.length, (index) => false);
+  // }
 
   groupBackpackByCategory(List<Map<String, dynamic>>? backpacklst) {
     // print("backpacklst: $backpacklst");
@@ -72,25 +81,32 @@ class _BackpackPageState extends State<BackpackPage> {
     }
     return groupBackpack;
   }
+
+  Future updateCheckedStatus(String itemName, bool checkedStatus, String userId, String tripId) async {
+  final querySnapshot = await FirebaseFirestore.instance.collection('users')
+      .doc(userId)
+      .collection('tripdetails')
+      .doc(tripId)
+      .collection('backpack')
+      .where('Item title', isEqualTo: itemName)
+      .get();
+
+  if (querySnapshot.docs.isNotEmpty) {
+    final docId = querySnapshot.docs.first.id;
+    await FirebaseFirestore.instance.collection('users')
+        .doc(userId)
+        .collection('tripdetails')
+        .doc(tripId)
+        .collection('backpack')
+        .doc(docId)
+        .update({'Item Checked': checkedStatus});
+  }
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromRGBO(21, 24, 43, 1),
-      // appBar: AppBar(
-      //   title: const Column(
-      //     crossAxisAlignment: CrossAxisAlignment.start,
-      //     children: [
-      //     Text(
-      //         "Your Backpack",
-      //         style: TextStyle(
-      //             fontSize: 22, color: Color.fromARGB(255, 190, 255, 0)),
-      //       ),
-      //     Text("You won't forget it again!", style: TextStyle(letterSpacing: 0.4,fontSize: 10, fontWeight: FontWeight.w500,color: Color.fromARGB(255, 255, 255, 255))),
-      //     ],),
-      //     // actions: const [Icon(Icons.arrow_back)],
-      //     backgroundColor: Colors.transparent,
-      //     elevation: 0,
-      //     ),
       floatingActionButton: FloatingButton(
         onPressed: () {
           print('tripiddd: $widget.tripId');
@@ -102,9 +118,6 @@ class _BackpackPageState extends State<BackpackPage> {
             );
           },
         ),
-        // drawer: Sidebar(
-        //   tripId: widget.tripId,
-        // ),
         body: SafeArea(
           child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
@@ -201,17 +214,7 @@ class _BackpackPageState extends State<BackpackPage> {
 
   checkBoxWidget(Map<String, dynamic> item, int itemIndex) {
   return CheckboxListTile(
-    side: MaterialStateBorderSide.resolveWith((states) {
-      if (states.contains(MaterialState.pressed)) {
-        return const BorderSide(
-          color: Color.fromARGB(255, 190, 255, 0),
-        );
-      } else {
-        return const BorderSide(
-          color: Color.fromARGB(255, 190, 255, 0),
-        );
-      }
-    }),
+    side: const BorderSide(color: Color.fromARGB(255, 190, 255, 0)),
     title: Text(
       item['Item title'],
       style: const TextStyle(fontSize: 16, color: Colors.white),
@@ -226,13 +229,15 @@ class _BackpackPageState extends State<BackpackPage> {
         return Colors.transparent;
       },
     ),
-    value: isCheckedList[itemIndex],
+    value: item['Item Checked'],
     onChanged: (bool? value) {
-      setState(() {
-        isCheckedList.replaceRange(itemIndex, itemIndex, [!value!]);
-        print('whats: $isCheckedList');
-      });
-    },
+  setState(() {
+    item['Item Checked'] = value ?? false;
+    refreshData();
+  });
+  // Call the function to update the checked status in the database
+  updateCheckedStatus(item['Item title'], value ?? false, userId, widget.tripId);
+  },
   );
-  }
+}
 }
