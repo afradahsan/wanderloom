@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:wanderloom/auth/screens/splashscreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -6,7 +8,7 @@ import 'firebase_options.dart';
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // await Hive.initFlutter();
+  await Hive.initFlutter();
   // Hive.registerAdapter(TripDetailsModelAdapter());
   // Hive.registerAdapter(UserModelAdapter());
   // await Hive.openBox<UserModel>('signup_db');

@@ -3,6 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:readmore/readmore.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wanderloom/appscreen/adminscreens/editplacedetails.dart';
@@ -21,6 +22,8 @@ class PlaceDetailsPage extends StatefulWidget {
 }
 
 class _PlaceDetailsPageState extends State<PlaceDetailsPage> {
+
+  bool heartTap = false;
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +119,13 @@ class _PlaceDetailsPageState extends State<PlaceDetailsPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(widget.doc['Place Name'], style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: ten*2.6),),
-                    const Icon(Icons.bookmark_border_rounded, color: Colors.white,)
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                        heartTap = !heartTap;
+                      });
+                      },
+                      child: heartTap==false ? FaIcon(FontAwesomeIcons.heart, color: Colors.white,size: 20,): FaIcon(FontAwesomeIcons.solidHeart, color: const Color.fromARGB(255, 190, 255, 0), size: 21,)),
                   ],
                 ),
                 divider,

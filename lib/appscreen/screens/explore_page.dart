@@ -2,11 +2,12 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:wanderloom/appscreen/screens/categorypage.dart';
 import 'package:wanderloom/appscreen/screens/placedetails.dart';
 import 'package:wanderloom/appscreen/screens/regionpage.dart';
 import 'package:wanderloom/appscreen/screens/searchscreen.dart';
-import 'package:wanderloom/appscreen/widgets/bottom_navbar.dart';
+import 'package:wanderloom/appscreen/screens/wishlistpage.dart';
 import 'package:wanderloom/db/functions/adm_database_services.dart';
 
 class ExplorePage extends StatefulWidget {
@@ -47,23 +48,36 @@ class _ExplorePageState extends State<ExplorePage> {
               divider,
               SizedBox(
                 height: 44,
-                child: SearchBar(
-                  padding: MaterialStatePropertyAll(EdgeInsets.only(left: 12)),
-                  backgroundColor: MaterialStatePropertyAll(
-                      Color.fromARGB(50, 217, 217, 217)),
-                  elevation: MaterialStatePropertyAll(0),
-                  leading: Icon(
-                    Icons.search,
-                    color: Color.fromARGB(195, 255, 255, 255),
-                  ),
-                  hintText: 'Search here',
-                  hintStyle: MaterialStatePropertyAll(TextStyle(
-                      color: Color.fromARGB(195, 255, 255, 255),
-                      fontSize: 16)),
-                  onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context){return SearchScreen();}));
-                  },
-                  // leading: Icon(Icons.search, color: Colors.white,),
+                width: 350,
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 10,
+                      child: SearchBar(
+                        padding: const MaterialStatePropertyAll(EdgeInsets.only(left: 12)),
+                        backgroundColor: const MaterialStatePropertyAll(
+                            Color.fromARGB(50, 217, 217, 217)),
+                        elevation: const MaterialStatePropertyAll(0),
+                        leading: const Icon(
+                          Icons.search,
+                          color: Color.fromARGB(195, 255, 255, 255),
+                        ),
+                        hintText: 'Search here',
+                        hintStyle: const MaterialStatePropertyAll(TextStyle(
+                            color: Color.fromARGB(195, 255, 255, 255),
+                            fontSize: 16)),
+                        onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context){return const SearchScreen();}));
+                        },
+                        // leading: Icon(Icons.search, color: Colors.white,),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: IconButton(onPressed: (){
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context){return WishlistPage();}));
+                      }, icon: const FaIcon(FontAwesomeIcons.heart, color: Colors.white,)),)
+                  ],
                 )),
             divider,
             const Text(
@@ -148,7 +162,7 @@ class _ExplorePageState extends State<ExplorePage> {
                     return const Text('No data available');
                   }
 
-                  return Container(
+                  return SizedBox(
                     height: 130,
                     child: GridView.builder(
                     // reverse: true,
@@ -210,7 +224,7 @@ class _ExplorePageState extends State<ExplorePage> {
                   if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                     return const Text('No data available');
                   }
-                  return Container(
+                  return SizedBox(
                     height: 130,
                     child: GridView.builder(
                     // reverse: true,
@@ -255,15 +269,13 @@ class _ExplorePageState extends State<ExplorePage> {
                         ),
                       );
                     },
-                                  ),
-                  );
-
+                  ),
+                );
               })
             ]),
           ),
         ),
       ),
-      // bottomNavigationBar: BottomNav()
     );
   }
 }
