@@ -6,6 +6,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:wanderloom/appscreen/adminscreens/adminpage.dart';
 import 'package:wanderloom/appscreen/screens/trip_page.dart';
+import 'package:wanderloom/appscreen/widgets/bottom_navbar.dart';
 import 'package:wanderloom/db/functions/database_services.dart';
 import 'package:wanderloom/auth/functions/auth_functions.dart';
 import 'package:wanderloom/auth/screens/signup.dart';
@@ -56,7 +57,7 @@ final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
         debugPrint('Not Admin');
 
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
-         return const TripPage();
+         return const BottomNav();
         }));
         }
         else{

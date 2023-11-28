@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:wanderloom/appscreen/screens/trip_page.dart';
+import 'package:wanderloom/appscreen/widgets/bottom_navbar.dart';
 import 'package:wanderloom/auth/functions/auth_functions.dart';
 import 'package:wanderloom/auth/widgets/buttons.dart';
 import 'package:wanderloom/auth/widgets/snackbar.dart';
@@ -44,7 +45,7 @@ class _SignupPageState extends State<SignupPage> {
           loading=false;
         });
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
-         return const TripPage();
+         return const BottomNav();
         }));
         }
         else{

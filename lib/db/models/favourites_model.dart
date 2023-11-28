@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+part 'favourites_model.g.dart';  
 
 @HiveType(typeId: 1)
 class FavouritesModel{

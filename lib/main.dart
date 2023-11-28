@@ -9,9 +9,7 @@ Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await Hive.initFlutter();
-  // Hive.registerAdapter(TripDetailsModelAdapter());
-  // Hive.registerAdapter(UserModelAdapter());
-  // await Hive.openBox<UserModel>('signup_db');
+
   runApp(const MyApp());
 }
 
