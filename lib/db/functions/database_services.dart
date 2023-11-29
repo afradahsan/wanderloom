@@ -53,7 +53,6 @@ class DatabaseService{
     tripData['tripId'] = tripId; // Add the tripId to the map
     tripDetailsList.add(tripData);
   });
-
   return tripDetailsList;
 }
 

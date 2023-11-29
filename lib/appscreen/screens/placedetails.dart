@@ -4,10 +4,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hive/hive.dart';
 import 'package:readmore/readmore.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wanderloom/appscreen/adminscreens/editplacedetails.dart';
 import 'package:wanderloom/db/functions/adm_database_services.dart';
+import 'package:wanderloom/db/models/favourites_model.dart';
 
 class PlaceDetailsPage extends StatefulWidget {
 
@@ -24,6 +26,38 @@ class PlaceDetailsPage extends StatefulWidget {
 class _PlaceDetailsPageState extends State<PlaceDetailsPage> {
 
   bool heartTap = false;
+
+    List favList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getFavourites();
+    var favbox = Hive.box('favouritesBox');
+    var favid = favbox.get('id');
+    heartTap = true ? favid == widget.placeID: false;
+  }
+
+  void getFavourites() async {
+    var favbox = Hive.box('favouritesBox');
+    List tempList = favbox.values.toList();
+    print('object: $tempList');
+    setState(() {
+      favList = tempList;
+    });
+  }
+
+  void addToFavorites() {
+    var box = Hive.box('favouritesBox');
+    box.add(FavouritesModel(
+      id: widget.placeID!,
+      placeName: widget.doc['Place Name'],
+      location: widget.doc['Location'],
+      image: widget.doc['Image URL'],
+      doc: widget.doc,
+    ));
+    getFavourites();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +80,6 @@ class _PlaceDetailsPageState extends State<PlaceDetailsPage> {
           print("Url is not valid!");
           return false;
         },
-        
       );
       },
       // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -121,11 +154,12 @@ class _PlaceDetailsPageState extends State<PlaceDetailsPage> {
                     Text(widget.doc['Place Name'], style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: ten*2.6),),
                     GestureDetector(
                       onTap: () {
-                        setState(() {
+                        addToFavorites();
+                      setState(() {
                         heartTap = !heartTap;
                       });
                       },
-                      child: heartTap==false ? FaIcon(FontAwesomeIcons.heart, color: Colors.white,size: 20,): FaIcon(FontAwesomeIcons.solidHeart, color: const Color.fromARGB(255, 190, 255, 0), size: 21,)),
+                      child: heartTap==false ? FaIcon(FontAwesomeIcons.heart, color: Colors.white,size: 20,) : FaIcon(FontAwesomeIcons.solidHeart, color: const Color.fromARGB(255, 190, 255, 0), size: 21,)),
                   ],
                 ),
                 divider,

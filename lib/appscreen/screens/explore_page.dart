@@ -107,7 +107,6 @@ class _ExplorePageState extends State<ExplorePage> {
                       var doc = snapshot.data!.docs[0];
                       var placeid = doc.id;
                       var imageURL = doc['Image URL'];
-
                       
                       print('imageURL: $imageURL');
                       // var placeCategory = doc['Place Category'];

@@ -17,17 +17,18 @@ class FavouritesModelAdapter extends TypeAdapter<FavouritesModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return FavouritesModel(
-      fields[0] as int?,
+      id: fields[0] as String?,
       placeName: fields[1] as String?,
       location: fields[2] as String?,
       image: fields[3] as String?,
+      doc: fields[4] as QueryDocumentSnapshot<Object>?,
     );
   }
 
   @override
   void write(BinaryWriter writer, FavouritesModel obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -35,7 +36,9 @@ class FavouritesModelAdapter extends TypeAdapter<FavouritesModel> {
       ..writeByte(2)
       ..write(obj.location)
       ..writeByte(3)
-      ..write(obj.image);
+      ..write(obj.image)
+      ..writeByte(4)
+      ..write(obj.doc);
   }
 
   @override
