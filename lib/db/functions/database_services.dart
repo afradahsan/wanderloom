@@ -14,7 +14,7 @@ class DatabaseService{
   Future saveUserData(String email, String username) async{
     print('SAVE USER DATA CALLED!');
     print('signup user id: $uid');
-    return await userCollection.doc(uid). set({
+    return await userCollection.doc(uid).set({
       'userName': username,
       'email': email,
       'uid': uid,

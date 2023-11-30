@@ -31,9 +31,11 @@ class Textfeildtrip extends StatelessWidget {
       style: const TextStyle(color: Colors.white),
       keyboardType: inputType,
       decoration: InputDecoration(
+        isDense: true,
         border: OutlineInputBorder(
           borderSide: const BorderSide(color: Colors.white),
           borderRadius: BorderRadius.circular(5),
+          
         ),
         enabledBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: Colors.white)

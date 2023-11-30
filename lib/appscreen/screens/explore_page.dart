@@ -46,48 +46,6 @@ class _ExplorePageState extends State<ExplorePage> {
                   fontWeight: FontWeight.w600),
               )),
               divider,
-              SizedBox(
-                height: 44,
-                width: 350,
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 10,
-                      child: SearchBar(
-                        padding: const MaterialStatePropertyAll(EdgeInsets.only(left: 12)),
-                        backgroundColor: const MaterialStatePropertyAll(
-                            Color.fromARGB(50, 217, 217, 217)),
-                        elevation: const MaterialStatePropertyAll(0),
-                        leading: const Icon(
-                          Icons.search,
-                          color: Color.fromARGB(195, 255, 255, 255),
-                        ),
-                        hintText: 'Search here',
-                        hintStyle: const MaterialStatePropertyAll(TextStyle(
-                            color: Color.fromARGB(195, 255, 255, 255),
-                            fontSize: 16)),
-                        onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context){return const SearchScreen();}));
-                        },
-                        // leading: Icon(Icons.search, color: Colors.white,),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: IconButton(onPressed: (){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context){return WishlistPage();}));
-                      }, icon: const FaIcon(FontAwesomeIcons.heart, color: Colors.white,)),)
-                  ],
-                )),
-            divider,
-            const Text(
-                'Featured Destinations',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500),
-              ),
-              divider,
               StreamBuilder(
                 stream: AdminDatabase().places,
                 builder: ((context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -116,29 +74,77 @@ class _ExplorePageState extends State<ExplorePage> {
                       var placeDescription = doc['Place Description'];
                       print('place naem: $placeName');
                       print('place desc: $placeDescription');
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context){return PlaceDetailsPage(doc: doc,placeID: placeid);
-                      }));
-                    },
-                    child: Container(
-                      height: 216.471,
-                      width: 325,
-                      decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20)),
-                      child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                        child: Stack(
-                          children: [
-                          Image.network(imageURL, fit: BoxFit.cover, height: double.infinity,width: double.infinity,),
-                          Positioned(bottom: 0,
-                          child: Container(height: 50,width: 325,color: const Color.fromARGB(180, 0, 0, 0),
-                          child: Padding(padding: const EdgeInsets.fromLTRB(8, 8, 0, 0),
-                          child: Column(crossAxisAlignment: CrossAxisAlignment.start,children: [Text(placeName,style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500),),
-                          Text(location,style: const TextStyle(color: Colors.white,fontSize: 12, fontWeight: FontWeight.w400),)],),),),),divider,
-                          ],
-                          )),
+                  return Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                          flex: 10,
+                          child: SizedBox(
+                            height: 44,
+                            width: 350,
+                            child: SearchBar(
+                              padding: const MaterialStatePropertyAll(EdgeInsets.only(left: 12)),
+                              backgroundColor: const MaterialStatePropertyAll(
+                                  Color.fromARGB(50, 217, 217, 217)),
+                              elevation: const MaterialStatePropertyAll(0),
+                              leading: const Icon(
+                                Icons.search,
+                                color: Color.fromARGB(195, 255, 255, 255),
+                              ),
+                              hintText: 'Search here',
+                              hintStyle: const MaterialStatePropertyAll(TextStyle(
+                                  color: Color.fromARGB(195, 255, 255, 255),
+                                  fontSize: 16)),
+                              onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context){return const SearchScreen();}));
+                              },
+                              // leading: Icon(Icons.search, color: Colors.white,),
+                            ),
                           ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: IconButton(onPressed: (){
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context){return WishlistPage(doc: doc,);}));
+                          }, icon: const FaIcon(FontAwesomeIcons.heart, color: Colors.white,)),),]),           
+                          divider,
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: const Text(
+                                'Featured Destinations',
+                                style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500),
+                              ),
+                          ),
+                            divider,
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context){return PlaceDetailsPage(doc: doc,placeID: placeid);
+                              }));
+                            },
+                            child: Container(
+                              height: 216.471,
+                              width: 325,
+                              decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20)),
+                              child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                                child: Stack(
+                                  children: [
+                                  Image.network(imageURL, fit: BoxFit.cover, height: double.infinity,width: double.infinity,),
+                                  Positioned(bottom: 0,
+                                  child: Container(height: 50,width: 325,color: const Color.fromARGB(180, 0, 0, 0),
+                                  child: Padding(padding: const EdgeInsets.fromLTRB(8, 8, 0, 0),
+                                  child: Column(crossAxisAlignment: CrossAxisAlignment.start,children: [Text(placeName,style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500),),
+                                  Text(location,style: const TextStyle(color: Colors.white,fontSize: 12, fontWeight: FontWeight.w400),)],),),),),divider,
+                                  ],
+                                  )),
+                                  ),
+                          ),
+                    ],
                   );
                       }
                     );

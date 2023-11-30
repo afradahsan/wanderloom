@@ -9,7 +9,7 @@ import 'package:readmore/readmore.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wanderloom/appscreen/adminscreens/editplacedetails.dart';
 import 'package:wanderloom/db/functions/adm_database_services.dart';
-import 'package:wanderloom/db/models/favourites_model.dart';
+import 'package:wanderloom/db/models/placemodel.dart';
 
 class PlaceDetailsPage extends StatefulWidget {
 
@@ -27,40 +27,64 @@ class _PlaceDetailsPageState extends State<PlaceDetailsPage> {
 
   bool heartTap = false;
 
-    List favList = [];
+  Box? placeBox; // Initialize as nullable
 
   @override
   void initState() {
     super.initState();
-    getFavourites();
-    var favbox = Hive.box('favouritesBox');
-    var favid = favbox.get('id');
-    heartTap = true ? favid == widget.placeID: false;
+    openBox();
   }
 
-  void getFavourites() async {
-    var favbox = Hive.box('favouritesBox');
-    List tempList = favbox.values.toList();
-    print('object: $tempList');
+  void openBox() async {
+    placeBox = Hive.box('places');
+  }
+
+  bool isFavorite() {
+    if (placeBox != null && placeBox!.isNotEmpty) {
+      return placeBox!.values.any((place) => place.placeID == widget.placeID);
+    }
+    return false;
+  }
+
+  void toggleFavorite() {
     setState(() {
-      favList = tempList;
+      heartTap = !heartTap;
     });
-  }
 
-  void addToFavorites() {
-    var box = Hive.box('favouritesBox');
-    box.add(FavouritesModel(
-      id: widget.placeID!,
-      placeName: widget.doc['Place Name'],
-      location: widget.doc['Location'],
-      image: widget.doc['Image URL'],
-      doc: widget.doc,
-    ));
-    getFavourites();
+    if (heartTap) {
+      // Add place to favorites
+      PlaceModel newPlace = PlaceModel(
+        placeID: widget.placeID!,
+        placeName: widget.doc['Place Name'],
+        location: widget.doc['Location'],
+        image: widget.doc['Image URL'],
+      );
+      placeBox!.add(newPlace);
+      print('add called');
+    } else {
+      // Remove place if already favorited
+      placeBox!.values.where((place) => place.placeID == widget.placeID).toList().forEach((place) {
+        place.delete();
+      });
+      print('delete called');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+
+    if (placeBox == null) {
+      // Show a loading indicator or return an empty widget until placeBox is initialized
+      return const CircularProgressIndicator(); // Replace this with your loading widget
+    }
+
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      if (ModalRoute.of(context)!.isCurrent) {
+        setState(() {
+          heartTap = isFavorite();
+        });
+      }
+    });
 
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -117,7 +141,7 @@ class _PlaceDetailsPageState extends State<PlaceDetailsPage> {
                         top: ten/2,
                         child: Row(
                           children: [
-                            IconButton(icon: Icon(Icons.edit, color: Color.fromARGB(255, 255, 255, 255),size: twenty,),
+                            IconButton(icon: Icon(Icons.edit, color: const Color.fromARGB(255, 255, 255, 255),size: twenty,),
                             onPressed: (){
                               Navigator.of(context).push(MaterialPageRoute(builder: (context){return EditPlaceDetailsPage(doc: widget.doc, placeID: widget.placeID, placeName: widget.doc['Place Name'], location: widget.doc['Location'], description: widget.doc['Place Description'], weather: widget.doc['Weather'], bestTime: widget.doc['Best Time'], bestTimeDesc: widget.doc['Best Time Desc'], rateInd: widget.doc['Indian Rate'], rateFor: widget.doc['Foriegner Rate'], howtoReach: widget.doc['How to Reach'], navLink: widget.doc['Nav Link']);}));
                             }),
@@ -125,18 +149,18 @@ class _PlaceDetailsPageState extends State<PlaceDetailsPage> {
                             onPressed: (){
                               showDialog(context: context, builder: (BuildContext context){
                                 return AlertDialog(
-                                  title: Text('Are you sure you want to delete?', style: TextStyle(color: Colors.white, fontSize: 18),),
+                                  title: const Text('Are you sure you want to delete?', style: TextStyle(color: Colors.white, fontSize: 18),),
                                   actions: [
                                     TextButton(onPressed: (){
                                       AdminDatabase().deletePlace(widget.placeID).then((value){
-                                        SnackBar(content: (Text('Place Deleted Successfully!')));
+                                        const SnackBar(content: (Text('Place Deleted Successfully!')));
                                       });
                                       Navigator.of(context).pop();
                                       Navigator.of(context).pop();
-                                    }, child: Text('Yes', style: TextStyle(color: Color.fromARGB(255, 190, 255, 0)),)),
+                                    }, child: const Text('Yes', style: TextStyle(color: Color.fromARGB(255, 190, 255, 0)),)),
                                     TextButton(onPressed: (){
                                       Navigator.of(context).pop();
-                                    }, child: Text('No',style: TextStyle(color: Color.fromARGB(255, 190, 255, 0)),))
+                                    }, child: const Text('No',style: TextStyle(color: Color.fromARGB(255, 190, 255, 0)),))
                                   ],
                                   backgroundColor: const Color.fromRGBO(21, 24, 43, 1),
                                 );
@@ -153,13 +177,11 @@ class _PlaceDetailsPageState extends State<PlaceDetailsPage> {
                   children: [
                     Text(widget.doc['Place Name'], style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: ten*2.6),),
                     GestureDetector(
-                      onTap: () {
-                        addToFavorites();
-                      setState(() {
-                        heartTap = !heartTap;
-                      });
-                      },
-                      child: heartTap==false ? FaIcon(FontAwesomeIcons.heart, color: Colors.white,size: 20,) : FaIcon(FontAwesomeIcons.solidHeart, color: const Color.fromARGB(255, 190, 255, 0), size: 21,)),
+                      onTap: toggleFavorite,
+                      child: heartTap == false
+                          ? const FaIcon(FontAwesomeIcons.heart, color: Colors.white, size: 20,)
+                          : const FaIcon(FontAwesomeIcons.solidHeart, color: Color.fromARGB(255, 190, 255, 0), size: 21,),
+                    ),
                   ],
                 ),
                 divider,

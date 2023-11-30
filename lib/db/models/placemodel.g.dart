@@ -1,44 +1,41 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'favourites_model.dart';
+part of 'placemodel.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class FavouritesModelAdapter extends TypeAdapter<FavouritesModel> {
+class PlaceModelAdapter extends TypeAdapter<PlaceModel> {
   @override
-  final int typeId = 1;
+  final int typeId = 0;
 
   @override
-  FavouritesModel read(BinaryReader reader) {
+  PlaceModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return FavouritesModel(
-      id: fields[0] as String?,
-      placeName: fields[1] as String?,
-      location: fields[2] as String?,
-      image: fields[3] as String?,
-      doc: fields[4] as QueryDocumentSnapshot<Object>?,
+    return PlaceModel(
+      placeID: fields[0] as String,
+      placeName: fields[1] as String,
+      location: fields[2] as String,
+      image: fields[3] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, FavouritesModel obj) {
+  void write(BinaryWriter writer, PlaceModel obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(4)
       ..writeByte(0)
-      ..write(obj.id)
+      ..write(obj.placeID)
       ..writeByte(1)
       ..write(obj.placeName)
       ..writeByte(2)
       ..write(obj.location)
       ..writeByte(3)
-      ..write(obj.image)
-      ..writeByte(4)
-      ..write(obj.doc);
+      ..write(obj.image);
   }
 
   @override
@@ -47,7 +44,7 @@ class FavouritesModelAdapter extends TypeAdapter<FavouritesModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is FavouritesModelAdapter &&
+      other is PlaceModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

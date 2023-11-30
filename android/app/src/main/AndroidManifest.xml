@@ -7,6 +7,7 @@
     <application
         android:label="wanderloom"
         android:name="${applicationName}"
+        android:roudIcon="@mipmap/round_launcher" 
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

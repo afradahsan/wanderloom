@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wanderloom/appscreen/screens/addscreeens/editprofile.dart';
 import 'package:wanderloom/appscreen/screens/searchscreen.dart';
+import 'package:wanderloom/appscreen/widgets/addscreenwidgets/textfieldtrip.dart';
 import 'package:wanderloom/appscreen/widgets/bottom_navbar.dart';
 import 'package:wanderloom/auth/functions/auth_functions.dart';
 import 'package:wanderloom/db/functions/adm_database_services.dart';
@@ -21,6 +22,9 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   AuthService authService = AuthService();
+
+  late TextEditingController usernameController;
+  late TextEditingController emailController;
 
   int selectedIndex = 2;
 
@@ -126,10 +130,12 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         minLeadingWidth: 15,
                         onTap: () {
-                          Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) {
-                            return 
-                          }));
+                          setState(() {
+                           usernameController = TextEditingController(text: data['userName']);
+                           emailController = TextEditingController(text: data['email']);
+                          });
+                          _showAlertDialog();
+                          
                         },
                       ),
                       ListTile(
@@ -189,13 +195,13 @@ class _ProfilePageState extends State<ProfilePage> {
                           authService.signOut(context);
                         },
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.logout_outlined),
-                        color: Colors.white,
-                        onPressed: () {
-                          authService.signOut(context);
-                        },
-                      ),
+                      // IconButton(
+                      //   icon: const Icon(Icons.logout_outlined),
+                      //   color: Colors.white,
+                      //   onPressed: () {
+                      //     authService.signOut(context);
+                      //   },
+                      // ),
                     ]);
               }
               return CircularProgressIndicator();
@@ -240,18 +246,42 @@ class _ProfilePageState extends State<ProfilePage> {
       print(error);
     }
   }
+
   _showAlertDialog(){
     return showDialog(context: context, builder: (context){
+      print('object: $usernameController');
       return AlertDialog(
-        title: Text('Edit Details:'),
+        backgroundColor: const Color.fromRGBO(21, 24, 43, 1),
+        title: Text('Edit Details:', style: TextStyle(color: Color.fromARGB(255, 190,255, 0)),),
         content: SingleChildScrollView(
           child: Column(
             children: [
-              TextField()
+              Textfeildtrip(textformlabel: 'Username', textformhinttext: '', textformIconPrefix: Icons.person,
+              addtripController: usernameController,),
+              SizedBox(height: 20,),
+              Textfeildtrip(textformlabel: 'Email', textformhinttext: '', textformIconPrefix: Icons.email,
+              addtripController: emailController,
+              maxLines: 1,),
             ],
           ),
         ),
+        actions: [
+          TextButton(onPressed: (){
+            Navigator.of(context).pop();
+          }, child: Text('Cancel', style: TextStyle(color: Color.fromARGB(255, 190,255, 0)),)),
+          ElevatedButton(onPressed: (){
+            updateUser(usernameController.text.toString(), emailController.text.toString());
+            Navigator.of(context).pop();
+          }, child: Text('Save', style: TextStyle(color: Colors.black),), style: ElevatedButton.styleFrom(backgroundColor: Color.fromARGB(255, 190,255, 0)),),
+        ],
       );
+    });
+  }
+
+  Future updateUser(String username, String email) async{
+    FirebaseFirestore.instance.collection('users').doc(uid).update({
+      'userName': username,
+      'email': email,
     });
   }
 }
