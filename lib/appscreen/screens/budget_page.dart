@@ -91,26 +91,28 @@ class _BudgetPageState extends State<BudgetPage> {
                         print('snapshot has data');
                         final expense = snapshot.data;
                         print("expense: $expense");
-                        
+
                         for (var budget in expense!) {
-                          final BudgetId = budget['id'];  
-                        
+                          final BudgetId = budget['id'];
 
-                        final groupedExpense =  groupExpenseByDate(expense);
-                        String? tripbdg = tripBudget;
-                        print("tripbdg: $tripbdg");
-                        totalExpenses = calculateTotalExpenses(expense);
+                          final groupedExpense = groupExpenseByDate(expense);
+                          String? tripbdg = tripBudget;
+                          print("tripbdg: $tripbdg");
+                          totalExpenses = calculateTotalExpenses(expense);
 
-                        return budgetContainer(
-                        expense, groupedExpense, tripbdg!, BudgetId);
-                      }
+                          return budgetContainer(
+                              expense, groupedExpense, tripbdg!, BudgetId);
+                        }
                       }
                       return const Center(child: CircularProgressIndicator());
                     }))));
   }
 
-  budgetContainer(List<Map<String, dynamic>>? exp,
-      Map<String, List<Map<String, dynamic>>> grpexp, String tripbdg, String budgetId) {
+  budgetContainer(
+      List<Map<String, dynamic>>? exp,
+      Map<String, List<Map<String, dynamic>>> grpexp,
+      String tripbdg,
+      String budgetId) {
     return Column(
       children: [
         Padding(
@@ -159,7 +161,7 @@ class _BudgetPageState extends State<BudgetPage> {
                         height: 5,
                       ),
                       Text(
-                        '${((totalExpenses/int.parse(tripbdg))*100).toStringAsFixed(2)}% of the Budget Already used.',
+                        '${((totalExpenses / int.parse(tripbdg)) * 100).toStringAsFixed(2)}% of the Budget Already used.',
                         style: const TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 14,
@@ -177,25 +179,20 @@ class _BudgetPageState extends State<BudgetPage> {
             physics: const NeverScrollableScrollPhysics(),
             itemCount: grpexp.keys.length,
             itemBuilder: (BuildContext context, index) {
-  final date = grpexp.keys.elementAt(index);
-  final itemsForDate = grpexp[date]!;
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      itinerDate(date),
-      divider,
-      ...itemsForDate.map((item) {
-        return expensetile(
-          item['expense category'],
-          item['expense title'],
-          item['expense'],
-          budgetId
-        );
-      }).toList(),
-    ],
-  );
-},
-
+              final date = grpexp.keys.elementAt(index);
+              final itemsForDate = grpexp[date]!;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  itinerDate(date),
+                  divider,
+                  ...itemsForDate.map((item) {
+                    return expensetile(item['expense category'],
+                        item['expense title'], item['expense'], budgetId);
+                  }).toList(),
+                ],
+              );
+            },
             separatorBuilder: (context, index) {
               return divider;
             },
@@ -205,10 +202,17 @@ class _BudgetPageState extends State<BudgetPage> {
     );
   }
 
-  expensetile(String expenseCategoryIcon, String expenseTitle, int expense, String budgetId) {
+  expensetile(String expenseCategoryIcon, String expenseTitle, int expense,
+      String budgetId) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context){return EditBudget(tripId: widget.tripId, budgetId: budgetId, expenseTitle: expenseTitle, expense: expense);}));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+          return EditBudget(
+              tripId: widget.tripId,
+              budgetId: budgetId,
+              expenseTitle: expenseTitle,
+              expense: expense);
+        }));
       },
       child: Column(
         children: [
@@ -248,7 +252,8 @@ class _BudgetPageState extends State<BudgetPage> {
                       color: Colors.transparent,
                       shape: BoxShape.rectangle,
                       border: Border.all(
-                          color: const Color.fromARGB(255, 190, 255, 0), width: 1),
+                          color: const Color.fromARGB(255, 190, 255, 0),
+                          width: 1),
                       borderRadius: BorderRadius.circular(8)),
                   child: Text('₹${expense.toString()}',
                       style: const TextStyle(
@@ -257,19 +262,22 @@ class _BudgetPageState extends State<BudgetPage> {
                           color: Color.fromARGB(255, 255, 255, 255)))),
             ],
           ),
-          SizedBox(height: 10,)
+          SizedBox(
+            height: 10,
+          )
         ],
       ),
     );
   }
 
-  Map<String, List<Map<String, dynamic>>> groupExpenseByDate(List<Map<String, dynamic>>? expenselst) {
+  Map<String, List<Map<String, dynamic>>> groupExpenseByDate(
+      List<Map<String, dynamic>>? expenselst) {
     print("expenselst: $expenselst");
     final groupedExpense = <String, List<Map<String, dynamic>>>{};
     if (expenselst != null) {
       for (var item in expenselst) {
         print('dateprint1: ${item['expense date']}');
-                print('dateprint2: ${item['expense date']}');
+        print('dateprint2: ${item['expense date']}');
 
         final date = item['expense date'] as String;
         if (groupedExpense.containsKey(date)) {

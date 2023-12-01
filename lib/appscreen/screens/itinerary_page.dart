@@ -39,7 +39,7 @@ class _ItineraryPageState extends State<ItineraryPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 5,
+      length: 4,
       child: Scaffold(
         backgroundColor: const Color.fromRGBO(21, 24, 43, 1),
         appBar: AppBar(
@@ -51,7 +51,7 @@ class _ItineraryPageState extends State<ItineraryPage> {
               Tab(icon: Row(children: [Icon(Icons.map_outlined),SizedBox(width: 5,), Text('Itinerary')],),),
               Tab(icon: Row(children: [Icon(Icons.attach_money_rounded),SizedBox(width: 5,), Text('Budget')],),),
               Tab(icon: Row(children: [Icon(Icons.backpack_rounded),SizedBox(width: 5,), Text('Backpack')],),),
-              Tab(icon: Row(children: [Icon(Icons.notifications_none_rounded),SizedBox(width: 5,), Text('Reminder')],),),
+              // Tab(icon: Row(children: [Icon(Icons.notifications_none_rounded),SizedBox(width: 5,), Text('Reminder')],),),
               Tab(icon: Row(children: [Icon(Icons.notes),SizedBox(width: 5,), Text('Notes')],),)
           ],
           ),
@@ -148,7 +148,7 @@ class _ItineraryPageState extends State<ItineraryPage> {
             ),
             BudgetPage(tripId: widget.tripId),
             BackpackPage(tripId: widget.tripId),
-            const ReminderPage(),
+            // const ReminderPage(),
             NotesPage(tripId: widget.tripId),
 
           ],

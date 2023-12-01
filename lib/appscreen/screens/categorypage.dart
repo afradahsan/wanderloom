@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, prefer_const_constructors, unused_import, unused_local_variable, prefer_typing_uninitialized_variables, sized_box_for_whitespace
+
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';

@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, avoid_print, use_build_context_synchronously, non_constant_identifier_names
+
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
@@ -20,7 +22,7 @@ class AddCategoryPage extends StatefulWidget {
 class _AddCategoryPageState extends State<AddCategoryPage> {
 
   TextEditingController categoryController =  TextEditingController();
-  var divider = SizedBox(height: 10,);
+  var divider = const SizedBox(height: 10,);
   XFile? image;
   final imagePicker = ImagePicker();
   String? imageURL;
@@ -143,7 +145,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
     await AdminDatabase().addCategory(imageURL, categoryController.text.toString());
 
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
-      return AdminPage();
+      return const AdminPage();
     }));
     }
   }

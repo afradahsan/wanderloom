@@ -175,8 +175,6 @@ class _AddBudgetPageState extends State<AddBudgetPage> {
     databaseService.saveExpense(
         expenseTitle, expenseCategory, expense, expenseDate, userId, tripId!);
 
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-      return BudgetPage(tripId: tripId);
-    }));
+    Navigator.of(context).pop();
   }
 }

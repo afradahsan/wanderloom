@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, avoid_print, unused_import
+
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';

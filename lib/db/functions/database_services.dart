@@ -225,11 +225,25 @@ class DatabaseService{
 
     notesSnapshot.docs.forEach((doc) {
       final notesdata = doc.data() as Map<String, dynamic>;
+      notesdata['id'] = doc.id;
       noteslist.add(notesdata);
      });
      print('NOTESLISTT: $noteslist');
      return noteslist;
   }
 
+  Future updateNotes(String notesTitle, String notesDescription, String userId, String tripId, String notesId) async{
+    print('noted: $notesDescription');
+    print('notet: $notesTitle');
+    userCollection.doc(userId).collection('tripdetails').doc(tripId).collection('notes').doc(notesId).update({
+      'Notes title': notesTitle,
+      'Notes description': notesDescription,
+    });
+    print('notes updated');
+  }
   
+  Future deleteNotes(String userId, String tripId, String notesId) async{
+    userCollection.doc(userId).collection('tripdetails').doc(tripId).collection('notes').doc(notesId).delete();
+    print('deleted note.');
+  }
 }

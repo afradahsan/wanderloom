@@ -1,7 +1,10 @@
+// ignore_for_file: unused_import, avoid_print, prefer_const_constructors
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:wanderloom/appscreen/screens/addscreeens/addnotespage.dart';
+import 'package:wanderloom/appscreen/screens/addscreeens/editnotes.dart';
 import 'package:wanderloom/appscreen/widgets/floatingbutton.dart';
 import 'package:wanderloom/appscreen/widgets/side_menubar.dart';
 import 'package:wanderloom/db/functions/database_services.dart';
@@ -91,43 +94,58 @@ class _NotesPageState extends State<NotesPage> {
                           final notesmap = notes[index];
                           print("notesmap: $notesmap");
                           return Column(children: [
-                            SizedBox(height: 10,),
+                            SizedBox(
+                              height: 10,
+                            ),
                             Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 20, right: 20),
-                                child: Container(
-                                    padding: const EdgeInsets.all(15),
-                                    width: 370,
-                                    height: 100,
-                                    decoration: BoxDecoration(
-                                      borderRadius:
-                                        BorderRadius.circular(8),
-                                        color: const Color.fromRGBO(
-                                            255, 255, 255, 0.2),
-                                        boxShadow: const [
-                                          BoxShadow(
-                                              color:
-                                                  Color.fromARGB(30, 0, 0, 0),
-                                              blurRadius: 30,
-                                              spreadRadius: 25,
-                                              offset: Offset(8, 8))
-                                        ]),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(notesmap['Notes title'],
-                                            style: const TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 190, 255, 0),
-                                                fontSize: 20)),
-                                        const SizedBox(height: 5),
-                                        Text(notesmap['Notes description'],
-                                            style: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 12)),
-                                      ],
-                                    )))
+                                padding:
+                                    const EdgeInsets.only(left: 20, right: 20),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(builder: (context) {
+                                      return EditNotes(
+                                        notestitle: notesmap['Notes title'],
+                                        notesdesc:
+                                        notesmap['Notes description'],
+                                        tripId: widget.tripId,
+                                        notesId: notesmap['id'],
+                                      );
+                                    }));
+                                    print('notesid: ${notesmap['id']}');
+                                  },
+                                  child: Container(
+                                      padding: const EdgeInsets.all(15),
+                                      width: 370,
+                                      height: 100,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          color: const Color.fromRGBO(
+                                              255, 255, 255, 0.2),
+                                          boxShadow: const [
+                                            BoxShadow(
+                                                color:
+                                                    Color.fromARGB(30, 0, 0, 0),
+                                                blurRadius: 30,
+                                                spreadRadius: 25,
+                                                offset: Offset(8, 8))
+                                          ]),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(notesmap['Notes title'],
+                                              style: const TextStyle(
+                                                  color: Color.fromARGB(
+                                                      255, 190, 255, 0),
+                                                  fontSize: 20)),
+                                          const SizedBox(height: 5),
+                                          Text(notesmap['Notes description'],
+                                              style: const TextStyle(color: Colors.white,fontSize:12)),
+                                        ],
+                                      )),
+                                ))
                           ]);
                         });
                   }

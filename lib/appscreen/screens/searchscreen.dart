@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:wanderloom/appscreen/screens/placedetails.dart';
@@ -155,7 +157,9 @@ class _SearchScreenState extends State<SearchScreen> {
 
                     if (searchData.isEmpty) {
                       // print('dataaa: ${data['']}');
-                      return const Text('No matching data found');
+                      return Align(
+                        alignment: Alignment.center,
+                        child: const Text('Sorry, No matching data found', style: TextStyle(color: Colors.white),));
                     }
                     return Expanded(
                       child: ListView.separated(

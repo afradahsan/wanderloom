@@ -46,7 +46,7 @@ dependencies:
 
   intl: ^0.18.1
   numberpicker: ^2.1.2
-  syncfusion_flutter_datepicker: ^23.1.41
+  syncfusion_flutter_datepicker: ^21.2.10
   rich_readmore: ^1.0.6
   font_awesome_flutter: ^10.6.0
   image_picker: ^1.0.4

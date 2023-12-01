@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:wanderloom/appscreen/screens/explore_page.dart';
 import 'package:wanderloom/appscreen/screens/profile_page.dart';

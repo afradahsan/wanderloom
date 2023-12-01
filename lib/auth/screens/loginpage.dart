@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:wanderloom/appscreen/adminscreens/adminpage.dart';
 import 'package:wanderloom/appscreen/screens/trip_page.dart';
 import 'package:wanderloom/appscreen/widgets/bottom_navbar.dart';
+import 'package:wanderloom/auth/screens/forgotpassw.dart';
 import 'package:wanderloom/db/functions/database_services.dart';
 import 'package:wanderloom/auth/functions/auth_functions.dart';
 import 'package:wanderloom/auth/screens/signup.dart';
@@ -194,29 +195,58 @@ final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
             const SizedBox(
               height: 10,
             ),
-            RichText(
-              text: TextSpan(
-              style: const TextStyle(
-                fontFamily: 'Poppins',
-                color: Colors.white,
-                fontSize: 14,
-                fontWeight: FontWeight.w300,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const TextSpan(text: 'New User? '),
-                TextSpan(
-                    text: 'Sign Up',
-                    style: const TextStyle(
-                        decoration: TextDecoration.underline,
-                        color: Colors.blue),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        Navigator.of(context)
-                            .push(MaterialPageRoute(builder: (context) {
-                        return const SignupPage();
-                        }));
-                      })
-              ]),
+                RichText(
+                  text: TextSpan(
+                  style: const TextStyle(
+                    fontFamily: 'Poppins',
+                    color: Color.fromRGBO(255, 255, 255, 0.7),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w300,
+                  ),
+                  children: [
+                    const TextSpan(text: 'New User? '),
+                    TextSpan(
+                        text: 'Sign Up',
+                        style: const TextStyle(
+                            decoration: TextDecoration.underline,
+                            color: Color.fromRGBO(33, 150, 243, 0.7)),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context) {
+                            return const SignupPage();
+                            }));
+                          })
+                  ]),
+                ),
+                RichText(
+                  text: TextSpan(
+                  style: const TextStyle(
+                    fontFamily: 'Poppins',
+                    color: Color.fromRGBO(255, 255, 255, 0.7),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w300,
+                  ),
+                  children: [
+                    const TextSpan(text: '  |  '),
+                    TextSpan(
+                        text: 'Forgot Passsword?',
+                        style: const TextStyle(
+                            decoration: TextDecoration.underline,
+                            color: Color.fromRGBO(33, 150, 243, 0.7)),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context) {
+                            return const ForgotPassword();
+                            }));
+                          })
+                  ]),
+                ),
+              ],
             ),
           ],
         ),
