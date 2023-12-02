@@ -35,9 +35,13 @@ class _TripPageState extends State<TripPage> {
   Future getTrips() async{
     List<Map<String, dynamic>>? triplist = await DatabaseService().getTripDetails(uid!);
 
+    //checking mounted to get rid of setState() called after dispose() error.
+    
+    if(mounted){
     setState(() {
       trips = triplist!;
     });
+    }
   }
 
   
