@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wanderloom/appscreen/screens/addscreeens/addnewtrip.dart';
-
 import 'package:wanderloom/appscreen/widgets/bottom_navbar.dart';
 import 'package:wanderloom/appscreen/widgets/floatingbutton.dart';
 import 'package:wanderloom/appscreen/widgets/tripinfo.dart';
@@ -44,8 +43,6 @@ class _TripPageState extends State<TripPage> {
     }
   }
 
-  
-
 // void getTripDataFromHive() async {
 //   final signupDB = await Hive.box<UserModel>('signup_db');
 //   UserModel? user = signupDB.values.last;
@@ -68,14 +65,12 @@ class _TripPageState extends State<TripPage> {
   @override
   Widget build(BuildContext context) {
 
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-    double ten = screenHeight/(0.1*screenHeight);
-    print('ten: $ten');
-    print("screenHeight: $screenHeight");
-    double twenty = screenHeight/(0.05*screenHeight);
-    print('twenty: $twenty');
-    final divider = SizedBox(height: ten);
+  double screenWidth = MediaQuery.sizeOf(context).width;
+  double screenHeight = MediaQuery.sizeOf(context).height;
+  double ten = screenHeight/(0.10*screenHeight);
+  double twenty = screenWidth/(0.05*screenWidth);
+  print('$screenWidth, $screenHeight, $ten, $twenty');
+  final divider = SizedBox(height: ten);
 
     return Scaffold(
       floatingActionButton: FloatingButton(
@@ -138,7 +133,6 @@ class _TripPageState extends State<TripPage> {
                             returnParameter: tripId);
                           } 
                           , separatorBuilder: (context, index) => SizedBox(height: ten), itemCount: trips.length)
-
                         //   ListView.separated(
                         //   shrinkWrap: true,
                         //   physics: const NeverScrollableScrollPhysics(),
@@ -164,7 +158,6 @@ class _TripPageState extends State<TripPage> {
             ],
           ),
         ),
-
         // Positioned(
         //   bottom: 16,
         //   left: 23,

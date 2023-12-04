@@ -29,14 +29,19 @@ class _BottomNavState extends State<BottomNav> {
 
   @override
   Widget build(BuildContext context) {
+
+    double screenWidth = MediaQuery.sizeOf(context).width;
+    double screenHeight = MediaQuery.sizeOf(context).height;
+
+    print('navbar: $screenWidth, $screenHeight');
     return Scaffold(
       body: pages[selectedIndex],
       extendBody: true,
 
       bottomNavigationBar: Container(
         padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-      height: 73,
-      width: 350,
+      height: screenHeight/10.9,
+      width: screenWidth,
       decoration: const BoxDecoration(
         shape: BoxShape.rectangle,
         borderRadius: BorderRadius.only(

@@ -28,13 +28,12 @@ class TripInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-    double ten = screenHeight/(0.1*screenHeight);
-    print('ten: $ten');
-    print("screenHeight: $screenHeight");
-    double twenty = screenHeight/(0.05*screenHeight);
-    print('twenty: $twenty');
+    double screenWidth = MediaQuery.sizeOf(context).width;
+    double screenHeight = MediaQuery.sizeOf(context).height;
+    double ten = screenHeight/(0.10*screenHeight);
+    double twenty = screenWidth/(0.05*screenWidth);
+
+    print('$screenWidth, $screenHeight, $ten, $twenty');
     final divider = SizedBox(height: ten);
 
 
@@ -46,7 +45,7 @@ class TripInfo extends StatelessWidget {
       },
       child: Container(
       padding: EdgeInsets.all(ten*1.5),
-      height: ten*20,
+      height: ten*20.5,
       width: ten*39,
       decoration: BoxDecoration(
         color: const Color.fromARGB(26, 255, 255, 255),

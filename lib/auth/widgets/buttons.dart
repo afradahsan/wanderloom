@@ -16,11 +16,19 @@ class SignupButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    double screenWidth = MediaQuery.sizeOf(context).width;
+    double screenHeight = MediaQuery.sizeOf(context).height;
+    double ten = screenHeight/(0.10*screenHeight);
+    double twenty = screenWidth/(0.05*screenWidth);
+
+    print('$screenWidth, $screenHeight, $ten, $twenty');
+
     return ElevatedButton(onPressed: (){
                 returnfunction();
               }, 
-              style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 31, 65, 244), minimumSize: const Size.fromHeight(50)),
-              child: loading ? const CircularProgressIndicator(strokeWidth: 2, color: Colors.white,) : Text(ButtonText, style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w500),)
+              style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 31, 65, 244), minimumSize: Size.fromHeight(ten*5)),
+              child: loading ? const CircularProgressIndicator(strokeWidth: 2, color: Colors.white,) : Text(ButtonText, style: TextStyle(color: Colors.white, fontSize: ten*2.2, fontWeight: FontWeight.w500),)
               );
   }
 }

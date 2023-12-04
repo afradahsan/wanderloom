@@ -114,8 +114,12 @@ final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.sizeOf(context).width;
+    double screenHeight = MediaQuery.sizeOf(context).height;
+    double ten = screenHeight/(0.10*screenHeight);
+    double twenty = screenWidth/(0.05*screenWidth);
+
+    print('$screenWidth, $screenHeight, $ten, $twenty');
 
     // Future<UserModel?> loginuser(String username, String password) async {
     //   final user = await getUserDetails();
@@ -136,7 +140,7 @@ final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
     return Scaffold(
       body: SafeArea(
           child: Container(
-        padding: const EdgeInsets.all(15),
+        padding: EdgeInsets.all(ten*1.5),
         height: screenHeight,
         width: screenWidth,
         color: const Color.fromRGBO(21, 24, 43, 1),
@@ -145,24 +149,24 @@ final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
           children: [
             Image.asset(
               'assets/images/waving-hand_1f44b.png',
-              height: 70,
+              height: ten*7,
             ),
-            const Text(
+            Text(
               "Welcome Back!",
               style: TextStyle(
                   color: Colors.white,
-                  fontSize: 30,
+                  fontSize: ten*3,
                   fontWeight: FontWeight.w600),
             ),
-            const Text(
+            Text(
               "Log in to Continue",
               style: TextStyle(
                   color: Colors.white,
-                  fontSize: 16,
+                  fontSize: ten*1.6,
                   fontWeight: FontWeight.w600),
             ),
-            const SizedBox(
-              height: 10,
+            SizedBox(
+              height: ten,
             ),
             Form(
               key: _formKey,
@@ -172,15 +176,15 @@ final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
                       hintTXT: 'Email ID',
                       validatorreturn: 'Enter your Email ID',
                       texteditctrl: emailcontroller),
-                  const SizedBox(
-                    height: 7,
+                  SizedBox(
+                    height: ten*0.7,
                   ),
                   TformFeild(
                       hintTXT: 'Password',
                       validatorreturn: 'Enter your Password',
                       texteditctrl: passwordController),
-                  const SizedBox(
-                    height: 10,
+                  SizedBox(
+                    height: ten,
                   ),
                   SignupButton(
                       ButtonText: 'Log In',
@@ -192,18 +196,18 @@ final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
                 ],
               ),
             ),
-            const SizedBox(
-              height: 10,
+            SizedBox(
+              height: ten,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 RichText(
                   text: TextSpan(
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontFamily: 'Poppins',
-                    color: Color.fromRGBO(255, 255, 255, 0.7),
-                    fontSize: 14,
+                    color: const Color.fromRGBO(255, 255, 255, 0.7),
+                    fontSize: ten*1.4,
                     fontWeight: FontWeight.w300,
                   ),
                   children: [
@@ -224,10 +228,10 @@ final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
                 ),
                 RichText(
                   text: TextSpan(
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontFamily: 'Poppins',
-                    color: Color.fromRGBO(255, 255, 255, 0.7),
-                    fontSize: 14,
+                    color: const Color.fromRGBO(255, 255, 255, 0.7),
+                    fontSize: ten*1.4,
                     fontWeight: FontWeight.w300,
                   ),
                   children: [

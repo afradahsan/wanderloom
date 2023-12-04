@@ -81,14 +81,18 @@ class _SignupPageState extends State<SignupPage> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.sizeOf(context).width;
+    double screenHeight = MediaQuery.sizeOf(context).height;
+    double ten = screenHeight/(0.10*screenHeight);
+    double twenty = screenWidth/(0.05*screenWidth);
+
+    print('$screenWidth, $screenHeight, $ten, $twenty');
 
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            padding: const EdgeInsets.all(15),
+            padding: EdgeInsets.all(ten*1.5),
             decoration: const BoxDecoration(color: Color.fromRGBO(21, 24, 43, 1)),
             height: screenHeight,
             width: screenWidth,
@@ -97,17 +101,17 @@ class _SignupPageState extends State<SignupPage> {
               children: [
                 Image.asset(
                   'assets/images/bus_vehicle_signup.png',
-                  height: 90,
+                  height: ten*9,
                 ),
-                const Text(
+                Text(
                   "Let's Get Started!",
                   style: TextStyle(
                       color: Colors.white,
-                      fontSize: 26,
+                      fontSize: ten*2.6,
                       fontWeight: FontWeight.w600),
                 ),
-                const SizedBox(
-                  height: 10,
+                SizedBox(
+                  height: ten,
                 ),
                 Form(
                   key: _formKey,
@@ -117,29 +121,29 @@ class _SignupPageState extends State<SignupPage> {
                           hintTXT: 'Email ID',
                           validatorreturn: 'Enter your Email ID',
                           texteditctrl: emailcontroller),
-                      const SizedBox(
-                        height: 12,
+                      SizedBox(
+                        height: ten*1.2,
                       ),
                       TformFeild(
                           hintTXT: 'Username',
                           validatorreturn: 'Enter Username',
                           texteditctrl: usernamecontroller),
-                      const SizedBox(
-                        height: 12,
+                      SizedBox(
+                        height: ten*1.2,
                       ),
                       TformFeild(
                           hintTXT: 'Set a Password',
                           validatorreturn: 'Enter Password',
                           texteditctrl: passwordController),
-                      const SizedBox(
-                        height: 12,
+                      SizedBox(
+                        height: ten*1.2,
                       ),
                       TformFeild(
                           hintTXT: 'Confirm Password',
                           validatorreturn: "Password doesn't match",
                           texteditctrl: cnfPasswordController),
-                      const SizedBox(
-                        height: 15,
+                      SizedBox(
+                        height: ten*1.5,
                       ),
                       SignupButton(
                         ButtonText: 'Sign Up',
