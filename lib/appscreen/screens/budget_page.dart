@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:wanderloom/appscreen/screens/addscreeens/addbudgetpage.dart';
 import 'package:wanderloom/appscreen/screens/addscreeens/editbudget.dart';
+import 'package:wanderloom/appscreen/widgets/expensetile.dart';
 import 'package:wanderloom/appscreen/widgets/floatingbutton.dart';
 import 'package:wanderloom/appscreen/widgets/side_menubar.dart';
 import 'package:wanderloom/db/functions/database_services.dart';
@@ -53,6 +54,103 @@ class _BudgetPageState extends State<BudgetPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    double screenWidth = MediaQuery.sizeOf(context).width;
+    double screenHeight = MediaQuery.sizeOf(context).height;
+
+    budgetContainer(
+      List<Map<String, dynamic>>? exp,
+      Map<String, List<Map<String, dynamic>>> grpexp,
+      String tripbdg,
+      String budgetId) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                  padding: const EdgeInsets.all(15),
+                  width: screenWidth,
+                  height: screenHeight/5,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: const Color.fromARGB(51, 255, 255, 255),
+                      boxShadow: const [
+                        BoxShadow(
+                            color: Color.fromARGB(30, 0, 0, 0),
+                            blurRadius: 30,
+                            spreadRadius: 25,
+                            offset: Offset(8, 8))
+                      ]),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'TOTAL EXPENSE',
+                        style: TextStyle(
+                            fontSize: screenHeight/36.36,
+                            color: Color.fromARGB(175, 255, 255, 255)),
+                      ),
+                      SizedBox(
+                        height: screenHeight/160,
+                      ),
+                      Text('₹${totalExpenses.toStringAsFixed(2)}',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: screenHeight/30.76,
+                              color: Color.fromARGB(255, 190, 255, 0))),
+                      Text(
+                        'Out of $tripbdg',
+                        style: TextStyle(
+                            fontSize: screenHeight/50,
+                            color: const Color.fromARGB(215, 255, 255, 255)),
+                      ),
+                      SizedBox(
+                        height: screenHeight/160,
+                      ),
+                      Text(
+                        '${((totalExpenses / int.parse(tripbdg)) * 100).toStringAsFixed(2)}% of the Budget Already used.',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: screenHeight/57.14,
+                            color: Color.fromARGB(215, 255, 255, 255)),
+                      ),
+                    ],
+                  )),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+          child: ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: grpexp.keys.length,
+            itemBuilder: (BuildContext context, index) {
+              final date = grpexp.keys.elementAt(index);
+              final itemsForDate = grpexp[date]!;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  itinerDate(date),
+                  divider,
+                  ...itemsForDate.map((item) {
+                    return Expensetile(expenseCategoryIcon: item['expense category'], expenseTitle: item['expense title'], expense: item['expense'], budgetId: budgetId, tripID: widget.tripId,);
+                  }).toList(),
+                ],
+              );
+            },
+            separatorBuilder: (context, index) {
+              return divider;
+            },
+          ),
+        ),
+      ],
+    );
+  }
+    
     return Scaffold(
         backgroundColor: const Color.fromRGBO(21, 24, 43, 1),
         floatingActionButton: FloatingButton(
@@ -106,168 +204,6 @@ class _BudgetPageState extends State<BudgetPage> {
                       }
                       return const Center(child: CircularProgressIndicator());
                     }))));
-  }
-
-  budgetContainer(
-      List<Map<String, dynamic>>? exp,
-      Map<String, List<Map<String, dynamic>>> grpexp,
-      String tripbdg,
-      String budgetId) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                  padding: const EdgeInsets.all(15),
-                  width: 370,
-                  height: 147,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: const Color.fromARGB(51, 255, 255, 255),
-                      boxShadow: const [
-                        BoxShadow(
-                            color: Color.fromARGB(30, 0, 0, 0),
-                            blurRadius: 30,
-                            spreadRadius: 25,
-                            offset: Offset(8, 8))
-                      ]),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'TOTAL EXPENSE',
-                        style: TextStyle(
-                            fontSize: 22,
-                            color: Color.fromARGB(175, 255, 255, 255)),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text('₹${totalExpenses.toStringAsFixed(2)}',
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 26,
-                              color: Color.fromARGB(255, 190, 255, 0))),
-                      Text(
-                        'Out of $tripbdg',
-                        style: const TextStyle(
-                            fontSize: 16,
-                            color: Color.fromARGB(215, 255, 255, 255)),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        '${((totalExpenses / int.parse(tripbdg)) * 100).toStringAsFixed(2)}% of the Budget Already used.',
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14,
-                            color: Color.fromARGB(215, 255, 255, 255)),
-                      ),
-                    ],
-                  )),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-          child: ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: grpexp.keys.length,
-            itemBuilder: (BuildContext context, index) {
-              final date = grpexp.keys.elementAt(index);
-              final itemsForDate = grpexp[date]!;
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  itinerDate(date),
-                  divider,
-                  ...itemsForDate.map((item) {
-                    return expensetile(item['expense category'],
-                        item['expense title'], item['expense'], budgetId);
-                  }).toList(),
-                ],
-              );
-            },
-            separatorBuilder: (context, index) {
-              return divider;
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
-  expensetile(String expenseCategoryIcon, String expenseTitle, int expense,
-      String budgetId) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-          return EditBudget(
-              tripId: widget.tripId,
-              budgetId: budgetId,
-              expenseTitle: expenseTitle,
-              expense: expense);
-        }));
-      },
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Container(
-                      height: 30,
-                      width: 35,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
-                          color: const Color.fromARGB(51, 255, 255, 255),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Color.fromARGB(30, 0, 0, 0),
-                            )
-                          ]),
-                      child: const Icon(Icons.local_taxi,
-                          color: Color.fromARGB(255, 190, 255, 0), size: 16)),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Text(expenseTitle,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 14,
-                          color: Color.fromARGB(255, 255, 255, 255))),
-                ],
-              ),
-              Container(
-                  alignment: Alignment.center,
-                  height: 25,
-                  width: 43,
-                  decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      shape: BoxShape.rectangle,
-                      border: Border.all(
-                          color: const Color.fromARGB(255, 190, 255, 0),
-                          width: 1),
-                      borderRadius: BorderRadius.circular(8)),
-                  child: Text('₹${expense.toString()}',
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12,
-                          color: Color.fromARGB(255, 255, 255, 255)))),
-            ],
-          ),
-          SizedBox(
-            height: 10,
-          )
-        ],
-      ),
-    );
   }
 
   Map<String, List<Map<String, dynamic>>> groupExpenseByDate(

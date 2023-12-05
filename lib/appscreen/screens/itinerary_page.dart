@@ -38,6 +38,10 @@ class _ItineraryPageState extends State<ItineraryPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    double screenWidth = MediaQuery.sizeOf(context).width;
+    double screenHeight = MediaQuery.sizeOf(context).height;
+
     return DefaultTabController(
       length: 4,
       child: Scaffold(
@@ -57,7 +61,7 @@ class _ItineraryPageState extends State<ItineraryPage> {
           ),
           title: Text(
             widget.triptitle!,
-            style: const TextStyle(color: Color.fromARGB(255, 190, 255, 0)),
+            style: TextStyle(fontSize: screenHeight/40, color: Color.fromARGB(255, 190, 255, 0)),
           ),
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -96,7 +100,7 @@ class _ItineraryPageState extends State<ItineraryPage> {
                           return Center(
                             child: Text(
                               'An ${snapshot.error} occurred',
-                              style: const TextStyle(fontSize: 18, color: Colors.red),
+                              style: TextStyle(fontSize: screenHeight/44.44, color: Colors.red),
                             ),
                           );
                         }

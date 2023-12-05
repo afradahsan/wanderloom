@@ -20,8 +20,8 @@ class RegionPage extends StatefulWidget {
 class _RegionPageState extends State<RegionPage> {
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.sizeOf(context).width;
+    double screenHeight = MediaQuery.sizeOf(context).height;
     final divider = SizedBox(height: screenHeight/80,);
     double ten = screenHeight/80;
     double twenty = screenHeight/40;

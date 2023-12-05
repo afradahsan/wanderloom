@@ -35,6 +35,10 @@ class _NotesPageState extends State<NotesPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    double screenWidth = MediaQuery.sizeOf(context).width;
+    double screenHeight = MediaQuery.sizeOf(context).height;
+    
     return Scaffold(
       backgroundColor: const Color.fromRGBO(21, 24, 43, 1),
       // appBar: AppBar(
@@ -95,7 +99,7 @@ class _NotesPageState extends State<NotesPage> {
                           print("notesmap: $notesmap");
                           return Column(children: [
                             SizedBox(
-                              height: 10,
+                              height: screenHeight/80,
                             ),
                             Padding(
                                 padding:
@@ -116,8 +120,8 @@ class _NotesPageState extends State<NotesPage> {
                                   },
                                   child: Container(
                                       padding: const EdgeInsets.all(15),
-                                      width: 370,
-                                      height: 100,
+                                      width: screenWidth,
+                                      height: screenHeight/8,
                                       decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(8),
@@ -136,13 +140,10 @@ class _NotesPageState extends State<NotesPage> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(notesmap['Notes title'],
-                                              style: const TextStyle(
-                                                  color: Color.fromARGB(
-                                                      255, 190, 255, 0),
-                                                  fontSize: 20)),
+                                              style: TextStyle(color: Color.fromARGB(255, 190, 255, 0),fontSize:screenHeight/40,)),
                                           const SizedBox(height: 5),
                                           Text(notesmap['Notes description'],
-                                              style: const TextStyle(color: Colors.white,fontSize:12)),
+                                              style: TextStyle(color: Colors.white,fontSize:screenHeight/66.66,)),
                                         ],
                                       )),
                                 ))

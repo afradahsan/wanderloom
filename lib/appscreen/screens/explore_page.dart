@@ -26,6 +26,8 @@ class _ExplorePageState extends State<ExplorePage> {
   @override
   Widget build(BuildContext context) {
 
+    double screenWidth = MediaQuery.sizeOf(context).width;
+    double screenHeight = MediaQuery.sizeOf(context).height;
 
     return Scaffold(
       backgroundColor: const Color.fromRGBO(21, 24, 43, 1),
@@ -37,12 +39,12 @@ class _ExplorePageState extends State<ExplorePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start, children: [
               divider,
-              const Center(
-                  child: Text(
+              Center(
+                child: Text(
                 'Keep Exploring!',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 28,
+                  fontSize: screenHeight/28.5,
                   fontWeight: FontWeight.w600),
               )),
               divider,
@@ -81,8 +83,8 @@ class _ExplorePageState extends State<ExplorePage> {
                           Expanded(
                           flex: 10,
                           child: SizedBox(
-                            height: 44,
-                            width: 350,
+                            height: screenHeight/18.18,
+                            width: screenHeight/2.28,
                             child: SearchBar(
                               padding: const MaterialStatePropertyAll(EdgeInsets.only(left: 12)),
                               backgroundColor: const MaterialStatePropertyAll(
@@ -93,9 +95,9 @@ class _ExplorePageState extends State<ExplorePage> {
                                 color: Color.fromARGB(195, 255, 255, 255),
                               ),
                               hintText: 'Search here',
-                              hintStyle: const MaterialStatePropertyAll(TextStyle(
-                                  color: Color.fromARGB(195, 255, 255, 255),
-                                  fontSize: 16)),
+                              hintStyle: MaterialStatePropertyAll(TextStyle(
+                                  color: const Color.fromARGB(195, 255, 255, 255),
+                                  fontSize: screenHeight/50)),
                               onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(builder: (context){return const SearchScreen();}));
                               },
@@ -111,11 +113,11 @@ class _ExplorePageState extends State<ExplorePage> {
                           divider,
                           Align(
                             alignment: Alignment.centerLeft,
-                            child: const Text(
+                            child: Text(
                                 'Featured Destinations',
                                 style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: 18,
+                                        fontSize: screenHeight/44.44,
                                         fontWeight: FontWeight.w500),
                               ),
                           ),
@@ -126,20 +128,20 @@ class _ExplorePageState extends State<ExplorePage> {
                               }));
                             },
                             child: Container(
-                              height: 216.471,
-                              width: 325,
+                              height: screenHeight/3.69,
+                              width: screenWidth,
                               decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20)),
+                              borderRadius: BorderRadius.circular(screenHeight/40)),
                               child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(screenHeight/80),
                                 child: Stack(
                                   children: [
                                   Image.network(imageURL, fit: BoxFit.cover, height: double.infinity,width: double.infinity,),
                                   Positioned(bottom: 0,
-                                  child: Container(height: 50,width: 325,color: const Color.fromARGB(180, 0, 0, 0),
+                                  child: Container(height: screenHeight/16,width: screenWidth,color: const Color.fromARGB(180, 0, 0, 0),
                                   child: Padding(padding: const EdgeInsets.fromLTRB(8, 8, 0, 0),
-                                  child: Column(crossAxisAlignment: CrossAxisAlignment.start,children: [Text(placeName,style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500),),
-                                  Text(location,style: const TextStyle(color: Colors.white,fontSize: 12, fontWeight: FontWeight.w400),)],),),),),divider,
+                                  child: Column(crossAxisAlignment: CrossAxisAlignment.start,children: [Text(placeName,style: TextStyle(color: Colors.white,fontSize: screenHeight/57.14, fontWeight: FontWeight.w500),),
+                                  Text(location,style: TextStyle(color: Colors.white,fontSize: screenHeight/66.66, fontWeight: FontWeight.w400),)],),),),),divider,
                                   ],
                                   )),
                                   ),
@@ -153,7 +155,7 @@ class _ExplorePageState extends State<ExplorePage> {
               ),
 
               divider,
-              const Text('Explore by Category',style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.w600),),
+              Text('Explore by Category',style: TextStyle(color: Colors.white,fontSize: screenHeight/44.44,fontWeight: FontWeight.w500),),
               divider,
 
               StreamBuilder(stream: AdminDatabase().categories, builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
@@ -168,7 +170,7 @@ class _ExplorePageState extends State<ExplorePage> {
                   }
 
                   return SizedBox(
-                    height: 130,
+                    height: screenHeight/6.15,
                     child: GridView.builder(
                     // reverse: true,
                     shrinkWrap: true,
@@ -193,8 +195,8 @@ class _ExplorePageState extends State<ExplorePage> {
                           fit: StackFit.loose,
                           children: [
                             Container(
-                              height: 120,
-                              width: 120,
+                              height: screenHeight/6.66,
+                              width: screenHeight/6.66,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
                               ),
@@ -204,9 +206,9 @@ class _ExplorePageState extends State<ExplorePage> {
                                     borderRadius: BorderRadius.circular(10),
                                     child: Image.network(categoryImage,height: double.infinity,width: double.infinity, fit: BoxFit.cover,)),
                                     Positioned(bottom: 0,
-                                    child: Container(height: 30,width: 120,decoration: const BoxDecoration(color: Color.fromARGB(180, 0, 0, 0),borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10))),
+                                    child: Container(height: screenHeight/26.66,width: screenHeight/6.66,decoration: const BoxDecoration(color: Color.fromARGB(180, 0, 0, 0),borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10))),
                                     child: Padding(padding: const EdgeInsets.fromLTRB(8, 5, 0, 0),
-                                    child: Column(crossAxisAlignment: CrossAxisAlignment.start,children: [Text(categoryName,style: const TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w400),),],),),), 
+                                    child: Column(crossAxisAlignment: CrossAxisAlignment.start,children: [Text(categoryName,style: TextStyle(fontSize: screenHeight/57.14, color: Colors.white, fontWeight: FontWeight.w400),overflow: TextOverflow.ellipsis,),],),),), 
                                   )
                                 ]),
                               ),
@@ -216,7 +218,7 @@ class _ExplorePageState extends State<ExplorePage> {
                       );
                     }),
               divider,
-              const Text('Explore by Region',style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.w600),),
+              Text('Explore by Region',style: TextStyle(color: Colors.white,fontSize: screenHeight/44.44,fontWeight: FontWeight.w500),),
               divider,
 
               StreamBuilder(stream: AdminDatabase().region, builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
@@ -230,7 +232,7 @@ class _ExplorePageState extends State<ExplorePage> {
                     return const Text('No data available');
                   }
                   return SizedBox(
-                    height: 130,
+                    height: screenHeight/6.15,
                     child: GridView.builder(
                     // reverse: true,
                     shrinkWrap: true,
@@ -252,8 +254,8 @@ class _ExplorePageState extends State<ExplorePage> {
                           fit: StackFit.loose,
                           children: [
                             Container(
-                              height: 120,
-                              width: 120,
+                              height: screenHeight/6.66,
+                              width: screenHeight/6.66,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
                               ),
@@ -263,9 +265,9 @@ class _ExplorePageState extends State<ExplorePage> {
                                     borderRadius: BorderRadius.circular(10),
                                     child: Image.network(regionImage,height: double.infinity,width: double.infinity, fit: BoxFit.cover,)),
                                     Positioned(bottom: 0,
-                                    child: Container(height: 30,width: 120,decoration: const BoxDecoration(color: Color.fromARGB(180, 0, 0, 0),borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10))),
+                                    child: Container(height: screenHeight/26.66,width: screenHeight/6.66,decoration: const BoxDecoration(color: Color.fromARGB(180, 0, 0, 0),borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10))),
                                     child: Padding(padding: const EdgeInsets.fromLTRB(8, 5, 0, 0),
-                                    child: Column(crossAxisAlignment: CrossAxisAlignment.start,children: [Text(regionName,style: const TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w400),),],),),), 
+                                    child: Column(crossAxisAlignment: CrossAxisAlignment.start,children: [Text(regionName,style: TextStyle(fontSize: screenHeight/57.14, color: Colors.white, fontWeight: FontWeight.w400),),],),),), 
                                     )
                                 ],
                               ),

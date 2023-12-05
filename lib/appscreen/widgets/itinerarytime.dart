@@ -20,6 +20,10 @@ class Itinerarytime extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    double screenWidth = MediaQuery.sizeOf(context).width;
+    double screenHeight = MediaQuery.sizeOf(context).height;
+
     final time = parseTime(itntime);
 
     String formattedTime = formatTimeOfDay(time);
@@ -33,27 +37,27 @@ class Itinerarytime extends StatelessWidget {
               formattedTime,
               style: const TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
             ),
-            const SizedBox(width: 10),
+            SizedBox(width: screenHeight/80,),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.location_on, color: Color.fromARGB(255, 190, 255, 0), size: 16),
-                    Text(itnlocation, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
+                    Icon(Icons.location_on, color: Color.fromARGB(255, 190, 255, 0), size: screenHeight/50,),
+                    Text(itnlocation, style: TextStyle(fontSize: screenHeight/50, fontWeight: FontWeight.w500, color: Colors.white),
                     ),
                   ],
                 ),
                 SizedBox(
-                  width: 255,
+                  width: screenHeight/4,
                   child: ReadMoreText(
                     itndescription,
                     trimLines: 1,
-                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Color.fromARGB(142, 255, 255, 255))
+                    style: TextStyle(fontSize: screenHeight/66.66, fontWeight: FontWeight.w500, color: const Color.fromARGB(142, 255, 255, 255))
                   ),
                 ),
                 Container(
-                  width: 255,
+                  width: screenHeight/4,
                   child: GestureDetector(
                     onTap: () {
                       final url = itnLink;
@@ -65,8 +69,8 @@ class Itinerarytime extends StatelessWidget {
                       );
                     },
                     child: Text(itnLink ?? '', style:
-                     TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Color.fromARGB(255, 64, 144, 255), overflow: TextOverflow.ellipsis,),
-                     
+                     TextStyle(fontSize: screenHeight/66.66, fontWeight: FontWeight.w500, color: Color.fromARGB(255, 64, 144, 255)),
+                     overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ),

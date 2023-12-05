@@ -32,6 +32,7 @@ class _BottomNavState extends State<BottomNav> {
 
     double screenWidth = MediaQuery.sizeOf(context).width;
     double screenHeight = MediaQuery.sizeOf(context).height;
+    Widget wdivider = SizedBox(width: screenHeight/130,);
 
     print('navbar: $screenWidth, $screenHeight');
     return Scaffold(
@@ -40,7 +41,7 @@ class _BottomNavState extends State<BottomNav> {
 
       bottomNavigationBar: Container(
         padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-      height: screenHeight/10.9,
+      height: screenHeight/9,
       width: screenWidth,
       decoration: const BoxDecoration(
         shape: BoxShape.rectangle,
@@ -70,15 +71,17 @@ class _BottomNavState extends State<BottomNav> {
           items: [
             BottomNavigationBarItem(
               icon: selectedIndex == 0 ? Container(
-                height: 30,
-                width: 90,
+                height: screenHeight/27, //~=30
+                width: screenHeight/9,  //~=90
                 decoration: BoxDecoration(color: const Color.fromARGB(255, 190, 255, 0), borderRadius: BorderRadius.circular(20)),
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.airplane_ticket_rounded, size: 30, color: Color.fromARGB(255, 0, 0, 0),),
-                    SizedBox(width: 5,),
-                    Text('Trips', style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 14, fontWeight: FontWeight.w600),)
+                    Icon(Icons.airplane_ticket_rounded, size: screenHeight/27, color: Color.fromARGB(255, 0, 0, 0),),
+                    wdivider,
+                    Text('Trips', style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), 
+                    fontSize: screenHeight/54, //~=14
+                    fontWeight: FontWeight.w600),)
                   ],
                 ),
               ) : Icon(Icons.airplane_ticket_rounded, color: Color.fromARGB(255, 255, 255, 255),),
@@ -86,16 +89,15 @@ class _BottomNavState extends State<BottomNav> {
             ),
             BottomNavigationBarItem(
               icon: selectedIndex==1 ? Container(
-                height: 30,
-                width: 90,
+                height: screenHeight/26.5,
+                width: screenHeight/8.5,
                 decoration: BoxDecoration(color: const Color.fromARGB(255, 190, 255, 0), borderRadius: BorderRadius.circular(20)),
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.explore, size: 30, color: Color.fromARGB(255, 0, 0, 0),),
-                    SizedBox(width: 5,),
-
-                    Text('Explore', style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontWeight: FontWeight.w600),),
+                    Icon(Icons.explore, size: screenHeight/27, color: Color.fromARGB(255, 0, 0, 0),),
+                    wdivider,
+                    Text('Explore', style: TextStyle(color: Color.fromARGB(255, 0, 0, 0),fontSize: screenHeight/54, fontWeight: FontWeight.w600),),
                   ],
                 ),
               ): Icon(Icons.explore, color: Color.fromARGB(255, 255, 255, 255),),
@@ -103,16 +105,15 @@ class _BottomNavState extends State<BottomNav> {
             ),
             BottomNavigationBarItem(
               icon: selectedIndex == 2 ? Container(
-                height: 30,
-                width: 90,
+                height: screenHeight/27,
+                width: screenHeight/9,
                 decoration: BoxDecoration(color: const Color.fromARGB(255, 190, 255, 0), borderRadius: BorderRadius.circular(20)),
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.person, size: 25, color: Color.fromARGB(255, 0, 0, 0),),
-                    SizedBox(width: 5,),
-
-                    Text('Profile', style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontWeight: FontWeight.w600),)
+                    Icon(Icons.person, size: screenHeight/30, color: Color.fromARGB(255, 0, 0, 0),),
+                    wdivider,
+                    Text('Profile', style: TextStyle(color: Color.fromARGB(255, 0, 0, 0),fontSize: screenHeight/54, fontWeight: FontWeight.w600),)
                   ],
                 ),
               ): Icon(Icons.person, color: Color.fromARGB(255, 255, 255, 255),),

@@ -109,6 +109,10 @@ class _BackpackPageState extends State<BackpackPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    double screenWidth = MediaQuery.sizeOf(context).width;
+    double screenHeight = MediaQuery.sizeOf(context).height;
+
     return Scaffold(
         backgroundColor: const Color.fromRGBO(21, 24, 43, 1),
         floatingActionButton: FloatingButton(
@@ -176,24 +180,23 @@ class _BackpackPageState extends State<BackpackPage> {
                                       children: [
                                         Image.asset(
                                           'assets/images/tent_26fa.png',
-                                          height: 20,
+                                          height: screenHeight/40,
                                         ),
-                                        const SizedBox(width: 10),
+                                        SizedBox(width: screenHeight/80,),
                                         Text(
                                           categ,
-                                          style: const TextStyle(
-                                            fontSize: 16,
+                                          style: TextStyle(
+                                            fontSize: screenHeight/50,
                                             color: Color.fromARGB(
                                                 255, 190, 255, 0),
                                           ),
                                         ),
                                       ],
                                     ),
-                                    const SizedBox(height: 10),
+                                    SizedBox(height: screenHeight/80,),
                                     Container(
-                                        height: 56 *
-                                            itemsForCateg.length.toDouble(),
-                                        width: 320,
+                                        height: screenHeight/13.5 * itemsForCateg.length.toDouble(),
+                                        width: screenWidth,
                                         decoration: BoxDecoration(
                                           color: const Color.fromARGB(
                                               50, 255, 255, 255),

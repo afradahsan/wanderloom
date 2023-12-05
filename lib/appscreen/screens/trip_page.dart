@@ -67,12 +67,9 @@ class _TripPageState extends State<TripPage> {
 
   double screenWidth = MediaQuery.sizeOf(context).width;
   double screenHeight = MediaQuery.sizeOf(context).height;
-  double ten = screenHeight/(0.10*screenHeight);
-  double twenty = screenWidth/(0.05*screenWidth);
-  print('$screenWidth, $screenHeight, $ten, $twenty');
-  final divider = SizedBox(height: ten);
+  print('$screenWidth, $screenHeight');
 
-    return Scaffold(
+  return Scaffold(
       floatingActionButton: FloatingButton(
         onPressed: () {
           Navigator.of(context).push(
@@ -91,7 +88,7 @@ class _TripPageState extends State<TripPage> {
             children: [
               Container(
                 // height: ,
-                padding: EdgeInsets.all(ten*1.5),
+                padding: EdgeInsets.all(screenHeight/53.3), //~=15
                 color: const Color.fromRGBO(21, 24, 43, 1),
                 child: Column(
                   children: [
@@ -104,13 +101,13 @@ class _TripPageState extends State<TripPage> {
                             children: [
                               Image.asset(
                                 'assets/images/wanderloom_logo.png',
-                                height: ten*5,
+                                height: screenHeight/16,
                               ),
                                Text(
                                 "Your Trips!",
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: ten*3,
+                                    fontSize: screenHeight/26.6,
                                     fontWeight: FontWeight.w600),
                               ),
                               const Icon(
@@ -120,7 +117,7 @@ class _TripPageState extends State<TripPage> {
                             ],
                           ),
                           SizedBox(
-                            height: ten*1.5,
+                            height: screenHeight/53.3,
                           ),
                           ListView.separated(
                             shrinkWrap: true,
@@ -129,10 +126,10 @@ class _TripPageState extends State<TripPage> {
                             Map<String, dynamic> trip = trips[index];
                             String tripId = trip['tripId'];
                             return TripInfo (categoryIcon: 
-                            'assets/icons/money-with-wings_emoji_1f4b8.png', categoryName: trip['tripcategory'], tripTitle: trip['tripname'], tripDate: trip['tripdate'], tripBudget: trip['tripbudget'], tripPeople: trip['tripparticipants'], catContWidth: ten*10,
+                            'assets/icons/money-with-wings_emoji_1f4b8.png', categoryName: trip['tripcategory'], tripTitle: trip['tripname'], tripDate: trip['tripdate'], tripBudget: trip['tripbudget'], tripPeople: trip['tripparticipants'], catContWidth: screenHeight/6.5,
                             returnParameter: tripId);
                           } 
-                          , separatorBuilder: (context, index) => SizedBox(height: ten), itemCount: trips.length)
+                          , separatorBuilder: (context, index) => SizedBox(height: screenHeight/80), itemCount: trips.length)
                         //   ListView.separated(
                         //   shrinkWrap: true,
                         //   physics: const NeverScrollableScrollPhysics(),
