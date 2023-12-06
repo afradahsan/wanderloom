@@ -174,12 +174,25 @@ class _ItineraryPageState extends State<ItineraryPage> {
         }
       }
     }
-    return groupedItinerary;
+
+    // Sort keys (dates) in ascending order
+    final sortedKeys = groupedItinerary.keys.toList()
+      ..sort((a, b) => DateTime.parse(a).compareTo(DateTime.parse(b)));
+
+    // Create a new map with sorted keys
+    final sortedItinerary = <String, List<Map<String, dynamic>>>{};
+    for (var key in sortedKeys) {
+      sortedItinerary[key] = groupedItinerary[key]!;
+    }
+
+    return sortedItinerary;
   }
+
+
 
   Widget itinerDate(itinDate) {
     DateTime date = DateTime.parse(itinDate);
-String formattedDate = DateFormat('MMM d').format(date);
+  String formattedDate = DateFormat('MMM d').format(date);
     return Text(
       formattedDate,
       style: const TextStyle(

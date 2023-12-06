@@ -223,7 +223,16 @@ class _BudgetPageState extends State<BudgetPage> {
         }
       }
     }
-    return groupedExpense;
+    final sortedKeys = groupedExpense.keys.toList()
+      ..sort((a, b) => DateTime.parse(a).compareTo(DateTime.parse(b)));
+
+    // Create a new map with sorted keys
+    final sortedItinerary = <String, List<Map<String, dynamic>>>{};
+    for (var key in sortedKeys) {
+      sortedItinerary[key] = groupedExpense[key]!;
+    }
+
+    return sortedItinerary;
   }
 
   Widget itinerDate(itinDate) {
