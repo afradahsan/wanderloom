@@ -270,9 +270,7 @@ class _AddTripState extends State<AddTrip> {
 
     DatabaseService().saveTripData(tripname, tripbudget, tripdate, tripcategory, tripparticipants, uid);
 
-     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-        return const TripPage();
-      }));
+     Navigator.of(context).pop();
 
     
     // if (_selectedIndex == null) {

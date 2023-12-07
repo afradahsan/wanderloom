@@ -94,9 +94,7 @@ class _AddNotesState extends State<AddNotes> {
 
     await DatabaseService().savetoNotes(notesTitle, notesDescription, userId, widget.tripId);
 
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
-      return NotesPage(tripId: widget.tripId);
-    }));
+    Navigator.of(context).pop();
     
     }
   }

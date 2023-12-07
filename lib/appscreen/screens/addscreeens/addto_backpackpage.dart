@@ -109,9 +109,7 @@ class _AddtoBackpackState extends State<AddtoBackpack> {
 
       await DatabaseService().savetoBackpack(itemName, itemCategory, userId!, widget.tripId);
 
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
-        return BackpackPage(tripId: widget.tripId);
-      }));
+      Navigator.of(context).pop();
     }
     else{
       print('item is empty.');

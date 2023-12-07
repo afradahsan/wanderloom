@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:wanderloom/appscreen/screens/notes_page.dart';
 import 'package:wanderloom/appscreen/widgets/addscreenwidgets/delete_editcontainer.dart';
 import 'package:wanderloom/appscreen/widgets/addscreenwidgets/textfieldtrip.dart';
 import 'package:wanderloom/db/functions/database_services.dart';
@@ -104,7 +105,9 @@ class _EditNotesState extends State<EditNotes> {
     if(notesTitleController!=null && notesDescriptionController!=null){
     DatabaseService().updateNotes(notesTitleController!.text.toString(),notesDescriptionController!.text.toString(), uid!, widget.tripId, widget.notesId);
 
-    Navigator.of(context).pop();
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: ((context) {
+      return NotesPage(tripId: widget.tripId);
+    })));
     }
   }
 }
