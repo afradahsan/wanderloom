@@ -116,6 +116,7 @@ class _BackpackPageState extends State<BackpackPage> {
     return Scaffold(
         backgroundColor: const Color.fromRGBO(21, 24, 43, 1),
         floatingActionButton: FloatingButton(
+          bottom: 20,
           onPressed: () {
             print('tripiddd: $widget.tripId');
             Navigator.of(context).push(
@@ -160,6 +161,21 @@ class _BackpackPageState extends State<BackpackPage> {
                                 groupBackpack =
                                 groupBackpackByCategory(backpack);
                             final categories = groupBackpack.keys.toList();
+
+                            if (groupBackpack.isEmpty) {
+                          return Container(
+                            height: screenHeight/1.4,
+                            width: screenWidth,
+                            child: const Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(Icons.backpack, size: 120, weight: 2,fill: 1, color: Color.fromARGB(50, 255, 255, 255),),
+                                Text('Tap on the + to add to your Backpack', style: TextStyle(fontSize: 16, color: Color.fromARGB(50, 255, 255, 255),),)
+                              ],
+                            ),
+                          );
+                        }
                             return ListView.separated(
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),

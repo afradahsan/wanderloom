@@ -78,6 +78,7 @@ class _TripPageState extends State<TripPage> {
             ),
           );
         },
+        bottom: 75,
       ),
       backgroundColor: const Color.fromRGBO(21, 24, 43, 1),
       body: SafeArea(
@@ -119,17 +120,30 @@ class _TripPageState extends State<TripPage> {
                           SizedBox(
                             height: screenHeight/53.3,
                           ),
+                          trips.isNotEmpty ?
                           ListView.separated(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index){
                             Map<String, dynamic> trip = trips[index];
                             String tripId = trip['tripId'];
+                            
                             return TripInfo (categoryIcon: 
                             'assets/icons/money-with-wings_emoji_1f4b8.png', categoryName: trip['tripcategory'], tripTitle: trip['tripname'], tripDate: trip['tripdate'], tripBudget: trip['tripbudget'], tripPeople: trip['tripparticipants'], catContWidth: screenHeight/6.5,
                             returnParameter: tripId);
                           } 
-                          , separatorBuilder: (context, index) => SizedBox(height: screenHeight/80), itemCount: trips.length)
+                          , separatorBuilder: (context, index) => SizedBox(height: screenHeight/80), itemCount: trips.length) : Container(
+                            height: screenHeight/1.4,
+                            width: screenWidth,
+                            child: const Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(Icons.airplane_ticket, size: 100,weight: 1,fill: 0.5, color: Color.fromARGB(50, 255, 255, 255),),
+                                Text('Start planning your trip by tapping\n                   on the + button', style: TextStyle(fontSize: 18, color: Color.fromARGB(50, 255, 255, 255),),)
+                              ],
+                            ),
+                          )
                         //   ListView.separated(
                         //   shrinkWrap: true,
                         //   physics: const NeverScrollableScrollPhysics(),
@@ -148,7 +162,7 @@ class _TripPageState extends State<TripPage> {
                         //   },
                         //   itemCount: trip.length
                         // )
-                        ]),
+                        ])
                   ],
                 ),
               ),

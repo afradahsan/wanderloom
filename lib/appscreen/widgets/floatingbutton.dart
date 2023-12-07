@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 class FloatingButton extends StatelessWidget {
   final Function onPressed;
+  final double bottom;
 
   const FloatingButton({super.key, 
-    required this.onPressed
+    required this.onPressed,
+    required this.bottom
   });
 
   @override
@@ -12,7 +14,7 @@ class FloatingButton extends StatelessWidget {
     return Stack(
       children: [
         Positioned(
-          bottom: 65,
+          bottom: bottom,
           right: 0,
           child: FloatingActionButton(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)), onPressed: () {
               onPressed();  // Invoke the provided onPressed function

@@ -154,6 +154,7 @@ class _BudgetPageState extends State<BudgetPage> {
     return Scaffold(
         backgroundColor: const Color.fromRGBO(21, 24, 43, 1),
         floatingActionButton: FloatingButton(
+          bottom: 20,
           onPressed: () {
             print('tripiddd: $widget.tripId');
             Navigator.of(context).push(
@@ -198,11 +199,37 @@ class _BudgetPageState extends State<BudgetPage> {
                           print("tripbdg: $tripbdg");
                           totalExpenses = calculateTotalExpenses(expense);
 
+                          if (groupedExpense.isEmpty) {
+                          return Container(
+                            height: screenHeight/1.3,
+                            width: screenWidth,
+                            child: const Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(Icons.wallet, size: 120,weight: 1,fill: 0.5, color: Color.fromARGB(50, 255, 255, 255),),
+                                Text('Tap on the + to add a Budget', style: TextStyle(fontSize: 16, color: Color.fromARGB(50, 255, 255, 255),),)
+                              ],
+                            ),
+                          );
+                        }
+
                           return budgetContainer(
                               expense, groupedExpense, tripbdg!, BudgetId);
                         }
                       }
-                      return const Center(child: CircularProgressIndicator());
+                      return Container(
+                            height: screenHeight/1.3,
+                            width: screenWidth,
+                            child: const Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(Icons.wallet, size: 120,weight: 1,fill: 0.5, color: Color.fromARGB(50, 255, 255, 255),),
+                                Text('Tap on the + to add Expenses', style: TextStyle(fontSize: 16, color: Color.fromARGB(50, 255, 255, 255),),)
+                              ],
+                            ),
+                          );
                     }))));
   }
 

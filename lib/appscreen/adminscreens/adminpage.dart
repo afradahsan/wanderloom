@@ -21,6 +21,7 @@ class _AdminPageState extends State<AdminPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingButton(
+        bottom: 20,
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(

@@ -51,6 +51,7 @@ class _NotesPageState extends State<NotesPage> {
       //   elevation: 0,
       // ),
       floatingActionButton: FloatingButton(
+        bottom: 20,
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(
@@ -88,6 +89,21 @@ class _NotesPageState extends State<NotesPage> {
                     print('snapshot has data');
                     final notes = snapshot.data;
                     print('NOTESSS: $notes');
+
+                    if (notes.isEmpty) {
+                          return Container(
+                            height: screenHeight/1.3,
+                            width: screenWidth,
+                            child: const Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(Icons.notes, size: 120,weight: 1,fill: 0.5, color: Color.fromARGB(50, 255, 255, 255),),
+                                Text('Tap on the + to add Notes', style: TextStyle(fontSize: 16, color: Color.fromARGB(50, 255, 255, 255),),)
+                              ],
+                            ),
+                          );
+                        }
                     return ListView.builder(
                         shrinkWrap: true,
                         itemCount: notes.length,

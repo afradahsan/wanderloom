@@ -158,9 +158,7 @@ class _AddItineraryState extends State<AddItinerary> {
     } else {
     }
 
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
-      return ItineraryPage(tripId: widget.tripId);
-    }));
+    Navigator.of(context).pop();
   }
 }
 

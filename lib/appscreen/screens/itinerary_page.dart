@@ -72,6 +72,7 @@ class _ItineraryPageState extends State<ItineraryPage> {
             Scaffold(
               backgroundColor: const Color.fromRGBO(21, 24, 43, 1),
               floatingActionButton: FloatingButton(
+                bottom: 20,
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
@@ -91,23 +92,37 @@ class _ItineraryPageState extends State<ItineraryPage> {
                       builder: (BuildContext context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
                           return const Center(
-                            child: CircularProgressIndicator(
-                              color: Color.fromARGB(255, 190, 255, 0),
+                          child: CircularProgressIndicator(
+                            color: Color.fromARGB(255, 190, 255, 0),
+                          ),
+                        );
+                      }
+                      if (snapshot.hasError) {
+                        return Center(
+                          child: Text(
+                            'An ${snapshot.error} occurred',
+                            style: TextStyle(fontSize: screenHeight / 44.44, color: Colors.red),
+                          ),
+                        );
+                      }
+                      if (snapshot.hasData) {
+                        final itinerary = snapshot.data;
+                        final groupedItinerary = groupItineraryByDate(itinerary);
+
+                        if (groupedItinerary.isEmpty) {
+                          return Container(
+                            height: screenHeight/1.3,
+                            width: screenWidth,
+                            child: const Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(Icons.route, size: 120,weight: 1,fill: 0.5, color: Color.fromARGB(50, 255, 255, 255),),
+                                Text('Tap on the + to add a new itinerary', style: TextStyle(fontSize: 16, color: Color.fromARGB(50, 255, 255, 255),),)
+                              ],
                             ),
                           );
                         }
-                        if (snapshot.hasError) {
-                          return Center(
-                            child: Text(
-                              'An ${snapshot.error} occurred',
-                              style: TextStyle(fontSize: screenHeight/44.44, color: Colors.red),
-                            ),
-                          );
-                        }
-                        if (snapshot.hasData) {
-                          final itinerary = snapshot.data;
-                          final groupedItinerary = groupItineraryByDate(itinerary);
-                
                           return ListView.separated(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
@@ -131,19 +146,31 @@ class _ItineraryPageState extends State<ItineraryPage> {
                                           itineraryId: item['id'],);
                                           }));
                                       },
-                                      child: Itinerarytime(
+                                      child: snapshot.data!= null ? Itinerarytime(
                                         itntime: item['time'],
                                         itnlocation: item['location'],
                                         itndescription: item['description'],
                                         itnLink: item['links'],
-                                      ),
+                                      ) :
+                                      Container(color: Colors.white, height: 100,)
                                     ),
                                 ],
                               );
                             },
                           );
                         }
-                        return const Center(child: CircularProgressIndicator());
+                        return Container(
+                            height: screenHeight/1.3,
+                            width: screenWidth,
+                            child: const Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(Icons.wallet, size: 120,weight: 1,fill: 0.5, color: Color.fromARGB(50, 255, 255, 255),),
+                                Text('Tap on the + to add Itinerary', style: TextStyle(fontSize: 16, color: Color.fromARGB(50, 255, 255, 255),),)
+                              ],
+                            ),
+                          );
                       },
                     ),
                   ),
