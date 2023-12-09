@@ -25,6 +25,9 @@ class _EditNotesState extends State<EditNotes> {
   TextEditingController? notesTitleController;
   TextEditingController? notesDescriptionController;
 
+    bool isDeleting = false; // Add a boolean flag to control deletion
+
+
   @override
   Widget build(BuildContext context) {
     
@@ -92,7 +95,31 @@ class _EditNotesState extends State<EditNotes> {
                   inputType: TextInputType.text,
                 ),
                 divider,divider,
-                DeleteContainer(callbackFunction: DatabaseService().deleteNotes(uid!, widget.tripId, widget.notesId))
+                if (!isDeleting) // Show DeleteContainer only if not deleting
+                    DeleteContainer(
+                      // Pass the callback function and update the flag
+                      callbackFunction: () {
+                        setState(() {
+                          isDeleting = true; // Set the flag to indicate deletion
+                        });
+                        DatabaseService().deleteNotes(
+                          uid!,
+                          widget.tripId,
+                          widget.notesId,
+                        ).then((_) {
+                          setState(() {
+                            isDeleting = false; // Reset the flag after deletion
+                          });
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: ((context) {
+                                return NotesPage(tripId: widget.tripId);
+                              }),
+                            ),
+                          );
+                        });
+                      },
+                    ),
               ]
             )
           )

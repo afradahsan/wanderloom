@@ -28,6 +28,9 @@ class _EditItineraryState extends State<EditItinerary> {
   late TextEditingController descriptionController;
   late TextEditingController linkController;
 
+      bool isDeleting = false; // Add a boolean flag to control deletion
+
+
   String? uid = FirebaseAuth.instance.currentUser!.uid;
   String? selectedDate;
   String? selectedTime;
@@ -136,7 +139,31 @@ class _EditItineraryState extends State<EditItinerary> {
 
                   divider,divider,divider,
 
-                  DeleteContainer(callbackFunction: DatabaseService().deleteItinerary(uid!, widget.tripId, widget.itineraryId))
+                  if (!isDeleting) // Show DeleteContainer only if not deleting
+                    DeleteContainer(
+                      // Pass the callback function and update the flag
+                      callbackFunction: () {
+                        setState(() {
+                          isDeleting = true; // Set the flag to indicate deletion
+                        });
+                        DatabaseService().deleteNotes(
+                          uid!,
+                          widget.tripId,
+                          widget.itineraryId,
+                        ).then((_) {
+                          setState(() {
+                            isDeleting = false; // Reset the flag after deletion
+                          });
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: ((context) {
+                                return ItineraryPage(tripId: widget.tripId);
+                              }),
+                            ),
+                          );
+                        });
+                      },
+                    ),
                 ]
               )
             )

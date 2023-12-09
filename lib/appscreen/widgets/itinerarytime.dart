@@ -61,12 +61,17 @@ class Itinerarytime extends StatelessWidget {
                   child: GestureDetector(
                     onTap: () {
                       final url = itnLink;
-                      launchUrl(Uri.parse(url ?? '')).onError(
-                        (error, stackTrace) {
-                          print("Url is not valid!");
-                          return false;
-                        },
-                      );
+                      launchUrl(Uri.parse(url ?? '')).onError((error, stackTrace){
+                        print('blll - $error');
+                        return false;
+                      });
+                      
+                      // onError(
+                      //   (error, stackTrace) {
+                      //     print("Url is not valid!");
+                      //     return false;
+                      //   },
+                      // );
                     },
                     child: Text(itnLink ?? '', style:
                      TextStyle(fontSize: screenHeight/66.66, fontWeight: FontWeight.w500, color: Color.fromARGB(255, 64, 144, 255)),

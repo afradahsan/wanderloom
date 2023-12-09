@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wanderloom/appscreen/screens/addscreeens/editprofile.dart';
 import 'package:wanderloom/appscreen/screens/searchscreen.dart';
 import 'package:wanderloom/appscreen/widgets/addscreenwidgets/textfieldtrip.dart';
@@ -142,22 +143,21 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       ListTile(
                         title: const Text(
-                          'Location & Permissions',
+                          'Privacy Policy',
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
                               fontWeight: FontWeight.w500),
                         ),
                         leading: const Icon(
-                          Icons.settings,
+                          Icons.security,
                           color: Color.fromARGB(198, 255, 255, 255),
                         ),
                         minLeadingWidth: 15,
                         onTap: () {
-                          Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) {
-                            return const SearchScreen();
-                          }));
+                          const url = 'https://sites.google.com/view/wanderloom/home';
+                          
+                          launchUrl(Uri.parse(url));
                         },
                       ),
                       ListTile(

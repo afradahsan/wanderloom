@@ -39,6 +39,9 @@ class _EditBudgetState extends State<EditBudget> {
 
   int? _selectedIndex;
 
+      bool isDeleting = false; // Add a boolean flag to control deletion
+
+
   var divider = const SizedBox(
     height: 10,
   );
@@ -136,8 +139,25 @@ class _EditBudgetState extends State<EditBudget> {
               ),
               divider,divider,
               
-              DeleteContainer(callbackFunction: DatabaseService().deleteExpense(uid!, widget.tripId!, widget.budgetId!))
-            ]),
+if (!isDeleting) // Show DeleteContainer only if not deleting
+                    DeleteContainer(
+                      // Pass the callback function and update the flag
+                      callbackFunction: () {
+                        setState(() {
+                          isDeleting = true; // Set the flag to indicate deletion
+                        });
+                        DatabaseService().deleteNotes(
+                          uid!,
+                          widget.tripId!,
+                          widget.budgetId!,
+                        ).then((_) {
+                          setState(() {
+                            isDeleting = false; // Reset the flag after deletion
+                          });
+                          Navigator.of(context).pop();
+                        });
+                      },
+                    ),            ]),
           )),
         ));
   }

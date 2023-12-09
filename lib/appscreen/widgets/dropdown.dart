@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DropDownWidget extends StatefulWidget {
-  DropDownWidget({required this.onValueChanged, super.key});
+  const DropDownWidget({required this.onValueChanged, super.key});
 
   final ValueChanged<String?> onValueChanged;
 
@@ -25,7 +25,7 @@ class _DropDownState extends State<DropDownWidget> {
         child: DropdownButton<String>(
           focusColor: Colors.white,
           value:chosenValue,
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
           items: <String>[
             'Trekking/Adventure',
             'Historical & Heritage Sites',
@@ -40,10 +40,10 @@ class _DropDownState extends State<DropDownWidget> {
               child: Text(value),
             );
           }).toList(),
-          hint: Text(
+          hint: const Text(
             "Choose Category",
             style: TextStyle(
-              color: const Color.fromARGB(255, 255, 255, 255),
+              color: Color.fromARGB(255, 255, 255, 255),
               fontSize: 12,
               fontFamily: 'Poppins',
               fontWeight: FontWeight.w600),

@@ -195,7 +195,6 @@ class DatabaseService{
   print('item name: $itemName');
 }
 
-
   Future getBackpack(String userId, String tripId) async{
     QuerySnapshot backpacksnapshot = await userCollection.doc(userId).collection('tripdetails').doc(tripId).collection('backpack').get();
 
@@ -203,9 +202,26 @@ class DatabaseService{
 
     backpacksnapshot.docs.forEach((doc) {
       final backpackdata = doc.data() as Map<String, dynamic>;
+      backpackdata['id'] = doc.id; 
       backpacklist.add(backpackdata);
     });
     return backpacklist;
+  }
+
+  Future updateBackpack(String itemName, String itemCategory, String userId, String tripId, String backpackId, {bool itemcheck = false}) async{
+    await userCollection
+      .doc(userId)
+      .collection('tripdetails')
+      .doc(tripId)
+      .collection('backpack')
+      .doc(backpackId).update({
+    'Item title': itemName,
+    'Item Category': itemCategory,
+    'Item Checked': itemcheck,
+  });
+
+  print('update backpack called!');
+  print('item name: $itemName');
   }
 
   Future savetoNotes(String notesTitle, String notesDescription, String userId, String tripId) async{

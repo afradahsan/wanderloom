@@ -3,6 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:wanderloom/appscreen/screens/addscreeens/addbudgetpage.dart';
 import 'package:wanderloom/appscreen/screens/addscreeens/editbudget.dart';
 import 'package:wanderloom/appscreen/widgets/expensetile.dart';
@@ -50,6 +51,11 @@ class _BudgetPageState extends State<BudgetPage> {
   void initState() {
     super.initState();
     fetchTripBudget();
+  }
+
+  Future<void> onRefresh() async{
+    await Future.delayed(Duration(seconds: 1));
+    setState(() {});
   }
 
   @override
@@ -164,73 +170,81 @@ class _BudgetPageState extends State<BudgetPage> {
             );
           },
         ),
-        body: SafeArea(
-            child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: FutureBuilder<List<Map<String, dynamic>>>(
-                    future: getExpenseFunction(),
-                    builder: (BuildContext context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(
-                          child: CircularProgressIndicator(
-                            color: Color.fromARGB(255, 190, 255, 0),
-                          ),
-                        );
-                      }
-                      if (snapshot.hasError) {
-                        return Center(
-                          child: Text(
-                            'An ${snapshot.error} occurred',
-                            style: const TextStyle(
-                                fontSize: 18, color: Colors.red),
-                          ),
-                        );
-                      }
-                      if (snapshot.hasData) {
-                        print('snapshot has data');
-                        final expense = snapshot.data;
-                        print("expense: $expense");
-
-                        for (var budget in expense!) {
-                          final BudgetId = budget['id'];
-
-                          final groupedExpense = groupExpenseByDate(expense);
-                          String? tripbdg = tripBudget;
-                          print("tripbdg: $tripbdg");
-                          totalExpenses = calculateTotalExpenses(expense);
-
-                          if (groupedExpense.isEmpty) {
-                          return Container(
-                            height: screenHeight/1.3,
-                            width: screenWidth,
-                            child: const Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Icon(Icons.wallet, size: 120,weight: 1,fill: 0.5, color: Color.fromARGB(50, 255, 255, 255),),
-                                Text('Tap on the + to add a Budget', style: TextStyle(fontSize: 16, color: Color.fromARGB(50, 255, 255, 255),),)
-                              ],
+        body: LiquidPullToRefresh(
+          color: Color.fromARGB(255, 190, 255, 0),
+              backgroundColor: const Color.fromRGBO(21, 24, 43, 1),
+              animSpeedFactor: 2.0,
+              springAnimationDurationInMilliseconds: 800,
+              showChildOpacityTransition: false,
+              onRefresh: onRefresh,
+          child: SafeArea(
+              child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: FutureBuilder<List<Map<String, dynamic>>>(
+                      future: getExpenseFunction(),
+                      builder: (BuildContext context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(
+                              color: Color.fromARGB(255, 190, 255, 0),
                             ),
                           );
                         }
-
-                          return budgetContainer(
-                              expense, groupedExpense, tripbdg!, BudgetId);
-                        }
-                      }
-                      return Container(
-                            height: screenHeight/1.3,
-                            width: screenWidth,
-                            child: const Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Icon(Icons.wallet, size: 120,weight: 1,fill: 0.5, color: Color.fromARGB(50, 255, 255, 255),),
-                                Text('Tap on the + to add Expenses', style: TextStyle(fontSize: 16, color: Color.fromARGB(50, 255, 255, 255),),)
-                              ],
+                        if (snapshot.hasError) {
+                          return Center(
+                            child: Text(
+                              'An ${snapshot.error} occurred',
+                              style: const TextStyle(
+                                  fontSize: 18, color: Colors.red),
                             ),
                           );
-                    }))));
+                        }
+                        if (snapshot.hasData) {
+                          print('snapshot has data');
+                          final expense = snapshot.data;
+                          print("expense: $expense");
+        
+                          for (var budget in expense!) {
+                            final BudgetId = budget['id'];
+        
+                            final groupedExpense = groupExpenseByDate(expense);
+                            String? tripbdg = tripBudget;
+                            print("tripbdg: $tripbdg");
+                            totalExpenses = calculateTotalExpenses(expense);
+        
+                            if (groupedExpense.isEmpty) {
+                            return Container(
+                              height: screenHeight/1.3,
+                              width: screenWidth,
+                              child: const Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.wallet, size: 120,weight: 1,fill: 0.5, color: Color.fromARGB(50, 255, 255, 255),),
+                                  Text('Tap on the + to add a Budget', style: TextStyle(fontSize: 16, color: Color.fromARGB(50, 255, 255, 255),),)
+                                ],
+                              ),
+                            );
+                          }
+        
+                            return budgetContainer(
+                                expense, groupedExpense, tripbdg!, BudgetId);
+                          }
+                        }
+                        return Container(
+                              height: screenHeight/1.3,
+                              width: screenWidth,
+                              child: const Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.wallet, size: 120,weight: 1,fill: 0.5, color: Color.fromARGB(50, 255, 255, 255),),
+                                  Text('Tap on the + to add Expenses', style: TextStyle(fontSize: 16, color: Color.fromARGB(50, 255, 255, 255),),)
+                                ],
+                              ),
+                            );
+                      }))),
+        ));
   }
 
   Map<String, List<Map<String, dynamic>>> groupExpenseByDate(
