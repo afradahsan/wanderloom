@@ -9,6 +9,7 @@ class Textfeildtrip extends StatelessWidget {
     this.addtripController,
     this.inputType,
     this.maxLines,
+    this.submitted,
     required this.textformlabel,
     required this.textformhinttext,
     required this.textformIconPrefix
@@ -20,14 +21,22 @@ class Textfeildtrip extends StatelessWidget {
   final IconData textformIconPrefix;
   late TextInputType? inputType;
   final int? maxLines;
+  final bool? submitted;
 
   final addtripController;
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+      validator: (text) {
+        if (text == null || text.isEmpty) {
+          return '$textformlabel is Required';
+        }
+        return null;
+      },
       maxLines: maxLines,
       controller: addtripController,
+      autovalidateMode: submitted ?? true ? AutovalidateMode.onUserInteraction : AutovalidateMode.disabled,
       style: const TextStyle(color: Colors.white),
       keyboardType: inputType,
       decoration: InputDecoration(
@@ -35,7 +44,6 @@ class Textfeildtrip extends StatelessWidget {
         border: OutlineInputBorder(
           borderSide: const BorderSide(color: Colors.white),
           borderRadius: BorderRadius.circular(5),
-          
         ),
         enabledBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: Colors.white)
@@ -53,5 +61,5 @@ class Textfeildtrip extends StatelessWidget {
         hintStyle: const TextStyle(color: Color.fromARGB(103, 255, 255, 255))
       ),
       );
-  }
+  }  
 }

@@ -27,20 +27,21 @@ class _AddTripState extends State<AddTrip> {
   AuthService authService = AuthService();
   int _currentValue = 1;
   String? uid = FirebaseAuth.instance.currentUser!.uid;
-
+  bool submitted = false;
 
   final List _choiceChipsList = [
-    Data('Family', 'assets/icons/family_icon_blackc.png'),
-    Data('Adventure', 'assets/images/adventure_blackicon.png'),
-    Data('Friends', 'assets/icons/friends_black_icon.png'),
-    Data('Business', 'assets/icons/business_icon_black.png'),
-    Data('Leisure', 'assets/icons/education_trip_blackicon.png'),
-    Data('Edu Trips', 'assets/icons/education_trip_blackicon.png'),
+    Data('Family', 'assets/images/family_1f46a.png'),
+    Data('Adventure', 'assets/images/man-climbing_1f9d7-200d-2642-fe0f.png'),
+    Data('Friends', 'assets/images/men-holding-hands_1f46c.png'),
+    Data('Business', 'assets/images/briefcase_1f4bc.png'),
+    Data('Leisure', 'assets/images/man-getting-massage_1f486-200d-2642-fe0f.png'),
+    Data('Edu Trips', 'assets/images/graduation-cap_1f393.png'),
     Data('Piligrimage', 'assets/icons/pray_emoji.png'),
-    Data('Others', 'assets/icons/friends_black_icon.png')
+    Data('Others', 'assets/images/icons8-3-dots-90 (1).png')
   ];
 
   int? _selectedIndex;
+  
 
   var divider = const SizedBox(height: 10);
   final _formKey = GlobalKey<FormState>();
@@ -115,6 +116,7 @@ class _AddTripState extends State<AddTrip> {
                   divider,
                   Textfeildtrip(
                     addtripController: _triptitlecontroller,
+                    submitted: submitted,
                     textformlabel: 'Trip Title',
                     textformhinttext: 'Give your trip a name!',
                     textformIconPrefix: Icons.near_me,
@@ -123,6 +125,7 @@ class _AddTripState extends State<AddTrip> {
                   divider,
                   Textfeildtrip(
                     addtripController: _tripbudgetcontroller,
+                    submitted: submitted,
                     textformlabel: 'Budget',
                     textformhinttext: 'Expecting Budget?',
                     textformIconPrefix: Icons.currency_rupee,
@@ -138,6 +141,7 @@ class _AddTripState extends State<AddTrip> {
                         color: Color.fromARGB(255, 190, 255, 0), fontSize: 16),
                   ),
                   Wrap(children: choiceChips()),
+                  //Used this wrap to order the widgets properly in lines.
                   divider,
                   const Text(
                     'No. of People',
@@ -227,7 +231,7 @@ class _AddTripState extends State<AddTrip> {
   }
 
   List<Widget> choiceChips() {
-    List<Widget> chips = [];
+    List<Widget> chips = [  ];
     for (int i = 0; i < _choiceChipsList.length; i++) {
       Widget item = Padding(
         padding: const EdgeInsets.only(left: 10, right: 5),
@@ -242,15 +246,22 @@ class _AddTripState extends State<AddTrip> {
           selected: _selectedIndex == i,
           selectedColor: const Color.fromARGB(255, 190, 255, 0),
           backgroundColor: Colors.transparent,
-          onSelected: (bool value) {
-            setState(() {
+          onSelected: (isSelected) {
+            if(!isSelected){
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text('Please select a choice'),
+                duration: Duration(seconds: 2),),
+            );
+            }
+            else{
+            setState((){
               _selectedIndex = i;
               final categorylabel = _choiceChipsList[_selectedIndex!].label;
               final categoryicon = _choiceChipsList[_selectedIndex!].avatar;
               print('Category label: $categorylabel');
               print('Category icon: $categoryicon');
             });
-          },
+          }}
         ),
       );
       chips.add(item);
@@ -260,54 +271,28 @@ class _AddTripState extends State<AddTrip> {
 
   Future<void> onSave(context) async {
 
-    final tripname = _triptitlecontroller.text.trim();
-    final tripbudget = _tripbudgetcontroller.text.trim();
-    final tripdate = formattedDate;
+    setState(() => submitted = true);
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      final tripname = _triptitlecontroller.text.trim();
+      final tripbudget = _tripbudgetcontroller.text.trim();
+      final tripdate = formattedDate;
+
+      print(_selectedIndex);
+
+      if (_selectedIndex == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please select a category'), duration: Duration(seconds: 2),
+        ),
+      );
+      return; // Exit the function without saving to Firebase
+    }
+
     final tripcategory = _choiceChipsList[_selectedIndex!].label;
     final tripparticipants = _currentValue.toString();
-
-
-
     DatabaseService().saveTripData(tripname, tripbudget, tripdate, tripcategory, tripparticipants, uid);
 
-     Navigator.of(context).pop();
-
-    
-    // if (_selectedIndex == null) {
-    //   print('THE VALUE IS NULL');
-    //   // will print the case when no category is selected
-    //   return;
-    // }
-
-    // // final title = _triptitlecontroller.text.trim();
-    // final budget = _tripbudgetcontroller.text.trim();
-    // final categorylabel = _choiceChipsList[_selectedIndex!].label;
-    // final categoryicon = _choiceChipsList[_selectedIndex!].avatar;
-    // final noofppl = _currentValue.toString();
-    // final trippdate = formattedDate;
-
-    // if (title.isEmpty || budget.isEmpty) {
-    //   print('TITLE/BUDGET EMPTY');
-    //   return;
-    // } else {
-    //   print('INITIALL PRINTTT!!: $title, $budget,$categorylabel,$categoryicon $noofppl, $trippdate');
-
-    //   // final dtrange = _selectedDateRange!.toString();
-    //   final tripp = TripDetailsModel(
-          
-    //       tripptitle: title,
-    //       trippbudget: budget,
-    //       trippcategorytitle: categorylabel,
-    //       trippcategoryiconpath: categoryicon,
-    //       participants: noofppl,
-          // trippdate: formattedDate;
-    //       );
-      
-    //     addTripDetails(tripp);
-
-    //   print('YO PRINT THISSS: $title, $budget,$categorylabel,$categoryicon, $noofppl');
-
-    //  
-    //   print('blahh');
+    Navigator.of(context).pop();
+    }
   }
 }

@@ -22,7 +22,7 @@ class OnboardingPage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child:  Container(
-          decoration: const BoxDecoration(color: Colors.black),
+          decoration: const BoxDecoration(color:  Color.fromRGBO(21, 24, 43,1),),
           height: screenHeight,
           width: screenWidth,
           padding: EdgeInsets.fromLTRB(twenty, ten*3, twenty, 0),
@@ -60,7 +60,7 @@ class OnboardingPage extends StatelessWidget {
                   text: 'Log In',
                   style: const TextStyle(
                     decoration: TextDecoration.underline,
-                    color: Color.fromARGB(255,74, 103, 255)
+                    color: Color.fromARGB(208, 74, 104, 255)
                   ),
                   recognizer: TapGestureRecognizer()
                   ..onTap = (){
