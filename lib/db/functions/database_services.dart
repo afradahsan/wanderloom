@@ -41,6 +41,21 @@ class DatabaseService{
     },SetOptions(merge: true));
   }
 
+  Future updateTrip(String tripname, String   tripbudget, String tripdate, String tripcategory,   String tripparticipants, String? userid, String tripId) async{
+    DocumentReference userDoc = userCollection.doc(userid);
+    userDoc.collection('tripdetails').doc(tripId).update({
+      'tripname': tripname,
+      'tripbudget': tripbudget,
+      'tripdate': tripdate,
+      'tripcategory': tripcategory,
+      'tripparticipants': tripparticipants
+    });
+  }
+
+  Future deleteTrip() async{
+
+  }
+
   Future<List<Map<String, dynamic>>?> getTripDetails(String userId) async {
   QuerySnapshot tripDetailsSnapshot =
       await userCollection.doc(userId).collection('tripdetails').get();
