@@ -221,7 +221,6 @@ class _ProfilePageState extends State<ProfilePage> {
       if (imagefile == null) {
         print("error!");
       } else {
-        // print('${imagefile!.path}');
         image = XFile(imagefile.path);
       }
     });
