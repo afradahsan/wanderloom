@@ -70,7 +70,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: data['profilepicurl'] == null
                                   ? IconButton(
                                       onPressed: () {
-                                        ImagePickerMethod(uid);
+                                        imagePickerMethod(uid);
                                       },
                                       icon: const Icon(
                                         Icons.add,
@@ -79,7 +79,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ))
                                   : GestureDetector(
                                       onTap: () {
-                                        ImagePickerMethod(uid);
+                                        imagePickerMethod(uid);
                                       },
                                       child: Image.network(
                                         data['profilepicurl'],
@@ -214,7 +214,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Future ImagePickerMethod(userId) async {
+  Future imagePickerMethod(userId) async {
     XFile? imagefile = await imagePicker.pickImage(source: ImageSource.gallery);
 
     setState(() {
@@ -273,7 +273,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ElevatedButton(onPressed: (){
             updateUser(usernameController.text.toString(), emailController.text.toString());
             Navigator.of(context).pop();
-          }, child: Text('Save', style: TextStyle(color: Colors.black),), style: ElevatedButton.styleFrom(backgroundColor: Color.fromARGB(255, 190,255, 0)),),
+          }, style: ElevatedButton.styleFrom(backgroundColor: Color.fromARGB(255, 190,255, 0)), child: const Text('Save', style: TextStyle(color: Colors.black),),),
         ],
       );
     });

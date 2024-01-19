@@ -78,7 +78,7 @@ class _PlaceDetailsPageState extends State<PlaceDetailsPage> {
       return const CircularProgressIndicator(); // Replace this with your loading widget
     }
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (ModalRoute.of(context)!.isCurrent) {
         setState(() {
           heartTap = isFavorite();

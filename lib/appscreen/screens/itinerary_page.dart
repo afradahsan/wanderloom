@@ -35,7 +35,7 @@ class _ItineraryPageState extends State<ItineraryPage> {
   }
 
   Future<void> onRefresh() async{
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 1));
     setState(() {});
   }
 
@@ -43,22 +43,22 @@ class _ItineraryPageState extends State<ItineraryPage> {
     return await DatabaseService().getItinerary(uid, widget.tripId);
   }
 
-  bool ActiveConnection = true; 
+  bool activeConnection = true; 
   Future checkUserConnection() async { 
     try { 
     final result = await InternetAddress.lookup('google.com'); 
     if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) { 
       setState(() { 
-      ActiveConnection = true; 
+      activeConnection = true; 
       }); 
     } 
     } on SocketException catch (_) { 
     setState(() { 
-      ActiveConnection = false; 
+      activeConnection = false; 
     }); 
     }
 
-    if(ActiveConnection==false){
+    if(activeConnection==false){
       // ignore: use_build_context_synchronously
       return showDialog<void>(
       context: context,
@@ -112,7 +112,7 @@ class _ItineraryPageState extends State<ItineraryPage> {
           ),
           title: Text(
             widget.triptitle!,
-            style: TextStyle(fontSize: screenHeight/40, color: Color.fromARGB(255, 190, 255, 0)),
+            style: TextStyle(fontSize: screenHeight/40, color: const Color.fromARGB(255, 190, 255, 0)),
           ),
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -121,7 +121,7 @@ class _ItineraryPageState extends State<ItineraryPage> {
         body: TabBarView(
           children: [
             LiquidPullToRefresh(
-              color: Color.fromARGB(255, 190, 255, 0),
+              color: const Color.fromARGB(255, 190, 255, 0),
               backgroundColor: const Color.fromRGBO(21, 24, 43, 1),
               animSpeedFactor: 2.0,
               springAnimationDurationInMilliseconds: 800,
